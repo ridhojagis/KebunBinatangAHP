@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "912844500257",
+    "firebase_url": "https://kebunbinatangahp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kebunbinatangahp",
+    "storage_bucket": "kebunbinatangahp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912844500257:android:ccb681fd4f1f3ca1c92260",
+        "android_client_info": {
+          "package_name": "com.ridhojagis.kebunbinatangahp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912844500257-ae63trnv5mldas5ueab2go7jfg9lu07a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLq6yKrMVZqfrJHnHUX1ckSNV_fucpk7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912844500257-ae63trnv5mldas5ueab2go7jfg9lu07a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

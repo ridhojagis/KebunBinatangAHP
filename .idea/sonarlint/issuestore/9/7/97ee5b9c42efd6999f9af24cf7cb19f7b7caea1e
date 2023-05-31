@@ -1,0 +1,21 @@
+
+\	java:S107"BConstructor has 11 parameters, which is greater than 7 authorized.(°›ÅÇÿÿÿÿÿ
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Ê‰ùÿÿÿÿ
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Ê‰ùÿÿÿÿ
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Ê‰ùÿÿÿÿ
+k	java:S117T"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å–ªØûÿÿÿÿ
+f	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”·Ô
+k	java:S117d"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§¹ç½ûÿÿÿÿ
+x
+java:S1488L"bImmediately return this expression instead of assigning it to the temporary variable "coordinate".(ÔŸ¯Ÿ
+h	java:S116"SRename this field "jam_buka" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒúùŞ
+i	java:S116"TRename this field "jam_tutup" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘ßù
+p	java:S116"VRename this field "status_buka" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·”êñÿÿÿÿÿ
+F
+java:S1172"+Remove this unused method parameter "foto".(–£¢İûÿÿÿÿ
+h	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼Õ£”úÿÿÿÿ
+h	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å–ªØûÿÿÿÿ
+h	java:S100X"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öÅÅşÿÿÿÿ
+c	java:S100\"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”·Ô
+c	java:S100`"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘Ä›¹
+h	java:S100d"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§¹ç½ûÿÿÿÿ

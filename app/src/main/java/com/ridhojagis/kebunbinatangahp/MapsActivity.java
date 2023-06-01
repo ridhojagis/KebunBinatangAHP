@@ -131,7 +131,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+
+                Intent intent = new Intent(getApplicationContext(), Chatbot.class);
+                startActivity(intent);
+//                onBackPressed();
             }
 
         });

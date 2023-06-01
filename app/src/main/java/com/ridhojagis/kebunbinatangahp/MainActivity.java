@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(getApplicationContext(), Chatbot.class));
-//                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+//                    startActivity(new Intent(getApplicationContext(), Chatbot.class));
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
 
                     finish();
                 }

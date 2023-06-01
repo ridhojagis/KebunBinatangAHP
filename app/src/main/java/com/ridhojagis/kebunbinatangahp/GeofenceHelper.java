@@ -44,7 +44,8 @@ public class GeofenceHelper extends ContextWrapper {
         Intent intent = new Intent(this, GeofenceBot.class);
         intent.putExtra("NAMA_HEWAN", koleksi.getNama());
         intent.putExtra("DESKRIPSI", koleksi.getDeskripsi());
-        return PendingIntent.getBroadcast(this, koleksi.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        return PendingIntent.getBroadcast(this, koleksi.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(this, koleksi.getId(), intent, PendingIntent.FLAG_MUTABLE);
     }
 
     public String getError(Exception exception){

@@ -59,8 +59,10 @@ public class Chatbot extends AppCompatActivity {
     ListView listView;
 
     private double[] LatLong;
-    private String HELP_MESSAGE="1. Tambahkan kata 'terdekat' pada pesan untuk menampilkan peta dan memperlihatkan satu fasilitas terdekat dengan lokasi anda\n" +
-            "2. Fasilitas hanya bisa ditunjukan apabila nama fasilitas sama dengan yang terdata pada database";
+    private String HELP_MESSAGE="1. Tambahkan kata 'terdekat' pada pesan untuk menampilkan peta dan memperlihatkan satu fasilitas terdekat dengan lokasi anda\n\n" +
+            "2. Fasilitas hanya bisa ditunjukan apabila nama fasilitas sama dengan yang terdata pada database\n\n" +
+            "3. Daftar keyword fasilitas yang tersedia:\n" +
+            "\t 1) Toilet\n\t 2) Foodcourt\n\t 3) ATM";
     //    private String HELP_FACILITY_LIST=
 //            "\n- Kantin\n- Mushala dan toilet\n- Wahana permainan"+"\nContoh: Kantin terdekat di mana ya?";
     private String START_MESSAGE= "Halo Pengguna ZooSite! \n"+
@@ -118,6 +120,7 @@ public class Chatbot extends AppCompatActivity {
         PyObject pyModel = py.getModule("bot");
 
         myRefFasilitas.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 fasilitasList.clear();
@@ -142,10 +145,10 @@ public class Chatbot extends AppCompatActivity {
                 koleksiList.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Koleksi fasilitas = data.getValue(Koleksi.class);
-                    String namafasilitas = data.child("nama").getValue(String.class);
+                    String namakoleksi = data.child("nama").getValue(String.class);
                     LatLng koleksi = new LatLng(fasilitas.getLatitude(), fasilitas.getLongitude());
                     koleksiList.add(fasilitas);
-                    Log.i("nama_fasilitas", namafasilitas);
+                    Log.i("nama_koleksi", namakoleksi);
                 }
             }
 
@@ -184,11 +187,33 @@ public class Chatbot extends AppCompatActivity {
                                                     else {
                                                         LatLong[0] = location.getLatitude();
                                                         LatLong[1] = location.getLongitude();
+                                                        Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
+                                                        Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
                                                         ArrayList<Fasilitas> fasilitas1 = new ArrayList<>();
+                                                        fasilitas1.clear();
                                                         for (int i = 0; i < fasilitasList.size(); i++) {
-                                                            if (message.toLowerCase().contains(fasilitasList.get(i).getNama().toLowerCase())) {
+
+                                                            // Split facility name
+                                                            if (fasilitasList.get(i).getNama().toLowerCase().contains("foodcourt") ||
+                                                                    fasilitasList.get(i).getNama().toLowerCase().contains("toilet") ||
+                                                                    fasilitasList.get(i).getNama().toLowerCase().contains("atm")) {
+                                                                Log.i("NAME_TO_SPLIT", fasilitasList.get(i).getNama().toLowerCase());
+                                                                String[] nameSplit;
+                                                                nameSplit = fasilitasList.get(i).getNama().toLowerCase().split(" ");
+                                                                if (message.toLowerCase().contains(nameSplit[0])) {
+                                                                    fasilitas1.add(fasilitasList.get(i));
+                                                                    Log.i("NAME_SPLITED", fasilitasList.get(i).getNama().toLowerCase());
+                                                                }
+                                                            }
+
+                                                            else if (message.toLowerCase().contains(fasilitasList.get(i).getNama().toLowerCase())) {
+                                                                Log.i("NAME_FACILITY", fasilitasList.get(i).getNama().toLowerCase());
                                                                 fasilitas1.add(fasilitasList.get(i));
                                                             }
+
+//                                                            if (message.toLowerCase().contains(fasilitasList.get(i).getNama().toLowerCase())) {
+//                                                                fasilitas1.add(fasilitasList.get(i));
+//                                                            }
                                                         }
                                                         locationManager.removeUpdates(this);
                                                         LatLng nearest_coordinate = getClosestFacility(fasilitas1, LatLong);
@@ -305,7 +330,8 @@ public class Chatbot extends AppCompatActivity {
     private LatLng getClosestFacility(List<Fasilitas> fasilitas, double[] latLong){
         LatLng latLongFacility = null;
         if(fasilitas.size()==1){
-            return latLongFacility = new LatLng(fasilitas.get(0).getLatitude(), fasilitas.get(0).getLongitude());
+            latLongFacility = new LatLng(fasilitas.get(0).getLatitude(), fasilitas.get(0).getLongitude());
+            return latLongFacility;
         }
         Long id = null;
         double dLat;
@@ -322,7 +348,7 @@ public class Chatbot extends AppCompatActivity {
             Log.i("JARAK", String.valueOf(distance));
 //            botsReply(String.valueOf(distance);
             if(distance < closestDistance){
-//                closestDistance = distance;
+                closestDistance = distance;
                 latLongFacility = new LatLng(fasilitas.get(i).getLatitude(), fasilitas.get(i).getLongitude());
             }
         }
@@ -334,8 +360,20 @@ public class Chatbot extends AppCompatActivity {
     }
 
     private Boolean isExistinDatabase(List<Fasilitas> fasilitas, String query){
+        Log.i("BANYAK_FASILITAS_CHAT", String.valueOf(fasilitas.size()));
         for(int i=0;i<fasilitas.size();i++){
-            if(query.toLowerCase().contains(fasilitas.get(i).getNama().toLowerCase())){
+            // Split facility name
+            if (fasilitas.get(i).getNama().toLowerCase().contains("foodcourt") ||
+                    fasilitas.get(i).getNama().toLowerCase().contains("toilet") ||
+                    fasilitas.get(i).getNama().toLowerCase().contains("atm")) {
+                String[] nameSplit;
+                nameSplit = fasilitas.get(i).getNama().toLowerCase().split(" ");
+                if (query.toLowerCase().contains(nameSplit[0])) {
+                    Log.i("CEK_LOKASI", fasilitas.get(i).getNama());
+                    return true;
+                }
+            }
+            else if(query.toLowerCase().contains(fasilitas.get(i).getNama().toLowerCase())){
                 Log.i("CEK_LOKASI", fasilitas.get(i).getNama());
                 return true;
             }

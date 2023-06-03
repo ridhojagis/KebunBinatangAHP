@@ -165,6 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myRefFasilitas.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                fasilitasList.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Log.i("MAP_GET_DATA_CHILDREN", String.valueOf(dataSnapshot.getChildren()));
                     Log.i("MAP_GET_DATA_ONLY", String.valueOf(data));
@@ -177,9 +178,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .setTitle(fasilitas.getNama());
                     fasilitasList.add(fasilitas);
                     Log.i("MAP_GET_FACILITY", fasilitas.getNama());
+                    Log.i("BANYAK_FASILITAS_AFT", String.valueOf(fasilitasList.size()));
                 }
                 Log.i("LIST_FASILITAS", String.valueOf(fasilitasList));
-                Log.i("BANYAK_FASILITAS_AFT", String.valueOf(fasilitasList.size()));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -190,6 +191,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mtRefKoleksi.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                koleksiList.clear();
                 Log.i("MAP_GET_DATA_SNAPSHOT", String.valueOf(dataSnapshot));
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Koleksi koleksi = data.getValue(Koleksi.class);

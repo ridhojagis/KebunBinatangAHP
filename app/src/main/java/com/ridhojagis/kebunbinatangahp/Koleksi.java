@@ -13,6 +13,7 @@ public class Koleksi {
     private String status_buka;
     private String jenis;
     private String minat;
+    private double jarak;
 
     public Koleksi() {
     }
@@ -115,6 +116,14 @@ public class Koleksi {
 
     public void setMinat(String minat) {
         this.minat = minat;
+    }
+
+    public double getJarak() {
+        return jarak;
+    }
+
+    public void setJarak(double jarak) {
+        this.jarak = jarak;
     }
 }
 

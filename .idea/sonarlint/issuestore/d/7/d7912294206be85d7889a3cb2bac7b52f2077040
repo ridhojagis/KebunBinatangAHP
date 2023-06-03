@@ -1,0 +1,8 @@
+
+t	java:S116"ZRename this field "GEOFENCE_RADIUS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±šÃÿÿÿÿÿ
+”
+java:S5803"yRemove this usage of "Geofence", it is annotated with @VisibleForTesting and should not be accessed from production code.(´‘Çùÿÿÿÿ
+Q	java:S125/"<This block of commented-out lines of code should be removed.(õ«òÄ
+<	java:S1316""Add a default case to this switch.(¶º÷øÿÿÿÿ
+€
+java:S32528"eUse static access with "com.google.android.gms.common.api.CommonStatusCodes" for "API_NOT_CONNECTED".(óóÉ…úÿÿÿÿ

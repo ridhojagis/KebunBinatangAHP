@@ -7,6 +7,7 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MapsActivity">
     <Button
         android:id="@+id/btnChat"
@@ -19,4 +20,24 @@
         android:textColor="@color/white"
         android:text="Chat"
     />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnNavigation"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:adjustViewBounds="true"
+            android:background="@color/blue_carouseldark"
+            android:scaleType="fitCenter"
+            android:text="Mulai Navigasi"
+            android:textColor="@color/white"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </fragment>

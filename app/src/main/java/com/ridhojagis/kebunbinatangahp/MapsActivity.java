@@ -13,8 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,16 +20,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
@@ -43,34 +34,30 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ridhojagis.kebunbinatangahp.databinding.ActivityMapsBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    double RADIUS = 6378160;
 
     Button btnChat;
+    Button btnNavigation;
 
     private float ZOOM_PREFERENCE = 20.0F;
     //    private float ZOOM_CHAT = 19.0f;
@@ -104,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         btnChat = findViewById(R.id.btnChat);
+        btnNavigation = findViewById(R.id.btnNavigation);
 
         LatLong = new double[2];
 
@@ -224,6 +212,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.i("BANYAK_FASILITAS_tengah", String.valueOf(fasilitasList.size()));
 
+        btnNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkLocationPermission();
+                if (isGPSEnabled()) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            1000, 2, new LocationListener() {
+                                @SuppressLint("MissingPermission")
+                                @Override
+                                public void onLocationChanged(Location location) {
+                                    if(location == null){
+                                        showLocationRequestFailed();
+                                    }
+                                    else {
+                                        LatLong[0] = location.getLatitude();
+                                        LatLong[1] = location.getLongitude();
+                                        Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
+                                        Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
+                                        setKoleksiDistance(koleksiList, LatLong);
+                                    }
+                                }
+
+                                @Override
+                                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                                }
+
+                                @Override
+                                public void onProviderEnabled(String s) {
+
+                                }
+
+                                @Override
+                                public void onProviderDisabled(String s) {
+
+                                }
+                            }
+                    );
+                }
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             LatLng latLngFacility = extras.getParcelable("COORDINATE_FACILITY");
@@ -282,6 +313,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         checkLocationPermission();
         if(isGPSEnabled()){
             mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    private void showLocationRequestFailed() {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle("Gagal Mendapatkan Lokasi");
+        builder.setMessage("Gagal mendapatkan lokasi anda, silahkan coba kembali");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void setKoleksiDistance(List<Koleksi> koleksiList, double[] latLong) {
+        double dLat;
+        double dLon;
+        double distance;
+        for(int i=0;i<koleksiList.size();i++) {
+            dLat = Math.toRadians(koleksiList.get(i).getLatitude() - latLong[0]);
+            dLon = Math.toRadians(koleksiList.get(i).getLongitude() - latLong[1]);
+            distance = RADIUS * 2 *
+                    Math.asin(
+                            Math.sqrt(
+                                    Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(latLong[0])) * Math.cos(Math.toRadians(koleksiList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
+            koleksiList.get(i).setJarak(distance);
+            Log.i("NAMA", String.valueOf(koleksiList.get(i).getNama()));
+            Log.i("JARAK", String.valueOf(koleksiList.get(i).getJarak()));
         }
     }
 

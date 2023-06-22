@@ -60,7 +60,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button btnNavigation;
 
     private float ZOOM_PREFERENCE = 20.0F;
-    //    private float ZOOM_CHAT = 19.0f;
     private float ZOOM_CHAT = 17.0f;
     private float ZOOM_MAX = 21.0F;
 
@@ -126,8 +125,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         });
-
-
     }
 
     /**
@@ -465,6 +462,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final android.app.AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
 }

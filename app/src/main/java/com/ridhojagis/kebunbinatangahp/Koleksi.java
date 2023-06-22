@@ -14,6 +14,7 @@ public class Koleksi {
     private String jenis;
     private String minat;
     private double jarak;
+    private double ahp_score;
 
     public Koleksi() {
     }
@@ -125,5 +126,9 @@ public class Koleksi {
     public void setJarak(double jarak) {
         this.jarak = jarak;
     }
+
+    public double getAhp_score() { return ahp_score; }
+
+    public void setAhp_score(double ahp_score) { this.ahp_score = ahp_score; }
 }
 

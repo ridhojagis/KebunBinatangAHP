@@ -19,11 +19,11 @@ r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatMessage.java,2\6\2609eb65b0553d5b8c18a5a43d5a9078cfc5268b
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-s
-Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 u
 Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceHelper.java,d\7\d7912294206be85d7889a3cb2bac7b52f2077040
 r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
+r
+Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceBot.java,a\8\a89ae37e78e6cd9bce301d3396dad3bbbccd926b

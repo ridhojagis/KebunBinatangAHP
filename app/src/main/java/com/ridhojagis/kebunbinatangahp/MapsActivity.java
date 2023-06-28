@@ -239,6 +239,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
                                         setKoleksiDistance(koleksiList, LatLong);
                                     }
+                                    
+                                    String koleksiGoals = "Orangutan";
 
                                     // Fungsi AHP
                                     double[][] pairwiseMatrix = {
@@ -254,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
                                     Log.i("prioritas_minat", String.valueOf(prioritas_minat));
                                     koleksiAHPList = new ArrayList<>();
-                                    setKoleksiAHPScore(koleksiList, koleksiAHPList);
+                                    setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiGoals);
 
                                 }
 
@@ -339,7 +341,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList) {
+    private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, String koleksiGoals) {
         double nilaiJarak, nilaiJenis, nilaiStatus, nilaiMinat;
         double skorAHP;
         double jarak;
@@ -362,9 +364,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         // Sort list koleksi berdasarkan skor ahp tertinggi
         Collections.sort(koleksiList, new KoleksiComparator());
+
+        koleksiAHPList.clear();
+
+        // Menginput koleksi ke dalam list baru hingga menemukan koleksi tujuan
         for(int i=0;i<koleksiList.size();i++) {
-            String logMessageAHP = "NAMA: " + koleksiList.get(i).getNama()+ ", JARAK: " + koleksiList.get(i).getJarak()+ ", AHP SKOR: " + koleksiList.get(i).getAhp_score();
-            Log.i("GET_KOLEKSI_AHP_SORT", logMessageAHP);
+            if(koleksiList.get(i).getNama().equals(koleksiGoals)){
+                koleksiAHPList.add(koleksiList.get(i));
+                break;
+            }
+            else{
+                koleksiAHPList.add(koleksiList.get(i));
+                String logMessageAHP = "NAMA: " + koleksiList.get(i).getNama()+ ", JARAK: " + koleksiList.get(i).getJarak()+ ", AHP SKOR: " + koleksiList.get(i).getAhp_score();
+                Log.i("GET_KOLEKSI_AHP_SORT", logMessageAHP);
+                continue;
+            }
+        }
+        // Sort list koleksi final berdasarkan jarak terdekat
+        Collections.sort(koleksiAHPList, new KoleksiSortJarak());
+
+        for(int i=0;i<koleksiAHPList.size();i++) {
+            String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
+            Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
         }
     }
 

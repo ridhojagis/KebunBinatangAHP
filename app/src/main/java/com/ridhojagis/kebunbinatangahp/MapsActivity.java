@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
@@ -37,7 +38,10 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.ridhojagis.kebunbinatangahp.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double prioritas_statusBuka = 0.0;
     double prioritas_minat = 0.0;
     ArrayList<Koleksi> koleksiAHPList;
+    ArrayList<Koleksi> koleksiAHPFinal;
 
     Button btnChat;
     Button btnNavigation;
@@ -148,6 +153,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();
+        final String[] koleksiGoals = new String[1];
+
+        btnNavigation.setVisibility(View.GONE); // Deklarasi visible button navigasi
 
         mMap = googleMap;
         LatLng camera_coordinate = new LatLng(-7.294990, 112.737138);
@@ -194,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.addMarker(new MarkerOptions()
                                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                                         .position(new LatLng(koleksi.getLatitude(), koleksi.getLongitude()))
-                                        .snippet("Jenis: " + koleksi.getJenis() + "\nJam Buka" + koleksi.getJam_buka() + "-" + koleksi.getJam_tutup()))
+                                        .snippet(koleksi.getJenis() + ", Jam Buka " + koleksi.getJam_buka() + "-" + koleksi.getJam_tutup()))
                                 .setTitle(koleksi.getNama());
                     }
                     koleksiList.add(koleksi);
@@ -204,6 +212,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng koleksi_coor = new LatLng(koleksi.getLatitude(), koleksi.getLongitude());
                     if(isBackgroundLocationPermited()){
                         createGeofence(koleksi_coor, koleksi);
+//                        createCircle(koleksi_coor);
                     }
                 }
 
@@ -218,10 +227,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.i("BANYAK_FASILITAS_tengah", String.valueOf(fasilitasList.size()));
 
+        final boolean[] isButtonPressed = {false};
+
+        // fungsi ketika marker diklik
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Dapatkan koleksi yang sesuai dengan marker yang diklik
+                Koleksi koleksi = null;
+                for (Koleksi k : koleksiList) {
+                    if (k.getNama().equals(marker.getTitle())) {
+                        koleksi = k;
+                        break;
+                    }
+                }
+
+                // Tampilkan Toast dengan informasi jenis
+                if (koleksi != null) {
+                    koleksiGoals[0] = koleksi.getNama();
+                    String toastMessage = "Jenis: " + koleksi.getJenis() + "\nJam Buka: " + koleksi.getJam_buka() + "-" + koleksi.getJam_tutup();
+                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                }
+
+                btnNavigation.setVisibility(View.VISIBLE);
+
+                return false;
+            }
+        });
+
         btnNavigation.setOnClickListener(new View.OnClickListener() {
+            Polyline previousPolyline = null;
             @Override
             public void onClick(View v) {
+                isButtonPressed[0] = !isButtonPressed[0]; // Mengubah status tombol saat tombol ditekan
+
                 checkLocationPermission();
+
                 if (isGPSEnabled()) {
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
@@ -229,34 +270,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 @SuppressLint("MissingPermission")
                                 @Override
                                 public void onLocationChanged(Location location) {
-                                    if(location == null){
-                                        showLocationRequestFailed();
-                                    }
-                                    else {
-                                        LatLong[0] = location.getLatitude();
-                                        LatLong[1] = location.getLongitude();
-                                        Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
-                                        Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
-                                        setKoleksiDistance(koleksiList, LatLong);
-                                    }
-                                    
-                                    String koleksiGoals = "Orangutan";
+                                    // Mengubah teks tombol berdasarkan status tombol
+                                    if (isButtonPressed[0]) {
+                                        if(location == null){
+                                            showLocationRequestFailed();
+                                        }
+                                        else {
+                                            LatLong[0] = location.getLatitude();
+                                            LatLong[1] = location.getLongitude();
+                                            Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
+                                            Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
+                                            setKoleksiDistance(koleksiList, LatLong);
+                                        }
 
-                                    // Fungsi AHP
-                                    double[][] pairwiseMatrix = {
-                                            {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                                            {0.3333333333, 1.0,	0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-                                            {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                                            {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
-                                    };
+//                                    koleksiGoals = "Kroonkran";
 
-                                    priorityCriteria(pairwiseMatrix);
-                                    Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
-                                    Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
-                                    Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
-                                    Log.i("prioritas_minat", String.valueOf(prioritas_minat));
-                                    koleksiAHPList = new ArrayList<>();
-                                    setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiGoals);
+                                        // Fungsi AHP
+                                        double[][] pairwiseMatrix = {
+                                                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+                                                {0.3333333333, 1.0,	0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                                                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+                                                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                                        };
+
+                                        priorityCriteria(pairwiseMatrix);
+                                        Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
+                                        Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
+                                        Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
+                                        Log.i("prioritas_minat", String.valueOf(prioritas_minat));
+                                        koleksiAHPList = new ArrayList<>();
+                                        koleksiAHPFinal = new ArrayList<>();
+                                        setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
+
+                                        List<LatLng> points = new ArrayList<>();
+
+                                        // Periksa apakah ada polyline sebelumnya
+                                        if (previousPolyline != null) {
+                                            previousPolyline.remove(); // Hapus polyline sebelumnya
+                                        }
+
+                                        // Menambahkan polyline koordinat pengguna
+                                        points.add(new LatLng(LatLong[0], LatLong[1]));
+
+                                        // Menambahkan polyline koordinat list koleksi hasil AHP
+                                        for(int i=0;i<koleksiAHPFinal.size();i++) {
+                                            points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
+                                        }
+
+                                        PolylineOptions polylineOptions = new PolylineOptions();
+                                        polylineOptions.addAll(points);
+                                        polylineOptions.color(Color.BLUE);
+                                        polylineOptions.width(10);
+
+                                        previousPolyline = mMap.addPolyline(polylineOptions);
+                                        btnNavigation.setText("Stop Navigasi");
+                                    } else {
+                                        // Periksa apakah ada polyline sebelumnya
+                                        if (previousPolyline != null) {
+                                            previousPolyline.remove(); // Hapus polyline sebelumnya
+                                        }
+                                        btnNavigation.setText("Mulai Navigasi");
+                                        btnNavigation.setVisibility(View.GONE);
+                                    }
+
 
                                 }
 
@@ -341,7 +417,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, String koleksiGoals) {
+    private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, ArrayList<Koleksi> koleksiAHPFinal, String koleksiGoals) {
         double nilaiJarak, nilaiJenis, nilaiStatus, nilaiMinat;
         double skorAHP;
         double jarak;
@@ -362,15 +438,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String logMessageAHP = "NAMA: " + koleksiList.get(i).getNama()+ ", JARAK: " + koleksiList.get(i).getJarak()+ ", AHP SKOR: " + koleksiList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_AHP", logMessageAHP);
         }
-        // Sort list koleksi berdasarkan skor ahp tertinggi
+        // Sort list koleksi berdasarkan skor AHP tertinggi
         Collections.sort(koleksiList, new KoleksiComparator());
 
         koleksiAHPList.clear();
+        int index_tujuan = 0;
 
         // Menginput koleksi ke dalam list baru hingga menemukan koleksi tujuan
         for(int i=0;i<koleksiList.size();i++) {
             if(koleksiList.get(i).getNama().equals(koleksiGoals)){
                 koleksiAHPList.add(koleksiList.get(i));
+                String logMessageAHP = "NAMA: " + koleksiList.get(i).getNama()+ ", JARAK: " + koleksiList.get(i).getJarak()+ ", AHP SKOR: " + koleksiList.get(i).getAhp_score();
+                Log.i("GET_KOLEKSI_AHP_SORT", logMessageAHP);
+
+                index_tujuan = i;
                 break;
             }
             else{
@@ -380,11 +461,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 continue;
             }
         }
-        // Sort list koleksi final berdasarkan jarak terdekat
+        // Sort list koleksi AHP berdasarkan jarak terdekat
         Collections.sort(koleksiAHPList, new KoleksiSortJarak());
 
+        koleksiAHPFinal.clear();
+        double min_distance = 500;
+        // Menginput koleksi yang telah di sort ke dalam list final
         for(int i=0;i<koleksiAHPList.size();i++) {
+            double dLat;
+            double dLon;
+            double distance;
+            if(koleksiAHPList.get(i).getNama().equals(koleksiGoals)) {
+                continue;
+            }
+            // Menghitung jarak koleksi terhadap tujuan
+            dLat = Math.toRadians(koleksiAHPList.get(i).getLatitude() - koleksiList.get(index_tujuan).getLatitude());
+            dLon = Math.toRadians(koleksiAHPList.get(i).getLongitude() - koleksiList.get(index_tujuan).getLongitude());
+            distance = RADIUS * 2 *
+                    Math.asin(
+                            Math.sqrt(
+                                    Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiList.get(index_tujuan).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
+            if(distance <= min_distance){
+                min_distance = distance;
+                koleksiAHPFinal.add(koleksiAHPList.get(i));
+            }
+
             String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
+            Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
+        }
+        // Meletakkan koleksi tujuan pada index terakhir dalam list
+        koleksiAHPFinal.add(koleksiList.get(index_tujuan));
+
+        for(int i=0;i<koleksiAHPFinal.size();i++) {
+            String logMessageAHP = "NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", JARAK: " + koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
         }
     }
@@ -675,9 +784,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void createCircle(LatLng latLng){
         CircleOptions circleOptions = new CircleOptions()
                 .center(latLng)
-                .radius(50)
-                .strokeColor(Color.argb(255, 255, 0, 0))
-                .fillColor(Color.argb(64, 255,0,0))
+                .radius(25)
+                .strokeColor(Color.parseColor("#6495ED")) // Blue color
+                .fillColor(Color.parseColor("#6495ED64")) // Green color
+//                .strokeColor(Color.argb(255, 255, 0, 0)) // Red color
+//                .fillColor(Color.argb(64, 255,0,0))
                 .strokeWidth(4);
         mMap.addCircle(circleOptions);
     }

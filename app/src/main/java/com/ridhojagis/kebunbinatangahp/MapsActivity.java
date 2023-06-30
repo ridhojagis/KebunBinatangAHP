@@ -260,7 +260,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 isButtonPressed[0] = !isButtonPressed[0]; // Mengubah status tombol saat tombol ditekan
-
                 checkLocationPermission();
 
                 if (isGPSEnabled()) {
@@ -270,69 +269,93 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 @SuppressLint("MissingPermission")
                                 @Override
                                 public void onLocationChanged(Location location) {
-                                    // Mengubah teks tombol berdasarkan status tombol
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                                    builder.setTitle("Atur Bobot Kriteria");
+                                    builder.setMessage("Apakah Anda ingin mengatur bobot kriteria terlebih dahulu?");
+
+                                    // Tombol "iya"
+                                    builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Kode aksi jika pengguna memilih "iya"
+                                            dialog.dismiss();
+                                            // Lanjutkan dengan navigasi
+                                        }
+                                    });
+
+                                    // Tombol "tidak"
+                                    builder.setNegativeButton("Tidak, Lanjut Navigasi", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Kode aksi jika pengguna memilih "tidak"
+                                            if(location == null){
+                                                showLocationRequestFailed();
+                                            }
+                                            else {
+                                                LatLong[0] = location.getLatitude();
+                                                LatLong[1] = location.getLongitude();
+                                                Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
+                                                Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
+                                                setKoleksiDistance(koleksiList, LatLong);
+                                            }
+
+                                            // Fungsi AHP
+                                            double[][] pairwiseMatrix = {
+                                                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+                                                    {0.3333333333, 1.0,	0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                                                    {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+                                                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                                            };
+
+                                            priorityCriteria(pairwiseMatrix);
+                                            Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
+                                            Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
+                                            Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
+                                            Log.i("prioritas_minat", String.valueOf(prioritas_minat));
+                                            koleksiAHPList = new ArrayList<>();
+                                            koleksiAHPFinal = new ArrayList<>();
+                                            setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
+
+                                            List<LatLng> points = new ArrayList<>();
+
+                                            // Periksa apakah ada polyline sebelumnya
+                                            if (previousPolyline != null) {
+                                                previousPolyline.remove(); // Hapus polyline sebelumnya
+                                            }
+
+                                            // Menambahkan polyline koordinat pengguna
+                                            points.add(new LatLng(LatLong[0], LatLong[1]));
+
+                                            // Menambahkan polyline koordinat list koleksi hasil AHP
+                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
+                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
+                                            }
+
+                                            PolylineOptions polylineOptions = new PolylineOptions();
+                                            polylineOptions.addAll(points);
+                                            polylineOptions.color(Color.BLUE);
+                                            polylineOptions.width(10);
+
+                                            previousPolyline = mMap.addPolyline(polylineOptions);
+                                            btnNavigation.setText("Stop Navigasi");
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    // Membuat dan menampilkan AlertDialog
+                                    AlertDialog dialog = builder.create();
                                     if (isButtonPressed[0]) {
-                                        if(location == null){
-                                            showLocationRequestFailed();
-                                        }
-                                        else {
-                                            LatLong[0] = location.getLatitude();
-                                            LatLong[1] = location.getLongitude();
-                                            Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
-                                            Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
-                                            setKoleksiDistance(koleksiList, LatLong);
-                                        }
-
-//                                    koleksiGoals = "Kroonkran";
-
-                                        // Fungsi AHP
-                                        double[][] pairwiseMatrix = {
-                                                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                                                {0.3333333333, 1.0,	0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-                                                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                                                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
-                                        };
-
-                                        priorityCriteria(pairwiseMatrix);
-                                        Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
-                                        Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
-                                        Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
-                                        Log.i("prioritas_minat", String.valueOf(prioritas_minat));
-                                        koleksiAHPList = new ArrayList<>();
-                                        koleksiAHPFinal = new ArrayList<>();
-                                        setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
-
-                                        List<LatLng> points = new ArrayList<>();
-
+                                        dialog.show();
+                                    }
+                                    else {
                                         // Periksa apakah ada polyline sebelumnya
                                         if (previousPolyline != null) {
                                             previousPolyline.remove(); // Hapus polyline sebelumnya
                                         }
-
-                                        // Menambahkan polyline koordinat pengguna
-                                        points.add(new LatLng(LatLong[0], LatLong[1]));
-
-                                        // Menambahkan polyline koordinat list koleksi hasil AHP
-                                        for(int i=0;i<koleksiAHPFinal.size();i++) {
-                                            points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
-                                        }
-
-                                        PolylineOptions polylineOptions = new PolylineOptions();
-                                        polylineOptions.addAll(points);
-                                        polylineOptions.color(Color.BLUE);
-                                        polylineOptions.width(10);
-
-                                        previousPolyline = mMap.addPolyline(polylineOptions);
-                                        btnNavigation.setText("Stop Navigasi");
-                                    } else {
-                                        // Periksa apakah ada polyline sebelumnya
-                                        if (previousPolyline != null) {
-                                            previousPolyline.remove(); // Hapus polyline sebelumnya
-                                        }
+                                        isButtonPressed[0] = false;
                                         btnNavigation.setText("Mulai Navigasi");
                                         btnNavigation.setVisibility(View.GONE);
                                     }
-
 
                                 }
 

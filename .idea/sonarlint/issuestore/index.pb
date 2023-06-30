@@ -25,3 +25,5 @@ r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
 s
 Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
+p
+@app/src/main/java/com/ridhojagis/kebunbinatangahp/Fasilitas.java,0\b\0b469f93d7fa2113457e5d1b17291fcaba670d26

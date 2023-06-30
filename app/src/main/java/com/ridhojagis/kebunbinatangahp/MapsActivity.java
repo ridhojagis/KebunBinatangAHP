@@ -236,6 +236,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("BANYAK_FASILITAS_tengah", String.valueOf(fasilitasList.size()));
 
         final boolean[] isButtonPressed = {false};
+        final boolean[] isOnNavigation = {false};
 
         // fungsi ketika marker diklik
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -260,6 +261,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 btnNavigation.setVisibility(View.VISIBLE);
 
                 return false;
+            }
+        });
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                // Apakah sedang dalam navigasi
+                if(!(isOnNavigation[0])) {
+                    btnNavigation.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -297,6 +308,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     builder.setNegativeButton("Tidak, Lanjut Navigasi", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            isOnNavigation[0] = true;
                                             // Kode aksi jika pengguna memilih "tidak"
                                             if(location == null){
                                                 showLocationRequestFailed();
@@ -356,6 +368,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             previousPolyline.remove(); // Hapus polyline sebelumnya
                                         }
                                         isButtonPressed[0] = false;
+                                        isOnNavigation[0] = false;
                                         btnNavigation.setText("Mulai Navigasi");
                                         btnNavigation.setVisibility(View.GONE);
                                     }
@@ -460,7 +473,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             minat = koleksiList.get(i).getMinat();
 
             nilaiJarak = setNilaiJarak(jarak);
-            nilaiJenis = 0.2917763158;
+            nilaiJenis = 0.283050283050283;
             nilaiStatus = 0.4666666667;
             nilaiMinat = setNilaiMinat(minat);
 

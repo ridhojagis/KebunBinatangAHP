@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/RidhoJagis/.gradle/caches/transforms-3/b91c5f0e30301bace820a9f017155b0f/transformed/material-1.3.0/res/layout/mtrl_calendar_month_navigation.xml" value="0.22" />
+        <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.191" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/drawable-v24/ic_send.xml" value="0.1935" />
+        <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.191" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/drawable/ic_send.xml" value="0.1935" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/layout/activity_chatbot.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/layout/activity_form.xml" value="0.33" />
@@ -14,6 +16,7 @@
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/layout/list_items.xml" value="0.3625" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/layout/user_chat_layout.xml" value="0.3625" />
         <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
+        <entry key="..\:/Users/RidhoJagis/Documents/KebunBinatangAHP/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.191" />
       </map>
     </option>
   </component>

@@ -135,109 +135,6 @@ public class FormActivity extends AppCompatActivity {
             }
         });
 
-//        ratingSeekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue1 = ratingSeekBar1.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-//        ratingSeekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue2 = ratingSeekBar2.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-//        ratingSeekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue3 = ratingSeekBar3.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-//        ratingSeekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue4 = ratingSeekBar4.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-//        ratingSeekBar5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue5 = ratingSeekBar5.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-//        ratingSeekBar6.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                seekBarValue6 = ratingSeekBar6.getProgress() + 1;
-//                checkSaveButtonEnabled();
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                // Not needed for this implementation
-//            }
-//        });
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -511,13 +408,6 @@ public class FormActivity extends AppCompatActivity {
         boolean isRadioGroup4Selected = importanceRadioGroup4.getCheckedRadioButtonId() != -1;
         boolean isRadioGroup5Selected = importanceRadioGroup5.getCheckedRadioButtonId() != -1;
         boolean isRadioGroup6Selected = importanceRadioGroup6.getCheckedRadioButtonId() != -1;
-
-//        boolean isSeekBar1Selected = ratingSeekBar1.getProgress() > 0;
-//        boolean isSeekBar2Selected = ratingSeekBar2.getProgress() > 0;
-//        boolean isSeekBar3Selected = ratingSeekBar3.getProgress() > 0;
-//        boolean isSeekBar4Selected = ratingSeekBar4.getProgress() > 0;
-//        boolean isSeekBar5Selected = ratingSeekBar5.getProgress() > 0;
-//        boolean isSeekBar6Selected = ratingSeekBar6.getProgress() > 0;
 
         saveButton.setEnabled(isRadioGroup1Selected &&
                 isRadioGroup2Selected &&

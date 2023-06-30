@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double RADIUS = 6378160;
 
     // AHP
+    private double[][] pairwiseMatrix;
     double prioritas_jarak = 0.0;
     double prioritas_jenis = 0.0;
     double prioritas_statusBuka = 0.0;
@@ -154,6 +155,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();
         final String[] koleksiGoals = new String[1];
+
+        pairwiseMatrix = new double[][]{
+                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+                {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+        };
 
         btnNavigation.setVisibility(View.GONE); // Deklarasi visible button navigasi
 
@@ -279,7 +287,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         public void onClick(DialogInterface dialog, int which) {
                                             // Kode aksi jika pengguna memilih "iya"
                                             dialog.dismiss();
+                                            isButtonPressed[0] = !isButtonPressed[0];
                                             // Lanjutkan dengan navigasi
+                                            navigateToFormActivity();
                                         }
                                     });
 
@@ -300,13 +310,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             }
 
                                             // Fungsi AHP
-                                            double[][] pairwiseMatrix = {
-                                                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                                                    {0.3333333333, 1.0,	0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-                                                    {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                                                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
-                                            };
-
                                             priorityCriteria(pairwiseMatrix);
                                             Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
                                             Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
@@ -438,6 +441,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(isGPSEnabled()){
             mMap.setMyLocationEnabled(true);
         }
+    }
+
+    private void navigateToFormActivity() {
+        Intent intent = new Intent(MapsActivity.this, FormActivity.class);
+
+        startActivity(intent);
     }
 
     private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, ArrayList<Koleksi> koleksiAHPFinal, String koleksiGoals) {

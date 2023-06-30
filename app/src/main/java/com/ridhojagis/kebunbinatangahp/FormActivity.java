@@ -21,14 +21,6 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
-        // Inisialisasi komponen dari layout XML
-        TextView questionTextView1 = findViewById(R.id.questionTextView1);
-        TextView questionTextView2 = findViewById(R.id.questionTextView2);
-        TextView questionTextView3 = findViewById(R.id.questionTextView3);
-        TextView questionTextView4 = findViewById(R.id.questionTextView4);
-        TextView questionTextView5 = findViewById(R.id.questionTextView5);
-        TextView questionTextView6 = findViewById(R.id.questionTextView6);
-
         RadioGroup importanceRadioGroup1 = findViewById(R.id.importanceRadioGroup1);
         RadioGroup importanceRadioGroup2 = findViewById(R.id.importanceRadioGroup2);
         RadioGroup importanceRadioGroup3 = findViewById(R.id.importanceRadioGroup3);
@@ -57,14 +49,49 @@ public class FormActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 int radioButton1Id = importanceRadioGroup1.getCheckedRadioButtonId();
-                // Mendapatkan teks RadioButton yang dipilih
-                RadioButton selectedRadioButton1 = findViewById(radioButton1Id);
-                String radioButton1Text = selectedRadioButton1.getText().toString();
+                int radioButton2Id = importanceRadioGroup2.getCheckedRadioButtonId();
+                int radioButton3Id = importanceRadioGroup3.getCheckedRadioButtonId();
+                int radioButton4Id = importanceRadioGroup4.getCheckedRadioButtonId();
+                int radioButton5Id = importanceRadioGroup5.getCheckedRadioButtonId();
+                int radioButton6Id = importanceRadioGroup6.getCheckedRadioButtonId();
 
                 int seekBarValue1 = ratingSeekBar1.getProgress() + 1;
+                int seekBarValue2 = ratingSeekBar2.getProgress() + 1;
+                int seekBarValue3 = ratingSeekBar3.getProgress() + 1;
+                int seekBarValue4 = ratingSeekBar4.getProgress() + 1;
+                int seekBarValue5 = ratingSeekBar5.getProgress() + 1;
+                int seekBarValue6 = ratingSeekBar6.getProgress() + 1;
+
+                // Mendapatkan teks RadioButton yang dipilih
+                RadioButton selectedRadioButton1 = findViewById(radioButton1Id);
+                RadioButton selectedRadioButton2 = findViewById(radioButton2Id);
+                RadioButton selectedRadioButton3 = findViewById(radioButton3Id);
+                RadioButton selectedRadioButton4 = findViewById(radioButton4Id);
+                RadioButton selectedRadioButton5 = findViewById(radioButton5Id);
+                RadioButton selectedRadioButton6 = findViewById(radioButton6Id);
+
+                // Mengambil value dalam bentuk string
+                String radioButton1Text = selectedRadioButton1.getText().toString();
+                String radioButton2Text = selectedRadioButton2.getText().toString();
+                String radioButton3Text = selectedRadioButton3.getText().toString();
+                String radioButton4Text = selectedRadioButton4.getText().toString();
+                String radioButton5Text = selectedRadioButton5.getText().toString();
+                String radioButton6Text = selectedRadioButton6.getText().toString();
+
                 Log.d("FormActivity", "RadioButton 1: " + radioButton1Text);
                 Log.d("FormActivity", "SeekBar 1: " + seekBarValue1);
+                Log.d("FormActivity", "RadioButton 2: " + radioButton2Text);
+                Log.d("FormActivity", "SeekBar 2: " + seekBarValue2);
+                Log.d("FormActivity", "RadioButton 3: " + radioButton3Text);
+                Log.d("FormActivity", "SeekBar 3: " + seekBarValue3);
+                Log.d("FormActivity", "RadioButton 4: " + radioButton4Text);
+                Log.d("FormActivity", "SeekBar 4: " + seekBarValue4);
+                Log.d("FormActivity", "RadioButton 5: " + radioButton5Text);
+                Log.d("FormActivity", "SeekBar 5: " + seekBarValue5);
+                Log.d("FormActivity", "RadioButton 6: " + radioButton6Text);
+                Log.d("FormActivity", "SeekBar 6: " + seekBarValue6);
                 String toastMessage = "Bobot Kriteria telah disimpan";
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }

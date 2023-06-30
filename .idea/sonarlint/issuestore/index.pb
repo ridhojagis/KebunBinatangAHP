@@ -25,3 +25,19 @@ s
 Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
 p
 @app/src/main/java/com/ridhojagis/kebunbinatangahp/Fasilitas.java,0\b\0b469f93d7fa2113457e5d1b17291fcaba670d26
+u
+Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceHelper.java,d\7\d7912294206be85d7889a3cb2bac7b52f2077040
+r
+Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceBot.java,a\8\a89ae37e78e6cd9bce301d3396dad3bbbccd926b
+w
+Gapp/src/main/java/com/ridhojagis/kebunbinatangahp/KoleksiSortJarak.java,5\d\5de86d19f65026f4c7a4eac32e96a4a699409d3d
+x
+Happ/src/main/java/com/ridhojagis/kebunbinatangahp/KoleksiComparator.java,d\f\df1051fc59a7a9e8bb1c51797a2c0dd08f4b12c2
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+n
+>app/src/main/java/com/ridhojagis/kebunbinatangahp/Chatbot.java,9\7\9753eeceb7cc13b97a3ab7d455158755b1998c93
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e

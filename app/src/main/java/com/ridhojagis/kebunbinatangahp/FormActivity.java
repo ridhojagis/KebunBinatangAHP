@@ -2,6 +2,7 @@ package com.ridhojagis.kebunbinatangahp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class FormActivity extends AppCompatActivity {
@@ -23,6 +23,7 @@ public class FormActivity extends AppCompatActivity {
             "\n\nAnda dapat menggunakan pengaturan bobot default atau mengaturnya sesuai dengan preferensi anda." +
             "\n\nKeterangan Nilai Bobot:\n1 -Kedua elemen sama penting\n3 -Sedikit lebih penting dari elemen lainnya\n5 -Lebih penting dari elemen lainnya" +
             "\n7 -Sangat penting dari elemen lainnya\n2,4,6 -Merupakan nilai tengah di antara dua tingkat kepentingan yang berdekatan";
+    private String SAVE_MESSAGE="Bobot kriteria telah berhasil diatur. Kembali ke maps dan mulai navigasi";
 
     RadioGroup importanceRadioGroup1;
     RadioGroup importanceRadioGroup2;
@@ -134,108 +135,108 @@ public class FormActivity extends AppCompatActivity {
             }
         });
 
-        ratingSeekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue1 = ratingSeekBar1.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
-        ratingSeekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue2 = ratingSeekBar2.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
-        ratingSeekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue3 = ratingSeekBar3.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
-        ratingSeekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue4 = ratingSeekBar4.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
-        ratingSeekBar5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue5 = ratingSeekBar5.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
-        ratingSeekBar6.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue6 = ratingSeekBar6.getProgress() + 1;
-                checkSaveButtonEnabled();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Not needed for this implementation
-            }
-        });
+//        ratingSeekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue1 = ratingSeekBar1.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
+//        ratingSeekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue2 = ratingSeekBar2.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
+//        ratingSeekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue3 = ratingSeekBar3.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
+//        ratingSeekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue4 = ratingSeekBar4.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
+//        ratingSeekBar5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue5 = ratingSeekBar5.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
+//        ratingSeekBar6.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                seekBarValue6 = ratingSeekBar6.getProgress() + 1;
+//                checkSaveButtonEnabled();
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // Not needed for this implementation
+//            }
+//        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,25 +272,236 @@ public class FormActivity extends AppCompatActivity {
                 String radioButton5Text = selectedRadioButton5.getText().toString();
                 String radioButton6Text = selectedRadioButton6.getText().toString();
 
+                seekBarValue1 = ratingSeekBar1.getProgress() + 1;
+                seekBarValue2 = ratingSeekBar2.getProgress() + 1;
+                seekBarValue3 = ratingSeekBar3.getProgress() + 1;
+                seekBarValue4 = ratingSeekBar4.getProgress() + 1;
+                seekBarValue5 = ratingSeekBar5.getProgress() + 1;
+                seekBarValue6 = ratingSeekBar6.getProgress() + 1;
+
+                double weightJarak_Jenis = seekBarValue1;
+                double weightJarak_Status = seekBarValue2;
+                double weightJarak_Minat = seekBarValue3;
+                double weightJenis_Status = seekBarValue4;
+                double weightJenis_Minat = seekBarValue5;
+                double weightStatus_Minat = seekBarValue6;
+
                 // Contoh: Menampilkan nilai-nilai pada logcat
                 Log.d("FormActivity", "RadioButton 1: " + radioButton1Text);
-                Log.d("FormActivity", "RadioButton 2: " + radioButton2Text);
-                Log.d("FormActivity", "RadioButton 3: " + radioButton3Text);
-                Log.d("FormActivity", "RadioButton 4: " + radioButton4Text);
-                Log.d("FormActivity", "RadioButton 5: " + radioButton5Text);
-                Log.d("FormActivity", "RadioButton 6: " + radioButton6Text);
+                Log.d("FormActivity", "SeekBar 1: " + weightJarak_Jenis);
 
-                Log.d("FormActivity", "SeekBar 1: " + seekBarValue1);
-                Log.d("FormActivity", "SeekBar 2: " + seekBarValue2);
-                Log.d("FormActivity", "SeekBar 3: " + seekBarValue3);
-                Log.d("FormActivity", "SeekBar 4: " + seekBarValue4);
-                Log.d("FormActivity", "SeekBar 5: " + seekBarValue5);
-                Log.d("FormActivity", "SeekBar 6: " + seekBarValue6);
+                setPairWiseMatrix(radioButton1Text,radioButton2Text,radioButton3Text,radioButton4Text,radioButton5Text,radioButton6Text,
+                        weightJarak_Jenis,weightJarak_Status,weightJarak_Minat,weightJenis_Status,weightJenis_Minat,weightStatus_Minat);
 
-                String toastMessage = "Bobot Kriteria telah disimpan";
-                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                double CR = consistencyRatioMatrix(pairwiseMatrix);
+
+                if(CR <= 0.1){
+                    String toastMessage = "Bobot Kriteria telah disimpan";
+                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Bobot Kriteria");
+                    builder.setMessage(SAVE_MESSAGE);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                            navigateToMapsActivity();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Alert");
+                    builder.setMessage("Bobot kriteriamu tidak konsisten, silahkan atur kembali.");
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             }
         });
+    }
+
+    private double consistencyRatioMatrix(double[][] pairwiseMatrix) {
+        int matrix_size = pairwiseMatrix.length;
+        double nilaiMatrix[][] = new double[matrix_size][matrix_size];
+
+        //    Variabel matriks kriteria
+        double sum_pairwiseMatrix_jarak = 0.0;
+        double sum_pairwiseMatrix_jenis = 0.0;
+        double sum_pairwiseMatrix_statusBuka = 0.0;
+        double sum_pairwiseMatrix_minat = 0.0;
+        double sum_nilai_jarak = 0.0;
+        double sum_nilai_jenis = 0.0;
+        double sum_nilai_statusBuka = 0.0;
+        double sum_nilai_minat = 0.0;
+        double eigen_value_jarak = 0.0;
+        double eigen_value_jenis = 0.0;
+        double eigen_value_statusBuka = 0.0;
+        double eigen_value_minat = 0.0;
+        double total_eigen_value = 0.0;
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(j == 0) {
+                    sum_pairwiseMatrix_jarak += pairwiseMatrix[i][j];
+                }
+                else if(j == 1) {
+                    sum_pairwiseMatrix_jenis += pairwiseMatrix[i][j];
+                }
+                else if(j == 2) {
+                    sum_pairwiseMatrix_statusBuka += pairwiseMatrix[i][j];
+                }
+                else if(j == 3) {
+                    sum_pairwiseMatrix_minat += pairwiseMatrix[i][j];
+                }
+            }
+        }
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(j == 0) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jarak;
+                }
+                else if(j == 1) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jenis;
+                }
+                else if(j == 2) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_statusBuka;
+                }
+                else if(j == 3) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_minat;
+                }
+            }
+        }
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(i == 0) {
+                    sum_nilai_jarak += nilaiMatrix[i][j];
+                }
+                else if(i == 1) {
+                    sum_nilai_jenis += nilaiMatrix[i][j];
+                }
+                else if(i == 2) {
+                    sum_nilai_statusBuka += nilaiMatrix[i][j];
+                }
+                else if(i == 3) {
+                    sum_nilai_minat += nilaiMatrix[i][j];
+                }
+            }
+        }
+
+        double prioritas_jarak = sum_nilai_jarak/matrix_size;
+        double prioritas_jenis = sum_nilai_jenis/matrix_size;
+        double prioritas_statusBuka = sum_nilai_statusBuka/matrix_size;
+        double prioritas_minat = sum_nilai_minat/matrix_size;
+
+        eigen_value_jarak = prioritas_jarak * sum_pairwiseMatrix_jarak;
+        eigen_value_jenis = prioritas_jenis * sum_pairwiseMatrix_jenis;
+        eigen_value_statusBuka = prioritas_statusBuka * sum_pairwiseMatrix_statusBuka;
+        eigen_value_minat = prioritas_minat * sum_pairwiseMatrix_minat;
+
+        total_eigen_value = eigen_value_jarak + eigen_value_jenis + eigen_value_statusBuka + eigen_value_minat;
+
+        double CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        double RI = 0.9;
+        double CR = CI/RI;
+
+        return CR;
+    }
+
+    private void navigateToMapsActivity() {
+        // Mendefinisikan Intent
+        Intent intent = new Intent(FormActivity.this, MapsActivity.class);
+
+        // Menyimpan matriks pairwise sebagai array dua dimensi dalam Intent
+        intent.putExtra("pairwiseMatrix", pairwiseMatrix);
+
+        // Memulai Activity Maps dengan Intent yang telah dikonfigurasi
+        startActivity(intent);
+    }
+
+    private void setPairWiseMatrix(String radioButton1Text, String radioButton2Text, String radioButton3Text, String radioButton4Text, String radioButton5Text, String radioButton6Text,
+                                   double weightJarak_jenis, double weightJarak_status, double weightJarak_minat, double weightJenis_status, double weightJenis_minat, double weightStatus_minat) {
+
+        // Set bobot perbandingan jarak dan jenis koleksi
+        if(radioButton1Text.equals("Jarak")){
+            pairwiseMatrix[0][1] = weightJarak_jenis;
+            pairwiseMatrix[1][0] = 1/weightJarak_jenis;
+        }
+        else{
+            pairwiseMatrix[0][1] = 1/weightJarak_jenis;
+            pairwiseMatrix[1][0] = weightJarak_jenis;
+        }
+
+        // Set bobot perbandingan jarak dan status buka
+        if(radioButton2Text.equals("Jarak")){
+            pairwiseMatrix[0][2] = weightJarak_status;
+            pairwiseMatrix[2][0] = 1/weightJarak_status;
+        }
+        else{
+            pairwiseMatrix[0][2] = 1/weightJarak_status;
+            pairwiseMatrix[2][0] = weightJarak_status;
+        }
+
+        // Set bobot perbandingan jarak dan minat
+        if(radioButton3Text.equals("Jarak")){
+            pairwiseMatrix[0][3] = weightJarak_minat;
+            pairwiseMatrix[3][0] = 1/weightJarak_minat;
+        }
+        else{
+            pairwiseMatrix[0][3] = 1/weightJarak_minat;
+            pairwiseMatrix[3][0] = weightJarak_minat;
+        }
+
+        // Set bobot perbandingan jenis koleksi dan status buka
+        if(radioButton4Text.equals("Jenis Koleksi")){
+            pairwiseMatrix[1][2] = weightJenis_status;
+            pairwiseMatrix[2][1] = 1/weightJenis_status;
+        }
+        else{
+            pairwiseMatrix[1][2] = 1/weightJenis_status;
+            pairwiseMatrix[2][1] = weightJenis_status;
+        }
+
+        // Set bobot perbandingan jenis koleksi dan minat
+        if(radioButton5Text.equals("Jenis Koleksi")){
+            pairwiseMatrix[1][3] = weightJenis_minat;
+            pairwiseMatrix[3][1] = 1/weightJenis_minat;
+        }
+        else{
+            pairwiseMatrix[1][3] = 1/weightJenis_minat;
+            pairwiseMatrix[3][1] = weightJenis_minat;
+        }
+
+        // Set bobot perbandingan status buka dan minat
+        if(radioButton6Text.equals("Status Buka")){
+            pairwiseMatrix[2][3] = weightStatus_minat;
+            pairwiseMatrix[3][2] = 1/weightStatus_minat;
+        }
+        else{
+            pairwiseMatrix[2][3] = 1/weightStatus_minat;
+            pairwiseMatrix[3][2] = weightStatus_minat;
+        }
+        int matrix_size = pairwiseMatrix.length;
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                Log.i("INITIAL_MATRIX", "index " + i + "," +j + " " + pairwiseMatrix[i][j]);
+            }
+        }
     }
 
     private void checkSaveButtonEnabled() {
@@ -300,19 +512,19 @@ public class FormActivity extends AppCompatActivity {
         boolean isRadioGroup5Selected = importanceRadioGroup5.getCheckedRadioButtonId() != -1;
         boolean isRadioGroup6Selected = importanceRadioGroup6.getCheckedRadioButtonId() != -1;
 
-        boolean isSeekBar1Selected = ratingSeekBar1.getProgress() > 0;
-        boolean isSeekBar2Selected = ratingSeekBar2.getProgress() > 0;
-        boolean isSeekBar3Selected = ratingSeekBar3.getProgress() > 0;
-        boolean isSeekBar4Selected = ratingSeekBar4.getProgress() > 0;
-        boolean isSeekBar5Selected = ratingSeekBar5.getProgress() > 0;
-        boolean isSeekBar6Selected = ratingSeekBar6.getProgress() > 0;
+//        boolean isSeekBar1Selected = ratingSeekBar1.getProgress() > 0;
+//        boolean isSeekBar2Selected = ratingSeekBar2.getProgress() > 0;
+//        boolean isSeekBar3Selected = ratingSeekBar3.getProgress() > 0;
+//        boolean isSeekBar4Selected = ratingSeekBar4.getProgress() > 0;
+//        boolean isSeekBar5Selected = ratingSeekBar5.getProgress() > 0;
+//        boolean isSeekBar6Selected = ratingSeekBar6.getProgress() > 0;
 
-        saveButton.setEnabled(isRadioGroup1Selected && isSeekBar1Selected &&
-                isRadioGroup2Selected && isSeekBar2Selected &&
-                isRadioGroup3Selected && isSeekBar3Selected &&
-                isRadioGroup4Selected && isSeekBar4Selected &&
-                isRadioGroup5Selected && isSeekBar5Selected &&
-                isRadioGroup6Selected && isSeekBar6Selected);
+        saveButton.setEnabled(isRadioGroup1Selected &&
+                isRadioGroup2Selected &&
+                isRadioGroup3Selected &&
+                isRadioGroup4Selected &&
+                isRadioGroup5Selected &&
+                isRadioGroup6Selected);
     }
 
     private void showThis(String title, String help_message) {

@@ -2,11 +2,13 @@ package com.ridhojagis.kebunbinatangahp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 
 public class FormActivity extends AppCompatActivity {
     private double[][] pairwiseMatrix;
+    private String HELP_MESSAGE="Rute Navigasi pada Aplikasi Kebun Binatang dibuat berdasarkan beberapa kriteria:\n\n"+
+            "1) Jarak, jarak antara pengunjung dengan lokasi tujuan.\n 2) Jenis Koleksi, prioritas jenis seperti Mamalia, Aves, Reptil, dan Fasilitas \n 3) Status Buka, ketersediaan jam buka fasilitas kebun binatang.\n 4)Minat, tingkat kepeminatan fasilitas atau hewan." +
+            "\n\nAnda dapat menggunakan pengaturan bobot default atau mengaturnya sesuai dengan preferensi anda.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class FormActivity extends AppCompatActivity {
 
         Button saveButton = findViewById(R.id.saveButton);
         Button backButton = findViewById(R.id.backButton);
+        ImageButton helpButton = findViewById(R.id.btnHelp);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,10 +52,16 @@ public class FormActivity extends AppCompatActivity {
             }
         });
 
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showThis("Bantuan",HELP_MESSAGE);
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 int radioButton1Id = importanceRadioGroup1.getCheckedRadioButtonId();
                 int radioButton2Id = importanceRadioGroup2.getCheckedRadioButtonId();
                 int radioButton3Id = importanceRadioGroup3.getCheckedRadioButtonId();
@@ -80,18 +92,6 @@ public class FormActivity extends AppCompatActivity {
                 String radioButton5Text = selectedRadioButton5.getText().toString();
                 String radioButton6Text = selectedRadioButton6.getText().toString();
 
-                Log.d("FormActivity", "RadioButton 1: " + radioButton1Text);
-                Log.d("FormActivity", "SeekBar 1: " + seekBarValue1);
-                Log.d("FormActivity", "RadioButton 2: " + radioButton2Text);
-                Log.d("FormActivity", "SeekBar 2: " + seekBarValue2);
-                Log.d("FormActivity", "RadioButton 3: " + radioButton3Text);
-                Log.d("FormActivity", "SeekBar 3: " + seekBarValue3);
-                Log.d("FormActivity", "RadioButton 4: " + radioButton4Text);
-                Log.d("FormActivity", "SeekBar 4: " + seekBarValue4);
-                Log.d("FormActivity", "RadioButton 5: " + radioButton5Text);
-                Log.d("FormActivity", "SeekBar 5: " + seekBarValue5);
-                Log.d("FormActivity", "RadioButton 6: " + radioButton6Text);
-                Log.d("FormActivity", "SeekBar 6: " + seekBarValue6);
                 String toastMessage = "Bobot Kriteria telah disimpan";
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }
@@ -114,5 +114,20 @@ public class FormActivity extends AppCompatActivity {
                 // Tidak perlu melakukan apa-apa pada saat berhenti menggeser seekbar
             }
         });
+    }
+
+    private void showThis(String title, String help_message) {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle(title);
+        builder.setMessage(help_message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        final android.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

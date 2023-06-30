@@ -21,6 +21,15 @@
                 android:layout_height="wrap_content"
                 android:text="Kembali"
                 android:textColor="@color/white" />
+            <ImageButton
+                android:id="@+id/btnHelp"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="end"
+                android:src="@drawable/help_icon"
+                />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -56,13 +65,15 @@
                     android:id="@+id/importantRadioButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jarak" />
+                    android:text="Jarak"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jenis Koleksi" />
+                    android:text="Jenis Koleksi"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -134,7 +145,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <TextView
                 android:id="@+id/questionTextView2"
@@ -155,13 +168,15 @@
                     android:id="@+id/importantRadioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jarak" />
+                    android:text="Jarak"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status Buka" />
+                    android:text="Status Buka"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -233,7 +248,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <TextView
                 android:id="@+id/questionTextView3"
@@ -254,13 +271,15 @@
                     android:id="@+id/importantRadioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jarak" />
+                    android:text="Jarak"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Minat" />
+                    android:text="Minat"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -332,7 +351,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <TextView
                 android:id="@+id/questionTextView4"
@@ -353,13 +374,15 @@
                     android:id="@+id/importantRadioButton4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jenis Koleksi" />
+                    android:text="Jenis Koleksi"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status Buka" />
+                    android:text="Status Buka"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -431,7 +454,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <TextView
                 android:id="@+id/questionTextView5"
@@ -452,13 +477,15 @@
                     android:id="@+id/importantRadioButton5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jenis Koleksi" />
+                    android:text="Jenis Koleksi"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Minat" />
+                    android:text="Minat"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -530,7 +557,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <TextView
                 android:id="@+id/questionTextView6"
@@ -551,13 +580,15 @@
                     android:id="@+id/importantRadioButton6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status Buka" />
+                    android:text="Status Buka"
+                    android:buttonTint="@color/blue_carouseldark"/>
 
                 <RadioButton
                     android:id="@+id/notImportantRadioButton6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Minat" />
+                    android:text="Minat"
+                    android:buttonTint="@color/blue_carouseldark"/>
             </RadioGroup>
 
             <LinearLayout
@@ -629,7 +660,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="6"
-                android:progress="0" />
+                android:progress="0"
+                android:progressTint="@color/blue_carouseldark"
+                android:thumbTint="@color/teal_200"/>
 
             <Button
                 android:id="@+id/saveButton"

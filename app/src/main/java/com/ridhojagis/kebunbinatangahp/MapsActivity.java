@@ -343,8 +343,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // Fungsi set nilai prioritas AHP
-        priorityCriteria(pairwiseMatrix);
+        priorityMainCriteria(pairwiseMatrix);
         priorityJarak(pairwiseMatrixJarak);
+        priorityMinat(pairwiseMatrixMinat);
 
         btnNavigation.setOnClickListener(new View.OnClickListener() {
             Polyline previousPolyline = null;
@@ -715,19 +716,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double nilaiMinat;
         // Nilai Minat
         if(minat.contains("Sangat diminati")) {
-            nilaiMinat = 0.4132746574;
+            nilaiMinat = prioritas_kriteria_minat[0];
         }
         else if(minat.contains("Diminati")) {
-            nilaiMinat = 0.2593763138;
+            nilaiMinat = prioritas_kriteria_minat[1];
         }
         else if(minat.contains("Netral")) {
-            nilaiMinat = 0.1591648463;
+            nilaiMinat = prioritas_kriteria_minat[2];
         }
         else if(minat.contains("Tidak diminati")) {
-            nilaiMinat = 0.1097133259;
+            nilaiMinat = prioritas_kriteria_minat[3];
         }
         else{
-            nilaiMinat = 0.0584708566;
+            nilaiMinat = prioritas_kriteria_minat[4];
         }
         return nilaiMinat;
     }
@@ -782,7 +783,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return nilaiJarak;
     }
 
-    private void priorityCriteria(double[][] pairwiseMatrix) {
+    private void priorityMainCriteria(double[][] pairwiseMatrix) {
         int matrix_size = pairwiseMatrix.length;
         double nilaiMatrix[][] = new double[matrix_size][matrix_size];
 
@@ -975,6 +976,62 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CI = (total_eigen_value-matrix_size)/(matrix_size-1);
         CR = CI/RI;
         Log.i("CR_VALUE_JENIS", "CR = " + CR);
+    }
+
+    private void priorityStatus(double[][] pairwiseMatrixStatus) {
+
+    }
+
+    private void priorityMinat(double[][] pairwiseMatrixMinat) {
+        int matrix_size = pairwiseMatrixMinat.length;
+
+        double nilaiMatrix[][] = new double[matrix_size][matrix_size];
+        double[] sum_pairwise_minat = new double[matrix_size];
+        double[] sum_nilai_minat = new double[matrix_size];
+        double[] eigen_value_minat = new double[matrix_size];
+        double total_eigen_value = 0;
+
+        double CI = 0;
+        double RI = 1.12;
+        double CR = 0;
+
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                if (j < matrix_size) {
+                    sum_pairwise_minat[j] += pairwiseMatrixMinat[i][j];
+                }
+            }
+        }
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(j < matrix_size) {
+                    nilaiMatrix[i][j] = pairwiseMatrixMinat[i][j]/sum_pairwise_minat[j];
+                }
+            }
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                sum_nilai_minat[i] += nilaiMatrix[i][j];
+            }
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            prioritas_kriteria_minat[i] = sum_nilai_minat[i]/matrix_size;
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            eigen_value_minat[i] = prioritas_kriteria_minat[i] * sum_pairwise_minat[i];
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            total_eigen_value += eigen_value_minat[i];
+        }
+
+        CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        CR = CI/RI;
+        Log.i("CR_VALUE_MINAT", "CR = " + CR);
     }
 
     private void showLocationRequestFailed() {

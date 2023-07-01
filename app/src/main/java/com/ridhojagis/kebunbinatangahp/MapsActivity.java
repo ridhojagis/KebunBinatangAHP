@@ -64,12 +64,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // AHP
     private double[][] pairwiseMatrix;
+    private double[][] pairwiseMatrixJarak;
+    private double[][] pairwiseMatrixJenis;
+    private double[][] pairwiseMatrixStatus;
+    private double[][] pairwiseMatrixMinat;
     // Priotitas kriteria utama
     double prioritas_jarak = 0.0;
     double prioritas_jenis = 0.0;
     double prioritas_statusBuka = 0.0;
     double prioritas_minat = 0.0;
 
+    double pJarak_1 = 0.0;
+    double pJarak_2 = 0.0;
+    double pJarak_3 = 0.0;
+    double pJarak_4 = 0.0;
+    double pJarak_5 = 0.0;
+    double pJarak_6 = 0.0;
+    double pJarak_7 = 0.0;
+    double pJarak_8 = 0.0;
+    double pJarak_9 = 0.0;
+    double pJarak_10 = 0.0;
+    double pJarak_11 = 0.0;
+    double pJarak_12 = 0.0;
+    double pJarak_13 = 0.0;
+    double pJarak_14 = 0.0;
+    double pJarak_15 = 0.0;
+
+    double pJenis_1 = 0.0;
+    double pJenis_2 = 0.0;
+    double pJenis_3 = 0.0;
+    double pJenis_4 = 0.0;
+    double pJenis_5 = 0.0;
+    double pJenis_6 = 0.0;
+
+    double pStatus_1 = 0.0;
+    double pStatus_2 = 0.0;
+    double pStatus_3 = 0.0;
+
+    double pMinat_1 = 0.0;
+    double pMinat_2 = 0.0;
+    double pMinat_3 = 0.0;
+    double pMinat_4 = 0.0;
+    double pMinat_5 = 0.0;
 
     ArrayList<Koleksi> koleksiAHPList;
     ArrayList<Koleksi> koleksiAHPFinal;
@@ -136,14 +172,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             }
-
-//            pairwiseMatrix = (double[][]) getIntent().getSerializableExtra("pairwiseMatrix");
-//            Log.d("GET_PAIRWISE_INTENT", "Berhasil mengatur pairwise intent");
-//            for (int i = 0; i < pairwiseMatrix.length; i++) {
-//                for (int j = 0; j < pairwiseMatrix[i].length; j++) {
-//                    Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
-//                }
-//            }
         } else {
             // Bobot perbandingan matrix secara default
             pairwiseMatrix = new double[][]{
@@ -359,6 +387,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                             // Fungsi AHP
                                             priorityCriteria(pairwiseMatrix);
+                                            priorityJarak(pairwiseMatrixJarak);
                                             Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
                                             Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
                                             Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
@@ -660,6 +689,95 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void priorityCriteria(double[][] pairwiseMatrix) {
         int matrix_size = pairwiseMatrix.length;
+        double nilaiMatrix[][] = new double[matrix_size][matrix_size];
+
+        //    Variabel matriks kriteria
+        double sum_pairwiseMatrix_jarak = 0.0;
+        double sum_pairwiseMatrix_jenis = 0.0;
+        double sum_pairwiseMatrix_statusBuka = 0.0;
+        double sum_pairwiseMatrix_minat = 0.0;
+        double sum_nilai_jarak = 0.0;
+        double sum_nilai_jenis = 0.0;
+        double sum_nilai_statusBuka = 0.0;
+        double sum_nilai_minat = 0.0;
+        double eigen_value_jarak = 0.0;
+        double eigen_value_jenis = 0.0;
+        double eigen_value_statusBuka = 0.0;
+        double eigen_value_minat = 0.0;
+        double total_eigen_value = 0.0;
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(j == 0) {
+                    sum_pairwiseMatrix_jarak += pairwiseMatrix[i][j];
+                }
+                else if(j == 1) {
+                    sum_pairwiseMatrix_jenis += pairwiseMatrix[i][j];
+                }
+                else if(j == 2) {
+                    sum_pairwiseMatrix_statusBuka += pairwiseMatrix[i][j];
+                }
+                else if(j == 3) {
+                    sum_pairwiseMatrix_minat += pairwiseMatrix[i][j];
+                }
+            }
+        }
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(j == 0) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jarak;
+                }
+                else if(j == 1) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jenis;
+                }
+                else if(j == 2) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_statusBuka;
+                }
+                else if(j == 3) {
+                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_minat;
+                }
+            }
+        }
+
+        for(int i=0;i<matrix_size;i++) {
+            for(int j=0;j<matrix_size;j++) {
+                if(i == 0) {
+                    sum_nilai_jarak += nilaiMatrix[i][j];
+                }
+                else if(i == 1) {
+                    sum_nilai_jenis += nilaiMatrix[i][j];
+                }
+                else if(i == 2) {
+                    sum_nilai_statusBuka += nilaiMatrix[i][j];
+                }
+                else if(i == 3) {
+                    sum_nilai_minat += nilaiMatrix[i][j];
+                }
+            }
+        }
+
+        prioritas_jarak = sum_nilai_jarak/matrix_size;
+        prioritas_jenis = sum_nilai_jenis/matrix_size;
+        prioritas_statusBuka = sum_nilai_statusBuka/matrix_size;
+        prioritas_minat = sum_nilai_minat/matrix_size;
+
+        eigen_value_jarak = prioritas_jarak * sum_pairwiseMatrix_jarak;
+        eigen_value_jenis = prioritas_jenis * sum_pairwiseMatrix_jenis;
+        eigen_value_statusBuka = prioritas_statusBuka * sum_pairwiseMatrix_statusBuka;
+        eigen_value_minat = prioritas_minat * sum_pairwiseMatrix_minat;
+
+        total_eigen_value = eigen_value_jarak + eigen_value_jenis + eigen_value_statusBuka + eigen_value_minat;
+
+        double CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        double RI = 0.9;
+        double CR = CI/RI;
+
+        Log.i("CR_VALUE", "CR = " + CR);
+    }
+
+    private void priorityJarak(double[][] pairwiseMatrixJarak) {
+        int matrix_size = pairwiseMatrixJarak.length;
         double nilaiMatrix[][] = new double[matrix_size][matrix_size];
 
         //    Variabel matriks kriteria

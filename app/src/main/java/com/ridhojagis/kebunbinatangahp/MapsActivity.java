@@ -108,7 +108,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnNavigation = findViewById(R.id.btnNavigation);
 
         LatLong = new double[2];
-        Log.d("ONCREATE", "Berhasil menjalankan activity");
 
         if (!isConnected(this)) {
             showInternetAlert();
@@ -123,13 +122,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Mengecek apakah Intent memiliki extra dengan kunci "pairwiseMatrix"
         if (getIntent().hasExtra("pairwiseMatrix")) {
-            pairwiseMatrix = (double[][]) getIntent().getSerializableExtra("pairwiseMatrix");
-            Log.d("GET_PAIRWISE_INTENT", "Berhasil mengatur pairwise intent");
-            for (int i = 0; i < pairwiseMatrix.length; i++) {
-                for (int j = 0; j < pairwiseMatrix[i].length; j++) {
-                    Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
+
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                pairwiseMatrix = (double[][]) extras.getSerializable("pairwiseMatrix");
+                Log.d("GET_PAIRWISE_INTENT", "Berhasil mengatur pairwise intent");
+                for (int i = 0; i < pairwiseMatrix.length; i++) {
+                    for (int j = 0; j < pairwiseMatrix[i].length; j++) {
+                        Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
+                    }
                 }
             }
+
+//            pairwiseMatrix = (double[][]) getIntent().getSerializableExtra("pairwiseMatrix");
+//            Log.d("GET_PAIRWISE_INTENT", "Berhasil mengatur pairwise intent");
+//            for (int i = 0; i < pairwiseMatrix.length; i++) {
+//                for (int j = 0; j < pairwiseMatrix[i].length; j++) {
+//                    Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
+//                }
+//            }
         } else {
             // Bobot perbandingan matrix secara default
             pairwiseMatrix = new double[][]{
@@ -182,6 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();
         final String[] koleksiGoals = new String[1];
+        Log.d("ON_MAPS_READY", "Berhasil menjalankan map");
 
         btnNavigation.setVisibility(View.GONE); // Deklarasi visible button navigasi
 
@@ -298,6 +310,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Polyline previousPolyline = null;
             @Override
             public void onClick(View v) {
+                Log.d("BTN_NAVIGATION_CLICKED", "Berhasil klik button navigasi");
                 isButtonPressed[0] = !isButtonPressed[0]; // Mengubah status tombol saat tombol ditekan
                 checkLocationPermission();
 
@@ -414,12 +427,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            LatLng latLngFacility = extras.getParcelable("COORDINATE_FACILITY");
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngFacility));
-            mMap.setMinZoomPreference(ZOOM_CHAT);
+        if (getIntent().hasExtra("COORDINATE_FACILITY")) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                LatLng latLngFacility = extras.getParcelable("COORDINATE_FACILITY");
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngFacility));
+                mMap.setMinZoomPreference(ZOOM_CHAT);
+            }
         }
         else {
 

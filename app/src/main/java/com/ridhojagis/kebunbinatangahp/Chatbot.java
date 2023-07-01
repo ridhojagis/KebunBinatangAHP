@@ -77,6 +77,7 @@ public class Chatbot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatbot);
         ListView mylistView;
+        Log.d("ONCREATE_CHATBOT", "Berhasil menjalankan activity");
 
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();

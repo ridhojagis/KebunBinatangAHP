@@ -139,7 +139,6 @@ public class FormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                finish();
             }
         });
 
@@ -324,7 +323,14 @@ public class FormActivity extends AppCompatActivity {
         // Mendefinisikan Intent
         Intent intent = new Intent(FormActivity.this, MapsActivity.class);
 
-        intent.putExtra("pairwiseMatrix", pairwiseMatrix);
+        // Mengirim dengan Bundle
+        Bundle extras = new Bundle();
+        extras.putSerializable("pairwiseMatrix", pairwiseMatrix);
+
+        // Menyimpan Bundle ke dalam Intent
+        intent.putExtras(extras);
+
+//        intent.putExtra("pairwiseMatrix", pairwiseMatrix);
 
         // Memulai Activity Maps dengan Intent yang telah dikonfigurasi
         startActivity(intent);

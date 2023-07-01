@@ -107,6 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnNavigation = findViewById(R.id.btnNavigation);
 
         LatLong = new double[2];
+        Log.d("ONCREATE", "Berhasil menjalankan activity");
 
         if (!isConnected(this)) {
             showInternetAlert();
@@ -117,6 +118,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(!isBackgroundLocationPermited()){
             showThis("Akses Lokasi pada Latar Belakang","Izinkan aplikasi mengakses lokasi sepanjang waktu untuk fitur yang lebih lengkap");
             checkLocationPermission();
+        }
+
+        // Mengecek apakah Intent memiliki extra dengan kunci "pairwiseMatrix"
+        if (getIntent().hasExtra("pairwiseMatrix")) {
+            pairwiseMatrix = (double[][]) getIntent().getSerializableExtra("pairwiseMatrix");
+            Log.d("GET_PAIRWISE_INTENT", "Berhasil mengatur pairwise intent");
+            for (int i = 0; i < pairwiseMatrix.length; i++) {
+                for (int j = 0; j < pairwiseMatrix[i].length; j++) {
+                    Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
+                }
+            }
+        } else {
+            // Bobot perbandingan matrix secara default
+            pairwiseMatrix = new double[][]{
+                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+                    {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                    {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+            };
+            Log.d("GET_PAIRWISE_DEFAULT", "Berhasil mengatur pairwise default");
+            for (int i = 0; i < pairwiseMatrix.length; i++) {
+                for (int j = 0; j < pairwiseMatrix[i].length; j++) {
+                    Log.d("PAIRWISE_MATRIX", "Value at [" + i + "][" + j + "]: " + pairwiseMatrix[i][j]);
+                }
+            }
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -155,13 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();
         final String[] koleksiGoals = new String[1];
-
-        pairwiseMatrix = new double[][]{
-                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
-        };
 
         btnNavigation.setVisibility(View.GONE); // Deklarasi visible button navigasi
 

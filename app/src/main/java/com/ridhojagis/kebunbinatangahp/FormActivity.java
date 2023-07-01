@@ -206,7 +206,7 @@ public class FormActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-                            navigateToMapsActivity();
+                            navigateToMapsActivity(pairwiseMatrix);
                         }
                     });
                     AlertDialog dialog = builder.create();
@@ -320,11 +320,10 @@ public class FormActivity extends AppCompatActivity {
         return CR;
     }
 
-    private void navigateToMapsActivity() {
+    private void navigateToMapsActivity(double[][] pairwiseMatrix) {
         // Mendefinisikan Intent
         Intent intent = new Intent(FormActivity.this, MapsActivity.class);
 
-        // Menyimpan matriks pairwise sebagai array dua dimensi dalam Intent
         intent.putExtra("pairwiseMatrix", pairwiseMatrix);
 
         // Memulai Activity Maps dengan Intent yang telah dikonfigurasi

@@ -23,7 +23,7 @@ public class FormActivity extends AppCompatActivity {
             "\n\nAnda dapat menggunakan pengaturan bobot default atau mengaturnya sesuai dengan preferensi anda." +
             "\n\nKeterangan Nilai Bobot:\n1 -Kedua elemen sama penting\n3 -Sedikit lebih penting dari elemen lainnya\n5 -Lebih penting dari elemen lainnya" +
             "\n7 -Sangat penting dari elemen lainnya\n2,4,6 -Merupakan nilai tengah di antara dua tingkat kepentingan yang berdekatan";
-    private String SAVE_MESSAGE="Bobot kriteria telah berhasil diatur. Kembali ke maps dan mulai navigasi";
+    private String SAVE_MESSAGE="Bobot kriteria telah berhasil diatur. Kembali ke Map dan mulai navigasi";
 
     RadioGroup importanceRadioGroup1;
     RadioGroup importanceRadioGroup2;
@@ -42,6 +42,7 @@ public class FormActivity extends AppCompatActivity {
 
     Button saveButton;
     Button backButton;
+    Button defaultButton;
     ImageButton helpButton;
 
     private int radioButton1Id;
@@ -88,6 +89,8 @@ public class FormActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         backButton = findViewById(R.id.backButton);
         helpButton = findViewById(R.id.btnHelp);
+        defaultButton = findViewById(R.id.defaultButton);
+
 
         // Set save button disabled
         saveButton.setEnabled(false);
@@ -149,6 +152,33 @@ public class FormActivity extends AppCompatActivity {
             }
         });
 
+        defaultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
+                builder.setCancelable(false);
+                builder.setTitle("Berhasil");
+                builder.setMessage("Bobot Kriteria berhasil diatur ke Default. Kembali ke Map dan mulai navigasi");
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        pairwiseMatrix = new double[][]{
+                                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+                                {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+                                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                        };
+                        navigateToMapsActivity(pairwiseMatrix);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +227,7 @@ public class FormActivity extends AppCompatActivity {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
                     builder.setCancelable(false);
-                    builder.setTitle("Bobot Kriteria");
+                    builder.setTitle("Berhasil");
                     builder.setMessage(SAVE_MESSAGE);
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

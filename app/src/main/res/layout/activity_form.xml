@@ -46,6 +46,16 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <Button
+                android:id="@+id/defaultButton"
+                android:layout_width="75sp"
+                android:layout_height="35sp"
+                android:text="Default"
+                android:textSize="9sp"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/teal_700"
+                android:textColor="@color/white" />
+
             <TextView
                 android:id="@+id/questionTextView1"
                 android:layout_width="match_parent"

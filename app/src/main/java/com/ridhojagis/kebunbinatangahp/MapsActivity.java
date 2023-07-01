@@ -64,10 +64,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // AHP
     private double[][] pairwiseMatrix;
+    // Priotitas kriteria utama
     double prioritas_jarak = 0.0;
     double prioritas_jenis = 0.0;
     double prioritas_statusBuka = 0.0;
     double prioritas_minat = 0.0;
+
+
     ArrayList<Koleksi> koleksiAHPList;
     ArrayList<Koleksi> koleksiAHPFinal;
 
@@ -740,6 +743,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double CI = (total_eigen_value-matrix_size)/(matrix_size-1);
         double RI = 0.9;
         double CR = CI/RI;
+
+        Log.i("CR_VALUE", "CR = " + CR);
     }
 
     private void showLocationRequestFailed() {

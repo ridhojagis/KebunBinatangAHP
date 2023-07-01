@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -473,6 +474,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(isGPSEnabled()){
             mMap.setMyLocationEnabled(true);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Tambahkan kode yang ingin Anda jalankan saat terjadi perubahan konfigurasi
+        // Misalnya, atur tampilan ulang atau lakukan tindakan lain yang diperlukan
     }
 
     private void navigateToFormActivity() {

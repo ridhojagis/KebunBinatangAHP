@@ -61,6 +61,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     double RADIUS = 6378160;
+    int SIZE_MATRIX_JARAK = 15;
+    int SIZE_MATRIX_JENIS = 6;
+    int SIZE_MATRIX_STATUS = 3;
+    int SIZE_MATRIX_MINAT = 5;
 
     // AHP
     private double[][] pairwiseMatrix;
@@ -68,44 +72,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double[][] pairwiseMatrixJenis;
     private double[][] pairwiseMatrixStatus;
     private double[][] pairwiseMatrixMinat;
+
     // Priotitas kriteria utama
     double prioritas_jarak = 0.0;
     double prioritas_jenis = 0.0;
     double prioritas_statusBuka = 0.0;
     double prioritas_minat = 0.0;
 
-    double pJarak_1 = 0.0;
-    double pJarak_2 = 0.0;
-    double pJarak_3 = 0.0;
-    double pJarak_4 = 0.0;
-    double pJarak_5 = 0.0;
-    double pJarak_6 = 0.0;
-    double pJarak_7 = 0.0;
-    double pJarak_8 = 0.0;
-    double pJarak_9 = 0.0;
-    double pJarak_10 = 0.0;
-    double pJarak_11 = 0.0;
-    double pJarak_12 = 0.0;
-    double pJarak_13 = 0.0;
-    double pJarak_14 = 0.0;
-    double pJarak_15 = 0.0;
-
-    double pJenis_1 = 0.0;
-    double pJenis_2 = 0.0;
-    double pJenis_3 = 0.0;
-    double pJenis_4 = 0.0;
-    double pJenis_5 = 0.0;
-    double pJenis_6 = 0.0;
-
-    double pStatus_1 = 0.0;
-    double pStatus_2 = 0.0;
-    double pStatus_3 = 0.0;
-
-    double pMinat_1 = 0.0;
-    double pMinat_2 = 0.0;
-    double pMinat_3 = 0.0;
-    double pMinat_4 = 0.0;
-    double pMinat_5 = 0.0;
+    double[] prioritas_kriteria_jarak = new double[SIZE_MATRIX_JARAK];
+    double[] prioritas_kriteria_jenis = new double[SIZE_MATRIX_JENIS];
+    double[] prioritas_kriteria_status = new double[SIZE_MATRIX_STATUS];
+    double[] prioritas_kriteria_minat = new double[SIZE_MATRIX_MINAT];
 
     ArrayList<Koleksi> koleksiAHPList;
     ArrayList<Koleksi> koleksiAHPFinal;
@@ -188,6 +165,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
+        // Matriks perbandingan jarak koleksi
+        pairwiseMatrixJarak = new double[][]{
+                {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 8, 9}, // Matriks perbandingan jarak <30
+                {0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 8}, // Matriks perbandingan jarak 30-60
+                {0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7}, // Matriks perbandingan jarak 60m-90m
+                {0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5}, // Matriks perbandingan jarak 90m-120m
+                {0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6}, // Matriks perbandingan jarak 120m-150m
+                {0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5}, // Matriks perbandingan jarak 150m-180m
+                {0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}, // Matriks perbandingan jarak 180m-210m
+                {0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5}, // Matriks perbandingan jarak 210m-240m
+                {0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5, 4}, // Matriks perbandingan jarak 240m-270m
+                {0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3, 3.5}, // Matriks perbandingan jarak 270m-300m
+                {0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5, 3}, // Matriks perbandingan jarak 300m-330m
+                {0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2, 2.5}, // Matriks perbandingan jarak 330m-360m
+                {0.1428571429, 0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5, 2}, // Matriks perbandingan jarak 360m-390m
+                {0.125, 0.1428571429, 0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5}, // Matriks perbandingan jarak 390m-420m
+                {0.1111111111, 0.125, 0.1428571429, 0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1} // Matriks perbandingan jarak >420m
+        };
+
+
+
+        // Matriks perbandingan status buka fasilitas kebun binatang
+        pairwiseMatrixStatus = new double[][] {
+                {1, 0.1428571429, 0.1428571429}, // Matriks perbandingan tidak buka
+                {7, 1, 1}, // Matriks perbandingan selalu buka
+                {7, 1, 1} // Matriks perbandingan buka
+        };
+
+        // Matriks perbandingan tingkat minat satwa atau fasilitas
+        pairwiseMatrixMinat = new double[][] {
+                {1, 2, 3, 4, 5}, // Matriks perbandingan Sangat diminati
+                {0.5, 1, 2, 3, 4}, // Matriks perbandingan diminati
+                {0.3333333333, 0.5, 1, 2, 3}, // Matriks perbandingan netral
+                {0.25, 0.3333333333, 0.5, 1, 3}, // Matriks perbandingan tidak diminati
+                {0.2, 0.25, 0.3333333333, 0.3333333333, 1} // Matriks perbandingan sangat tidak diminati
+        };
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -206,24 +220,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
 //                onBackPressed();
             }
-
         });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         fasilitasList = new ArrayList<>();
         koleksiList = new ArrayList<>();
-        final String[] koleksiGoals = new String[1];
+        final String[] koleksiGoals = new String[2];
         Log.d("ON_MAPS_READY", "Berhasil menjalankan map");
 
         btnNavigation.setVisibility(View.GONE); // Deklarasi visible button navigasi
@@ -317,6 +321,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Tampilkan Toast dengan informasi jenis
                 if (koleksi != null) {
                     koleksiGoals[0] = koleksi.getNama();
+                    koleksiGoals[1] = koleksi.getJenis();
                     String toastMessage = "Jenis: " + koleksi.getJenis() + "\nJam Buka: " + koleksi.getJam_buka() + "-" + koleksi.getJam_tutup();
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -336,6 +341,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        // Fungsi set nilai prioritas AHP
+        priorityCriteria(pairwiseMatrix);
+        priorityJarak(pairwiseMatrixJarak);
 
         btnNavigation.setOnClickListener(new View.OnClickListener() {
             Polyline previousPolyline = null;
@@ -385,9 +394,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 setKoleksiDistance(koleksiList, LatLong);
                                             }
 
-                                            // Fungsi AHP
-                                            priorityCriteria(pairwiseMatrix);
-                                            priorityJarak(pairwiseMatrixJarak);
+                                            // Matriks perbandingan jenis koleksi
+                                            if(koleksiGoals[1].equals("Mamalia")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 2.0, 2.0, 2.0, 2.0, 2.0}, // Matriks perbandingan mamalia
+                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan aves
+                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan reptil
+                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan amfibi
+                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan pisces
+                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0} // Matriks perbandingan fasilitas
+                                                };
+                                            }
+                                            else if(koleksiGoals[1].equals("Aves")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                                        {2.0, 1.0, 2.0, 2.0, 2.0, 2.0},
+                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0}
+                                                };
+                                            }
+                                            else if(koleksiGoals[1].equals("Reptil")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {2.0, 2.0, 1.0, 2.0, 2.0, 2.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0}
+                                                };
+                                            }
+                                            else if(koleksiGoals[1].equals("Amfibi")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                                        {2.0, 2.0, 2.0, 1.0, 2.0, 2.0},
+                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0}
+                                                };
+                                            }
+                                            else if(koleksiGoals[1].equals("Pisces")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                                        {2.0, 2.0, 2.0, 2.0, 1.0, 2.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0}
+                                                };
+                                            }
+                                            else if(koleksiGoals[1].equals("Fasilitas")){
+                                                pairwiseMatrixJenis = new double[][] {
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {2.0, 2.0, 1.0, 2.0, 2.0, 2.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0}
+                                                };
+                                            }
+                                            priorityJenis(pairwiseMatrixJenis);
+
                                             Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
                                             Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
                                             Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
@@ -540,13 +609,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double skorAHP;
         double jarak;
         String minat;
+        String jenis;
         for(int i=0;i<koleksiList.size();i++) {
             skorAHP = 0.0;
             jarak = koleksiList.get(i).getJarak();
             minat = koleksiList.get(i).getMinat();
+            jenis = koleksiList.get(i).getJenis();
 
             nilaiJarak = setNilaiJarak(jarak);
-            nilaiJenis = 0.283050283050283;
+            nilaiJenis = setNilaiJenis(jenis);
             nilaiStatus = 0.4666666667;
             nilaiMinat = setNilaiMinat(minat);
 
@@ -557,7 +628,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i("GET_KOLEKSI_AHP", logMessageAHP);
         }
         // Sort list koleksi berdasarkan skor AHP tertinggi
-        Collections.sort(koleksiList, new KoleksiComparator());
+        Collections.sort(koleksiList, new KoleksiSortAHP());
 
         koleksiAHPList.clear();
         int index_tujuan = 0;
@@ -616,6 +687,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private double setNilaiJenis(String jenis) {
+        double nilaiJenis = 0;
+        // Nilai Minat
+        if(jenis.contains("Mamalia")) {
+            nilaiJenis = prioritas_kriteria_jenis[0];
+        }
+        else if(jenis.contains("Aves")) {
+            nilaiJenis = prioritas_kriteria_jenis[1];
+        }
+        else if(jenis.contains("Reptil")) {
+            nilaiJenis = prioritas_kriteria_jenis[2];
+        }
+        else if(jenis.contains("Amfibi")) {
+            nilaiJenis = prioritas_kriteria_jenis[3];
+        }
+        else if(jenis.contains("Pisces")) {
+            nilaiJenis = prioritas_kriteria_jenis[4];
+        }
+        else if(jenis.contains("Fasilitas")) {
+            nilaiJenis = prioritas_kriteria_jenis[5];
+        }
+        return nilaiJenis;
+    }
+
     private double setNilaiMinat(String minat) {
         double nilaiMinat;
         // Nilai Minat
@@ -640,49 +735,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double setNilaiJarak(double jarak) {
         double nilaiJarak;
         if(jarak <= 30.0) {
-            nilaiJarak = 0.1850155391; // jarak <=30m
+            nilaiJarak = prioritas_kriteria_jarak[0]; // jarak <=30m
         }
         else if(jarak > 30.0 && jarak <= 60.0) {
-            nilaiJarak = 0.1536497571; // jarak 30m-60m
+            nilaiJarak = prioritas_kriteria_jarak[1]; // jarak 30m-60m
         }
         else if(jarak > 60.0 && jarak <= 90.0) {
-            nilaiJarak = 0.1269910538; // jarak 60m-90m
+            nilaiJarak = prioritas_kriteria_jarak[2]; // jarak 60m-90m
         }
         else if(jarak > 90.0 && jarak <= 120.0) {
-            nilaiJarak = 0.1049547207; // jarak 90m-120m
+            nilaiJarak = prioritas_kriteria_jarak[3]; // jarak 90m-120m
         }
         else if(jarak > 120.0 && jarak <= 150.0) {
-            nilaiJarak = 0.08657335996; // jarak 120m-150m
+            nilaiJarak = prioritas_kriteria_jarak[4]; // jarak 120m-150m
         }
         else if(jarak > 150.0 && jarak <= 180.0) {
-            nilaiJarak = 0.07129172186; // jarak 150m-180m
+            nilaiJarak = prioritas_kriteria_jarak[5]; // jarak 150m-180m
         }
         else if(jarak > 180.0 && jarak <= 210.0) {
-            nilaiJarak = 0.05860454529; // jarak 180m-210m
+            nilaiJarak = prioritas_kriteria_jarak[6]; // jarak 180m-210m
         }
         else if(jarak > 210.0 && jarak <= 240.0) {
-            nilaiJarak = 0.04808579014; // jarak 210m-240m
+            nilaiJarak = prioritas_kriteria_jarak[7]; // jarak 210m-240m
         }
         else if(jarak > 240.0 && jarak <= 270.0) {
-            nilaiJarak = 0.03938663928; // jarak 240m-270m
+            nilaiJarak = prioritas_kriteria_jarak[8]; // jarak 240m-270m
         }
         else if(jarak > 270.0 && jarak <= 300.0) {
-            nilaiJarak = 0.0322243846; // jarak 270m-300m
+            nilaiJarak = prioritas_kriteria_jarak[9]; // jarak 270m-300m
         }
         else if(jarak > 300.0 && jarak <= 330.0) {
-            nilaiJarak = 0.02637013988; // jarak 300m-330m
+            nilaiJarak = prioritas_kriteria_jarak[10]; // jarak 300m-330m
         }
         else if(jarak > 330.0 && jarak <= 360.0) {
-            nilaiJarak = 0.02163795589; // jarak 330m-360m
+            nilaiJarak = prioritas_kriteria_jarak[11]; // jarak 330m-360m
         }
         else if(jarak > 360.0 && jarak <= 390.0) {
-            nilaiJarak = 0.01787591641; // jarak 360m-390m
+            nilaiJarak = prioritas_kriteria_jarak[12]; // jarak 360m-390m
         }
         else if(jarak > 390.0 && jarak <= 420.0) {
-            nilaiJarak = 0.01484188065; // jarak 390m-420m
+            nilaiJarak = prioritas_kriteria_jarak[13]; // jarak 390m-420m
         }
         else{
-            nilaiJarak = 0.01249659541; // jarak >420m
+            nilaiJarak = prioritas_kriteria_jarak[14]; // jarak >420m
         }
         return nilaiJarak;
     }
@@ -691,6 +786,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int matrix_size = pairwiseMatrix.length;
         double nilaiMatrix[][] = new double[matrix_size][matrix_size];
 
+        double CI = 0;
+        double RI = 0.9;
+        double CR = 0;
+
         //    Variabel matriks kriteria
         double sum_pairwiseMatrix_jarak = 0.0;
         double sum_pairwiseMatrix_jenis = 0.0;
@@ -769,100 +868,113 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         total_eigen_value = eigen_value_jarak + eigen_value_jenis + eigen_value_statusBuka + eigen_value_minat;
 
-        double CI = (total_eigen_value-matrix_size)/(matrix_size-1);
-        double RI = 0.9;
-        double CR = CI/RI;
-
-        Log.i("CR_VALUE", "CR = " + CR);
+        CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        CR = CI/RI;
+        Log.i("CR_VALUE_MAIN", "CR = " + CR);
     }
 
     private void priorityJarak(double[][] pairwiseMatrixJarak) {
         int matrix_size = pairwiseMatrixJarak.length;
+
         double nilaiMatrix[][] = new double[matrix_size][matrix_size];
+        double[] sum_pairwise_jarak = new double[matrix_size];
+        double[] sum_nilai_jarak = new double[matrix_size];
+        double[] eigen_value_jarak = new double[matrix_size];
+        double total_eigen_value = 0;
 
-        //    Variabel matriks kriteria
-        double sum_pairwiseMatrix_jarak = 0.0;
-        double sum_pairwiseMatrix_jenis = 0.0;
-        double sum_pairwiseMatrix_statusBuka = 0.0;
-        double sum_pairwiseMatrix_minat = 0.0;
-        double sum_nilai_jarak = 0.0;
-        double sum_nilai_jenis = 0.0;
-        double sum_nilai_statusBuka = 0.0;
-        double sum_nilai_minat = 0.0;
-        double eigen_value_jarak = 0.0;
-        double eigen_value_jenis = 0.0;
-        double eigen_value_statusBuka = 0.0;
-        double eigen_value_minat = 0.0;
-        double total_eigen_value = 0.0;
+        double CI = 0;
+        double RI = 1.59;
+        double CR = 0;
 
-        for(int i=0;i<matrix_size;i++) {
-            for(int j=0;j<matrix_size;j++) {
-                if(j == 0) {
-                    sum_pairwiseMatrix_jarak += pairwiseMatrix[i][j];
-                }
-                else if(j == 1) {
-                    sum_pairwiseMatrix_jenis += pairwiseMatrix[i][j];
-                }
-                else if(j == 2) {
-                    sum_pairwiseMatrix_statusBuka += pairwiseMatrix[i][j];
-                }
-                else if(j == 3) {
-                    sum_pairwiseMatrix_minat += pairwiseMatrix[i][j];
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                if (j < matrix_size) {
+                    sum_pairwise_jarak[j] += pairwiseMatrixJarak[i][j];
                 }
             }
         }
 
         for(int i=0;i<matrix_size;i++) {
             for(int j=0;j<matrix_size;j++) {
-                if(j == 0) {
-                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jarak;
+                if(j < matrix_size) {
+                    nilaiMatrix[i][j] = pairwiseMatrixJarak[i][j]/sum_pairwise_jarak[j];
                 }
-                else if(j == 1) {
-                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_jenis;
-                }
-                else if(j == 2) {
-                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_statusBuka;
-                }
-                else if(j == 3) {
-                    nilaiMatrix[i][j] = pairwiseMatrix[i][j]/sum_pairwiseMatrix_minat;
+            }
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                sum_nilai_jarak[i] += nilaiMatrix[i][j];
+            }
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            prioritas_kriteria_jarak[i] = sum_nilai_jarak[i]/matrix_size;
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            eigen_value_jarak[i] = prioritas_kriteria_jarak[i] * sum_pairwise_jarak[i];
+        }
+
+        for (int i = 0; i < matrix_size; i++) {
+            total_eigen_value += eigen_value_jarak[i];
+        }
+
+        CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        CR = CI/RI;
+        Log.i("CR_VALUE_JARAK", "CR = " + CR);
+    }
+
+    private void priorityJenis(double[][] pairwiseMatrixJenis) {
+        int matrix_size = pairwiseMatrixJenis.length;
+
+        double nilaiMatrix[][] = new double[matrix_size][matrix_size];
+        double[] sum_pairwise_jenis = new double[matrix_size];
+        double[] sum_nilai_jenis = new double[matrix_size];
+        double[] eigen_value_jenis = new double[matrix_size];
+        double total_eigen_value = 0;
+
+        double CI = 0;
+        double RI = 1.24;
+        double CR = 0;
+
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                if (j < matrix_size) {
+                    sum_pairwise_jenis[j] += pairwiseMatrixJenis[i][j];
                 }
             }
         }
 
         for(int i=0;i<matrix_size;i++) {
             for(int j=0;j<matrix_size;j++) {
-                if(i == 0) {
-                    sum_nilai_jarak += nilaiMatrix[i][j];
-                }
-                else if(i == 1) {
-                    sum_nilai_jenis += nilaiMatrix[i][j];
-                }
-                else if(i == 2) {
-                    sum_nilai_statusBuka += nilaiMatrix[i][j];
-                }
-                else if(i == 3) {
-                    sum_nilai_minat += nilaiMatrix[i][j];
+                if(j < matrix_size) {
+                    nilaiMatrix[i][j] = pairwiseMatrixJenis[i][j]/sum_pairwise_jenis[j];
                 }
             }
         }
 
-        prioritas_jarak = sum_nilai_jarak/matrix_size;
-        prioritas_jenis = sum_nilai_jenis/matrix_size;
-        prioritas_statusBuka = sum_nilai_statusBuka/matrix_size;
-        prioritas_minat = sum_nilai_minat/matrix_size;
+        for (int i = 0; i < matrix_size; i++) {
+            for (int j = 0; j < matrix_size; j++) {
+                sum_nilai_jenis[i] += nilaiMatrix[i][j];
+            }
+        }
 
-        eigen_value_jarak = prioritas_jarak * sum_pairwiseMatrix_jarak;
-        eigen_value_jenis = prioritas_jenis * sum_pairwiseMatrix_jenis;
-        eigen_value_statusBuka = prioritas_statusBuka * sum_pairwiseMatrix_statusBuka;
-        eigen_value_minat = prioritas_minat * sum_pairwiseMatrix_minat;
+        for (int i = 0; i < matrix_size; i++) {
+            prioritas_kriteria_jenis[i] = sum_nilai_jenis[i]/matrix_size;
+        }
 
-        total_eigen_value = eigen_value_jarak + eigen_value_jenis + eigen_value_statusBuka + eigen_value_minat;
+        for (int i = 0; i < matrix_size; i++) {
+            eigen_value_jenis[i] = prioritas_kriteria_jenis[i] * sum_pairwise_jenis[i];
+        }
 
-        double CI = (total_eigen_value-matrix_size)/(matrix_size-1);
-        double RI = 0.9;
-        double CR = CI/RI;
+        for (int i = 0; i < matrix_size; i++) {
+            total_eigen_value += eigen_value_jenis[i];
+        }
 
-        Log.i("CR_VALUE", "CR = " + CR);
+        CI = (total_eigen_value-matrix_size)/(matrix_size-1);
+        CR = CI/RI;
+        Log.i("CR_VALUE_JENIS", "CR = " + CR);
     }
 
     private void showLocationRequestFailed() {

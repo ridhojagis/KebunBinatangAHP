@@ -2,7 +2,7 @@ package com.ridhojagis.kebunbinatangahp;
 
 import java.util.Comparator;
 
-public class KoleksiComparator implements Comparator<Koleksi> {
+public class KoleksiSortAHP implements Comparator<Koleksi> {
     @Override
     public int compare(Koleksi koleksi1, Koleksi koleksi2) {
         // Membandingkan berdasarkan ahp_score

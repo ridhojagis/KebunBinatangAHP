@@ -22,6 +22,9 @@
         tools:replace="android:appComponentFactory"
         tools:targetApi="33">
         <activity
+            android:name=".RiwayatActivity"
+            android:exported="false" />
+        <activity
             android:name=".FormActivity"
             android:exported="false" />
 
@@ -40,12 +43,9 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-        <activity
-            android:name=".Chatbot" />
-
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".Chatbot" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

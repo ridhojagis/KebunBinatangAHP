@@ -613,6 +613,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double jarak;
         String minat;
         String jenis;
+
+        // Menghitung skor AHP tiap koleksi
         for(int i=0;i<koleksiList.size();i++) {
             skorAHP = 0.0;
             jarak = koleksiList.get(i).getJarak();
@@ -636,7 +638,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         koleksiAHPList.clear();
         int index_tujuan = 0;
 
-        // Menginput koleksi ke dalam list baru hingga menemukan koleksi tujuan
+        // Menginput koleksi ke dalam list AHP Rank hingga menemukan koleksi tujuan
         for(int i=0;i<koleksiList.size();i++) {
             if(koleksiList.get(i).getNama().equals(koleksiGoals)){
                 koleksiAHPList.add(koleksiList.get(i));
@@ -682,21 +684,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
         }
 
-        // Jarak terpendek dengan bruteforce
-        double tempuh = 0;
-        shortestRoute = findShortestRoute(koleksiList.get(index_tujuan), koleksiAHPFinal);
-        for(int i=0; i<shortestRoute.size();i++){
+    // Jarak terpendek dengan bruteforce
+        List<Koleksi> tempRoute = new ArrayList<>();
+        tempRoute = findShortestRoute(koleksiList.get(index_tujuan), koleksiAHPFinal);
 
+        // Menambah koleksi tujuan ke akhir list
+        shortestRoute = new ArrayList<>();
+        for(int i=0; i<tempRoute.size();i++){
+            if(tempRoute.get(i).getNama().equals(koleksiGoals)) {
+                continue;
+            }
+            shortestRoute.add(tempRoute.get(i));
+        }
+        shortestRoute.add(koleksiList.get(index_tujuan));
+
+        // Cek isi shortestRoute
+        double tempuh = 0;
+        for(int i=0; i<shortestRoute.size();i++){
+            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
             if(i==shortestRoute.size()-1) {
-                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
-                Log.i("GET_KOLEKSI_ROUTE", logMessageAHP);
+                Log.i("GET_KOLEKSI_SHORTEST", logMessageAHP);
                 break;
             }
             tempuh += calculateDistance(shortestRoute.get(i), shortestRoute.get(i + 1));
-            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
-            Log.i("GET_KOLEKSI_ROUTE", logMessageAHP);
+            Log.i("GET_KOLEKSI_SHORTEST", logMessageAHP);
         }
-        // End jarak terpendek dengan bruteforce
+    // End jarak terpendek dengan bruteforce
 
         // Meletakkan koleksi tujuan pada index terakhir dalam list
         koleksiAHPFinal.add(koleksiList.get(index_tujuan));

@@ -86,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     ArrayList<Koleksi> koleksiAHPList;
     ArrayList<Koleksi> koleksiAHPFinal;
+    List<Koleksi> shortestRoute;
 
     Button btnChat;
     Button btnNavigation;
@@ -183,8 +184,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 {0.125, 0.1428571429, 0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1, 1.5}, // Matriks perbandingan jarak 390m-420m
                 {0.1111111111, 0.125, 0.1428571429, 0.1538461538, 0.1666666667, 0.1818181818, 0.2, 0.2222222222, 0.25, 0.2857142857, 0.3333333333, 0.4, 0.5, 0.6666666667, 1} // Matriks perbandingan jarak >420m
         };
-
-
 
         // Matriks perbandingan status buka fasilitas kebun binatang
         pairwiseMatrixStatus = new double[][] {
@@ -464,7 +463,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             Log.i("prioritas_minat", String.valueOf(prioritas_minat));
                                             koleksiAHPList = new ArrayList<>();
                                             koleksiAHPFinal = new ArrayList<>();
-                                            setKoleksiAHPScore(koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
+                                            setKoleksiAHPScore(location.getLatitude(), location.getLongitude(), koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
 
                                             List<LatLng> points = new ArrayList<>();
 
@@ -477,8 +476,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             points.add(new LatLng(LatLong[0], LatLong[1]));
 
                                             // Menambahkan polyline koordinat list koleksi hasil AHP
-                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
-                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
+//                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
+//                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
+//                                            }
+                                            for(int i=0;i<shortestRoute.size();i++) {
+                                                points.add(new LatLng(shortestRoute.get(i).getLatitude(), shortestRoute.get(i).getLongitude()));
                                             }
 
                                             PolylineOptions polylineOptions = new PolylineOptions();
@@ -605,7 +607,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    private void setKoleksiAHPScore(List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, ArrayList<Koleksi> koleksiAHPFinal, String koleksiGoals) {
+    private void setKoleksiAHPScore(double latitude, double longitude, List<Koleksi> koleksiList, ArrayList<Koleksi> koleksiAHPList, ArrayList<Koleksi> koleksiAHPFinal, String koleksiGoals) {
         double nilaiJarak, nilaiJenis, nilaiStatus, nilaiMinat;
         double skorAHP;
         double jarak;
@@ -676,16 +678,96 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
             }
 
-            String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
+            String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
         }
+
+        // Jarak terpendek dengan bruteforce
+        double tempuh = 0;
+        shortestRoute = findShortestRoute(koleksiList.get(index_tujuan), koleksiAHPFinal);
+        for(int i=0; i<shortestRoute.size();i++){
+
+            if(i==shortestRoute.size()-1) {
+                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
+                Log.i("GET_KOLEKSI_ROUTE", logMessageAHP);
+                break;
+            }
+            tempuh += calculateDistance(shortestRoute.get(i), shortestRoute.get(i + 1));
+            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
+            Log.i("GET_KOLEKSI_ROUTE", logMessageAHP);
+        }
+        // End jarak terpendek dengan bruteforce
+
         // Meletakkan koleksi tujuan pada index terakhir dalam list
         koleksiAHPFinal.add(koleksiList.get(index_tujuan));
 
+        double sum_distance = 0;
         for(int i=0;i<koleksiAHPFinal.size();i++) {
-            String logMessageAHP = "NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", JARAK: " + koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score();
+            double dLat;
+            double dLon;
+            double distance;
+            if(i==koleksiAHPFinal.size()-1) {
+                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score() + ", JARAK TEMPUH: " + sum_distance;
+                Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
+                break;
+            }
+            // Menghitung jarak koleksi terhadap tujuan
+            dLat = Math.toRadians(koleksiAHPList.get(i).getLatitude() - koleksiAHPList.get(i+1).getLatitude());
+            dLon = Math.toRadians(koleksiAHPList.get(i).getLongitude() - koleksiAHPList.get(i+1).getLongitude());
+            distance = RADIUS * 2 *
+                    Math.asin(
+                            Math.sqrt(
+                                    Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiAHPList.get(i+1).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
+            sum_distance += distance;
+            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score() + ", JARAK TEMPUH: " + sum_distance;
             Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
         }
+    }
+
+    private List<Koleksi> findShortestRoute(Koleksi koleksi, ArrayList<Koleksi> koleksiAHPFinal) {
+        List<Koleksi> shortestRoute = new ArrayList<>(koleksiAHPFinal);
+        shortestRoute.add(koleksi);
+
+        double shortestDistance = calculateTotalDistance(shortestRoute);
+
+        List<Koleksi> tempRoute = new ArrayList<>(shortestRoute);
+
+        // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
+        for (int i = 0; i < koleksiAHPFinal.size(); i++) {
+            Collections.swap(tempRoute, i, i + 1);
+
+            double tempDistance = calculateTotalDistance(tempRoute);
+            if (tempDistance < shortestDistance) {
+                shortestDistance = tempDistance;
+                shortestRoute = new ArrayList<>(tempRoute);
+            }
+
+            Collections.swap(tempRoute, i, i + 1);
+        }
+
+        return shortestRoute;
+    }
+
+    private double calculateTotalDistance(List<Koleksi> shortestRoute) {
+        double totalDistance = 0;
+        for (int i = 0; i < shortestRoute.size() - 1; i++) {
+            totalDistance += calculateDistance(shortestRoute.get(i), shortestRoute.get(i + 1));
+        }
+        return totalDistance;
+    }
+
+    private double calculateDistance(Koleksi koleksi1, Koleksi koleksi2) {
+        double lat1 = Math.toRadians(koleksi1.getLatitude());
+        double lon1 = Math.toRadians(koleksi1.getLongitude());
+        double lat2 = Math.toRadians(koleksi2.getLatitude());
+        double lon2 = Math.toRadians(koleksi2.getLongitude());
+
+        double dlat = lat2 - lat1;
+        double dlon = lon2 - lon1;
+        double a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return RADIUS * c;
     }
 
     private double setNilaiJenis(String jenis) {

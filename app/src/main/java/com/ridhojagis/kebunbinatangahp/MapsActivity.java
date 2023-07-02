@@ -152,11 +152,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         } else {
             // Bobot perbandingan matrix secara default
+//            pairwiseMatrix = new double[][]{
+//                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
+//                    {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+//                    {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+//                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+//            };
             pairwiseMatrix = new double[][]{
-                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                    {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
+                    {1.0, 3.0, 0.2, 3.0},   // Matriks perbandingan kriteria jarak
+                    {0.3333333333, 1.0, 0.1428571429, 1.0},   // Matriks perbandingan kriteria jenis
                     {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                    {0.3333333333, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
             };
             Log.d("GET_PAIRWISE_DEFAULT", "Berhasil mengatur pairwise default");
             for (int i = 0; i < pairwiseMatrix.length; i++) {
@@ -675,10 +681,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Math.asin(
                             Math.sqrt(
                                     Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiList.get(index_tujuan).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
-            if(distance <= min_distance){
-                min_distance = distance;
+//            if(distance <= min_distance){
+//                min_distance = distance;
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
-            }
+//            }
 
             String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);

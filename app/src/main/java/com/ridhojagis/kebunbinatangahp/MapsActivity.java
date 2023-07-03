@@ -718,13 +718,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double dLat;
             double dLon;
             double distance;
-            double distance_ab = 0;
+            double distance_ij;
+            double distance_to_user = 0;
             if(koleksiAHPList.get(i).getNama().equals(koleksiGoals)) {
                 continue;
             }
 
             // Menghitung jarak koleksi dengan user
-            distance_ab = calculateDistance(user, koleksiAHPList.get(i));
+            distance_to_user = calculateDistance(user, koleksiAHPList.get(i));
 
             // Menghitung jarak koleksi terhadap tujuan
             dLat = Math.toRadians(koleksiAHPList.get(i).getLatitude() - koleksiList.get(index_tujuan).getLatitude());
@@ -733,7 +734,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Math.asin(
                             Math.sqrt(
                                     Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiList.get(index_tujuan).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
-            if((distance <= min_distance || distance_ab <= 40)){
+            if((distance <= min_distance || distance_to_user <= 40)){
                 min_distance = distance;
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
             }
@@ -818,7 +819,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //
 //        // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
 //        for (int i = 1; i < koleksiAHPFinal.size() - 1; i++) {
-//            for (int j = i+1; i < koleksiAHPFinal.size() - 1; i++){
+//            for (int j = i+1; j < koleksiAHPFinal.size() - 1; i++){
 //                Collections.swap(shortestRoute, i, j);
 //                double tempDistance = calculateTotalDistance(shortestRoute);
 //                if (tempDistance < shortestDistance) {

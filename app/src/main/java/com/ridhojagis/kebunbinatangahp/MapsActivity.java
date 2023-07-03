@@ -687,6 +687,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 continue;
             }
 
+            // Menghitung jarak koleksi dengan user
+            distance_ab = calculateDistance(user, koleksiAHPList.get(i));
+
             // Menghitung jarak koleksi terhadap tujuan
             dLat = Math.toRadians(koleksiAHPList.get(i).getLatitude() - koleksiList.get(index_tujuan).getLatitude());
             dLon = Math.toRadians(koleksiAHPList.get(i).getLongitude() - koleksiList.get(index_tujuan).getLongitude());
@@ -694,7 +697,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Math.asin(
                             Math.sqrt(
                                     Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiList.get(index_tujuan).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
-            if((distance <= min_distance)){
+            if((distance <= min_distance || distance_ab <= 40)){
                 min_distance = distance;
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
             }

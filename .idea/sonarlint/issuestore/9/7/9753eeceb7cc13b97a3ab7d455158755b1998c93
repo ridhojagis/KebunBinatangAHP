@@ -1,0 +1,91 @@
+
+g
+java:S1192ÿ"KDefine a constant instead of duplicating this literal "CEK_LOKASI" 3 times.(ûÔ©ùúÿÿÿÿ
+K
+java:S1066»"/Merge this if statement with the enclosing one.(÷­á÷şÿÿÿÿ
+K
+java:S1066Ã"/Merge this if statement with the enclosing one.(÷­á÷şÿÿÿÿ
+g	java:S117æ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡’ÑŸ
+D
+java:S1604£"(Make this anonymous inner class a lambda(ËæÎˆûÿÿÿÿ
+?
+java:S1604•"(Make this anonymous inner class a lambda(èÛé
+D
+java:S1604§"(Make this anonymous inner class a lambda(×½‘şÿÿÿÿ
+?
+java:S1604®"(Make this anonymous inner class a lambda(Õä
+?
+java:S1604½"(Make this anonymous inner class a lambda(Õä
+?
+java:S1604Ì"(Make this anonymous inner class a lambda(Õä
+@
+java:S5411­"*Use the primitive boolean expression here.(ò–Õp
+F
+java:S5411®"*Use the primitive boolean expression here.(—ˆúÿÿÿÿ
+F
+java:S5411"*Use the primitive boolean expression here.(—ˆúÿÿÿÿ
+g	java:S116,"MRename this field "PI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°äÖìùÿÿÿÿ
+f	java:S116-"QRename this field "RADIUS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«ÒÓ¤
+g	java:S116="RRename this field "LatLong" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø€Íİ
+q	java:S116>"WRename this field "HELP_MESSAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ ™íúÿÿÿÿ
+m	java:S116D"XRename this field "START_MESSAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€ÈØ
+q
+java:S14508"VRemove the "btnHelp" field and declare it as a local variable in the relevant methods.(š‰ÿÿÿÿÿ
+k
+java:S14507"URemove the "btnMap" field and declare it as a local variable in the relevant methods.(›Í¡ÿ
+Q	java:S125C"<This block of commented-out lines of code should be removed.(°îëé
+m
+java:S3776L"RRefactor this method to reduce its Cognitive Complexity from 94 to the 15 allowed.(¨Œşÿÿÿÿ
+D
+java:S1481O"/Remove this unused "mylistView" local variable.(ƒ†£
+W
+java:S1854–";Remove this useless assignment to local variable "koleksi".(œï„­ùÿÿÿÿ
+H
+java:S1481–",Remove this unused "koleksi" local variable.(œï„­ùÿÿÿÿ
+
+java:S1186í"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(é¬“âùÿÿÿÿ
+
+java:S1186ò"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(±ìÑùÿÿÿÿ
+˜
+java:S1186÷"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬•çŠ
+W	java:S125á"<This block of commented-out lines of code should be removed.(¨Ç¾üÿÿÿÿ
+f
+java:S1874í"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(é¬“âùÿÿÿÿ
+W	java:S125ƒ"<This block of commented-out lines of code should be removed.(æØû†ıÿÿÿÿ
+s
+java:S3252»"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(÷­á÷şÿÿÿÿ
+s
+java:S3252Ã"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(÷­á÷şÿÿÿÿ
+n
+java:S3252Ç"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(§Ÿó•
+s
+java:S3252Ê"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ùÆ¿şıÿÿÿÿ
+C
+java:S1481Û"'Remove this unused "id" local variable.(ä¸æ­úÿÿÿÿ
+W	java:S125è"<This block of commented-out lines of code should be removed.(Ë¤Ò…ûÿÿÿÿ
+O
+java:S1874—"3Remove this use of "NetworkInfo"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+R
+java:S1874—"6Remove this use of "getNetworkInfo"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+Q
+java:S2209—"5Change this instance-reference to a static reference.(øÜÈ÷øÿÿÿÿ
+M
+java:S1874—"1Remove this use of "TYPE_WIFI"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+O
+java:S1874˜"3Remove this use of "NetworkInfo"; it is deprecated.(¢ô Ãùÿÿÿÿ
+R
+java:S1874˜"6Remove this use of "getNetworkInfo"; it is deprecated.(¢ô Ãùÿÿÿÿ
+Q
+java:S2209˜"5Change this instance-reference to a static reference.(¢ô Ãùÿÿÿÿ
+O
+java:S1874˜"3Remove this use of "TYPE_MOBILE"; it is deprecated.(¢ô Ãùÿÿÿÿ
+O
+java:S1874š"3Remove this use of "isConnected"; it is deprecated.(šÁ§ãÿÿÿÿÿ
+O
+java:S1874š"3Remove this use of "isConnected"; it is deprecated.(šÁ§ãÿÿÿÿÿ
+X
+java:S1126£"AReplace this if-then-else statement by a single return statement.(ûõ¤
+n
+java:S3252£"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ûõ¤
+b
+java:S1144¹"FRemove this unused private "checkBackgroundLocationPermission" method.(³ÚÜ˜ùÿÿÿÿ

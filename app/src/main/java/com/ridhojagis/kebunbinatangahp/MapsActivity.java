@@ -265,7 +265,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addMarker(new MarkerOptions()
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                                     .position(new LatLng(fasilitas.getLatitude(), fasilitas.getLongitude()))
-                                    .snippet(fasilitas.getDeskripsi()+"\nJam Buka"+fasilitas.getJam_buka()+"\nJam Tutup"+fasilitas.getJam_tutup()))
+                                    .snippet(fasilitas.getDeskripsi()+", Jam Buka "+fasilitas.getJam_buka()+"-" + fasilitas.getJam_tutup()))
                             .setTitle(fasilitas.getNama());
                     fasilitasList.add(fasilitas);
                     Log.i("MAP_GET_FACILITY", fasilitas.getNama());

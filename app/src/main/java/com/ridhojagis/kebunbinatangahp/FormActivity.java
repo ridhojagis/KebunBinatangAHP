@@ -212,7 +212,7 @@ public class FormActivity extends AppCompatActivity {
                 double weightJenis_Minat = seekBarValue5;
                 double weightStatus_Minat = seekBarValue6;
 
-                // Contoh: Menampilkan nilai-nilai pada logcat
+                // Menampilkan nilai-nilai pada logcat
                 Log.d("FormActivity", "RadioButton 1: " + radioButton1Text);
                 Log.d("FormActivity", "SeekBar 1: " + weightJarak_Jenis);
 

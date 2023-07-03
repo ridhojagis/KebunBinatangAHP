@@ -142,9 +142,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -154,7 +170,7 @@
                 android:id="@+id/ratingSeekBar1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>
@@ -245,9 +261,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -257,7 +289,7 @@
                 android:id="@+id/ratingSeekBar2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>
@@ -348,9 +380,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -360,7 +408,7 @@
                 android:id="@+id/ratingSeekBar3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>
@@ -451,9 +499,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -463,7 +527,7 @@
                 android:id="@+id/ratingSeekBar4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>
@@ -554,9 +618,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -566,7 +646,7 @@
                 android:id="@+id/ratingSeekBar5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>
@@ -657,9 +737,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="9"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -669,7 +765,7 @@
                 android:id="@+id/ratingSeekBar6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="6"
+                android:max="8"
                 android:progress="0"
                 android:progressTint="@color/blue_carouseldark"
                 android:thumbTint="@color/teal_200"/>

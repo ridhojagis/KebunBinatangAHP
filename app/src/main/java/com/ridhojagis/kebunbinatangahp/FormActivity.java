@@ -18,11 +18,11 @@ import android.widget.Toast;
 public class FormActivity extends AppCompatActivity {
     private double[][] pairwiseMatrix;
     private String HELP_MESSAGE="Rute Navigasi pada Aplikasi Kebun Binatang dibuat dengan mempertimbangkan beberapa kriteria:\n\n"+
-            "1) Jarak, jarak antara pengunjung dengan lokasi tujuan.\n 2) Jenis Koleksi, prioritas jenis seperti Mamalia, " +
+            "1) Jarak, jarak antara pengunjung dengan objek sekitar.\n 2) Jenis Koleksi, prioritas jenis seperti Mamalia, " +
             "Aves, Reptil, dan Fasilitas \n 3) Status Buka, ketersediaan jam buka fasilitas kebun binatang.\n 4)Minat, tingkat kepeminatan fasilitas atau hewan." +
             "\n\nAnda dapat menggunakan pengaturan bobot default atau mengaturnya sesuai dengan preferensi anda." +
             "\n\nKeterangan Nilai Bobot:\n1 -Kedua elemen sama penting\n3 -Sedikit lebih penting dari elemen lainnya\n5 -Lebih penting dari elemen lainnya" +
-            "\n7 -Sangat penting dari elemen lainnya\n2,4,6 -Merupakan nilai tengah di antara dua tingkat kepentingan yang berdekatan";
+            "\n7 -Sangat penting dari elemen lainnya\n9 -Ekstrim penting dari elemen lainnya\n2,4,6,8 -Merupakan nilai tengah di antara dua tingkat kepentingan yang berdekatan";
     private String SAVE_MESSAGE="Bobot kriteria telah berhasil diatur. Kembali ke Map dan mulai navigasi";
 
     RadioGroup importanceRadioGroup1;

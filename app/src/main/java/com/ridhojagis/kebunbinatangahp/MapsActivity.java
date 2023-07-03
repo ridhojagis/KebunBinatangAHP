@@ -52,8 +52,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -65,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int SIZE_MATRIX_JENIS = 6;
     int SIZE_MATRIX_STATUS = 3;
     int SIZE_MATRIX_MINAT = 5;
+
+    String currentTime;
 
     // AHP
     private double[][] pairwiseMatrix;
@@ -102,7 +106,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GeofencingClient geofencingClient;
     private GeofenceHelper geofenceHelper;
 
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRefFasilitas = database.getReference("Fasilitas");
     DatabaseReference mtRefKoleksi = database.getReference("Koleksi");
@@ -138,6 +141,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             showThis("Akses Lokasi pada Latar Belakang","Izinkan aplikasi mengakses lokasi sepanjang waktu untuk fitur yang lebih lengkap");
             checkLocationPermission();
         }
+
+        setCurrentTime();
 
         // Mengecek apakah Intent memiliki extra dengan kunci "pairwiseMatrix"
         if (getIntent().hasExtra("pairwiseMatrix")) {
@@ -236,6 +241,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+    }
+
+    private String setCurrentTime() {
+        // Membuat objek Date
+        Date date = new Date();
+        // Membuat objek SimpleDateFormat
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // Mendapatkan waktu saat ini dalam bentuk string
+        String currTime = sdf.format(date);
+        currentTime = currTime;
+
+        // Melakukan sesuatu dengan waktu saat ini (misalnya, mencetaknya di logcat)
+        Log.d("Waktu Saat Ini", currentTime);
+        return currTime;
     }
 
     @Override
@@ -480,8 +499,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             // Set lokasi pengguna menjadi True
                             for (int i = 0; i < shortestRoute.size(); i++) {
+                                String waktuKunjungan = setCurrentTime();
                                 if (shortestRoute.get(i).getNama().equals("User")) {
                                     shortestRoute.get(i).setVisited(true);
+                                    shortestRoute.get(i).setWaktuKunjungan(waktuKunjungan);
                                     break;
                                 }
                             }
@@ -531,35 +552,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         btnNavigation.setText("Mulai Navigasi");
                         btnNavigation.setVisibility(View.GONE);
                     }
-
-                    locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            1000, 2, new LocationListener() {
-                                @SuppressLint("MissingPermission")
-                                @Override
-                                public void onLocationChanged(Location location) {
-
-                                }
-
-                                @Override
-                                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                                }
-
-                                @Override
-                                public void onProviderEnabled(String s) {
-
-                                }
-
-                                @Override
-                                public void onProviderDisabled(String s) {
-
-                                }
-                            }
-                    );
                 }
             }
         });
+
         if (getIntent().hasExtra("COORDINATE_FACILITY")) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
@@ -584,6 +580,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(LatLong[0], LatLong[1])));
                                 mMap.setMinZoomPreference(ZOOM_CHAT);
                                 locationManager.removeUpdates(this);
+
+                                // identifikasi apakah koleksi dalam shortestRoute telah dikunjungi
+                                if(shortestRoute != null) {
+                                    int userIndex = 0;
+                                    for (int i = 0; i < shortestRoute.size(); i++) {
+                                        String waktuKunjungan = setCurrentTime();
+                                        double jarak;
+                                        if (shortestRoute.get(i).getNama().equals("User")) {
+                                            userIndex = i;
+                                            shortestRoute.get(i).setLatitude(String.valueOf(location.getLatitude()));
+                                            shortestRoute.get(i).setLongitude(String.valueOf(location.getLatitude()));
+                                            continue;
+                                        }
+
+                                        // Menghitung jarak koleksi terhadap pengguna
+                                        jarak = calculateDistance(shortestRoute.get(i), shortestRoute.get(userIndex));
+                                        if (jarak <= 15) {
+                                            shortestRoute.get(i).setVisited(true);
+                                            shortestRoute.get(i).setWaktuKunjungan(waktuKunjungan);
+                                        }
+                                    }
+                                }
                             }
 
                             @Override
@@ -824,7 +842,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<Koleksi> tempRoute = new ArrayList<>(shortestRoute);
 
         // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
-        for (int i = 0; i < koleksiAHPFinal.size(); i++) {
+        for (int i = 1; i < koleksiAHPFinal.size(); i++) {
             Collections.swap(tempRoute, i, i + 1);
 
             double tempDistance = calculateTotalDistance(tempRoute);

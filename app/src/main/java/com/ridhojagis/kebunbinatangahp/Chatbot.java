@@ -172,7 +172,7 @@ public class Chatbot extends AppCompatActivity {
                 if (isConnected(Chatbot.this)) {
                     if (isAskingLocation(message)) {
                         if(isLocationPermited()){
-                            if (isExistinDatabase(fasilitasList, message)) {
+                            if (isExistinDatabase(koleksiList, message)) {
                                 if (!isGPSEnabled()) {
                                     showGPSAlert();
                                 } else {
@@ -190,26 +190,34 @@ public class Chatbot extends AppCompatActivity {
                                                         LatLong[1] = location.getLongitude();
                                                         Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
                                                         Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
-                                                        ArrayList<Fasilitas> fasilitas1 = new ArrayList<>();
+                                                        ArrayList<Koleksi> fasilitas1 = new ArrayList<>();
                                                         fasilitas1.clear();
-                                                        for (int i = 0; i < fasilitasList.size(); i++) {
+                                                        for (int i = 0; i < koleksiList.size(); i++) {
 
                                                             // Split facility name
-                                                            if (fasilitasList.get(i).getNama().toLowerCase().contains("foodcourt") ||
-                                                                    fasilitasList.get(i).getNama().toLowerCase().contains("toilet") ||
-                                                                    fasilitasList.get(i).getNama().toLowerCase().contains("atm")) {
-                                                                Log.i("NAME_TO_SPLIT", fasilitasList.get(i).getNama().toLowerCase());
+                                                            if (koleksiList.get(i).getNama().toLowerCase().contains("foodcourt") ||
+                                                                    koleksiList.get(i).getNama().toLowerCase().contains("toilet") ||
+                                                                    koleksiList.get(i).getNama().toLowerCase().contains("atm")) {
+                                                                Log.i("NAME_TO_SPLIT", koleksiList.get(i).getNama().toLowerCase());
                                                                 String[] nameSplit;
-                                                                nameSplit = fasilitasList.get(i).getNama().toLowerCase().split(" ");
+                                                                nameSplit = koleksiList.get(i).getNama().toLowerCase().split(" ");
                                                                 if (message.toLowerCase().contains(nameSplit[0])) {
-                                                                    fasilitas1.add(fasilitasList.get(i));
-                                                                    Log.i("NAME_SPLITED", fasilitasList.get(i).getNama().toLowerCase());
+                                                                    fasilitas1.add(koleksiList.get(i));
+                                                                    Log.i("NAME_SPLITED", koleksiList.get(i).getNama().toLowerCase());
                                                                 }
                                                             }
 
-                                                            else if (message.toLowerCase().contains(fasilitasList.get(i).getNama().toLowerCase())) {
-                                                                Log.i("NAME_FACILITY", fasilitasList.get(i).getNama().toLowerCase());
-                                                                fasilitas1.add(fasilitasList.get(i));
+                                                            else if (message.toLowerCase().contains(koleksiList.get(i).getNama().toLowerCase())) {
+                                                                Log.i("NAME_FACILITY", koleksiList.get(i).getNama().toLowerCase());
+                                                                fasilitas1.add(koleksiList.get(i));
+                                                            }
+                                                            else {
+                                                                String[] nameSplit;
+                                                                nameSplit = koleksiList.get(i).getNama().toLowerCase().split(" ");
+                                                                if (message.toLowerCase().contains(nameSplit[0])) {
+                                                                    fasilitas1.add(koleksiList.get(i));
+                                                                    Log.i("NAME_FACILITY", koleksiList.get(i).getNama());
+                                                                }
                                                             }
 
 //                                                            if (message.toLowerCase().contains(fasilitasList.get(i).getNama().toLowerCase())) {
@@ -328,7 +336,7 @@ public class Chatbot extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private LatLng getClosestFacility(List<Fasilitas> fasilitas, double[] latLong){
+    private LatLng getClosestFacility(List<Koleksi> fasilitas, double[] latLong){
         LatLng latLongFacility = null;
         if(fasilitas.size()==1){
             latLongFacility = new LatLng(fasilitas.get(0).getLatitude(), fasilitas.get(0).getLongitude());
@@ -360,7 +368,7 @@ public class Chatbot extends AppCompatActivity {
         return message.toLowerCase().contains("terdekat");
     }
 
-    private Boolean isExistinDatabase(List<Fasilitas> fasilitas, String query){
+    private Boolean isExistinDatabase(List<Koleksi> fasilitas, String query){
         Log.i("BANYAK_FASILITAS_CHAT", String.valueOf(fasilitas.size()));
         for(int i=0;i<fasilitas.size();i++){
             // Split facility name
@@ -377,6 +385,14 @@ public class Chatbot extends AppCompatActivity {
             else if(query.toLowerCase().contains(fasilitas.get(i).getNama().toLowerCase())){
                 Log.i("CEK_LOKASI", fasilitas.get(i).getNama());
                 return true;
+            }
+            else {
+                String[] nameSplit;
+                nameSplit = fasilitas.get(i).getNama().toLowerCase().split(" ");
+                if (query.toLowerCase().contains(nameSplit[0])) {
+                    Log.i("CEK_LOKASI", fasilitas.get(i).getNama());
+                    return true;
+                }
             }
         }
         return false;

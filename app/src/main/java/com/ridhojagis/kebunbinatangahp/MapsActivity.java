@@ -151,13 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         } else {
-            // Bobot perbandingan matrix secara default
-//            pairwiseMatrix = new double[][]{
-//                    {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-//                    {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-//                    {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-//                    {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
-//            };
             pairwiseMatrix = new double[][]{
                     {1.0, 3.0, 0.2, 3.0},   // Matriks perbandingan kriteria jarak
                     {0.3333333333, 1.0, 0.1428571429, 1.0},   // Matriks perbandingan kriteria jenis
@@ -314,6 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                Log.i("MARKER_CLICKED", marker.getTitle());
                 // Dapatkan koleksi yang sesuai dengan marker yang diklik
                 Koleksi koleksi = null;
                 for (Koleksi k : koleksiList) {
@@ -361,6 +355,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 checkLocationPermission();
 
                 if (isGPSEnabled()) {
+                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
                             1000, 2, new LocationListener() {
@@ -541,8 +536,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 LatLng latLngFacility = extras.getParcelable("COORDINATE_FACILITY");
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngFacility));
-                mMap.setMinZoomPreference(ZOOM_CHAT);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngFacility, 20.0F));
             }
         }
         else {

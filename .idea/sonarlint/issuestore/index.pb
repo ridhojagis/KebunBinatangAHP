@@ -19,8 +19,6 @@ r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatMessage.java,2\6\2609eb65b0553d5b8c18a5a43d5a9078cfc5268b
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-r
-Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
 p
 @app/src/main/java/com/ridhojagis/kebunbinatangahp/Fasilitas.java,0\b\0b469f93d7fa2113457e5d1b17291fcaba670d26
 <

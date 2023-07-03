@@ -213,8 +213,10 @@ public class Chatbot extends AppCompatActivity {
                                                             }
                                                             else {
                                                                 String[] nameSplit;
+                                                                String jenis;
+                                                                jenis = koleksiList.get(i).getJenis().toLowerCase();
                                                                 nameSplit = koleksiList.get(i).getNama().toLowerCase().split(" ");
-                                                                if (message.toLowerCase().contains(nameSplit[0])) {
+                                                                if (message.toLowerCase().contains(nameSplit[0]) || message.toLowerCase().contains(jenis)) {
                                                                     fasilitas1.add(koleksiList.get(i));
                                                                     Log.i("NAME_FACILITY", koleksiList.get(i).getNama());
                                                                 }
@@ -388,8 +390,10 @@ public class Chatbot extends AppCompatActivity {
             }
             else {
                 String[] nameSplit;
+                String jenis;
+                jenis = fasilitas.get(i).getJenis().toLowerCase();
                 nameSplit = fasilitas.get(i).getNama().toLowerCase().split(" ");
-                if (query.toLowerCase().contains(nameSplit[0])) {
+                if (query.toLowerCase().contains(nameSplit[0]) || query.toLowerCase().contains(jenis)) {
                     Log.i("CEK_LOKASI", fasilitas.get(i).getNama());
                     return true;
                 }

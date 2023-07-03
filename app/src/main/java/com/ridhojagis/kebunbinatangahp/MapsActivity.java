@@ -89,6 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Koleksi> shortestRoute;
 
     Button btnChat;
+    Button btnRiwayat;
     Button btnNavigation;
 
     private float ZOOM_PREFERENCE = 20.0F;
@@ -122,6 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         btnChat = findViewById(R.id.btnChat);
+        btnRiwayat = findViewById(R.id.btnRiwayat);
         btnNavigation = findViewById(R.id.btnNavigation);
 
         LatLong = new double[2];
@@ -217,6 +219,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent intent = new Intent(getApplicationContext(), Chatbot.class);
                 startActivity(intent);
 //                onBackPressed();
+            }
+        });
+
+        btnRiwayat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RiwayatActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -48,9 +48,9 @@
 
             <Button
                 android:id="@+id/defaultButton"
-                android:layout_width="75sp"
+                android:layout_width="wrap_content"
                 android:layout_height="35sp"
-                android:text="Default"
+                android:text="Set Bobot Default"
                 android:textSize="9sp"
                 android:layout_gravity="end"
                 android:backgroundTint="@color/teal_700"

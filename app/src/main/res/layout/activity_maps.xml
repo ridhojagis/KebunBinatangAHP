@@ -9,21 +9,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MapsActivity">
-    <Button
-        android:id="@+id/btnChat"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:background="@color/blue_carouseldark"
-        android:textColor="@color/white"
-        android:text="Chat"
-    />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:background="@color/blue_carouseldark"
+            android:scaleType="fitCenter"
+            android:text="Chat"
+            android:textColor="@color/white"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnRiwayat"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@color/teal_700"
+            android:scaleType="fitCenter"
+            android:text="Riwayat"
+            android:textColor="@color/white"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintStart_toEndOf="@+id/btnChat"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
 
         <Button
             android:id="@+id/btnNavigation"

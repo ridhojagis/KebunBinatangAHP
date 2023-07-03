@@ -13,6 +13,7 @@ public class Koleksi {
     private String status_buka;
     private String jenis;
     private String minat;
+    private String waktuKunjungan;
     private boolean isVisited;
     private double jarak;
     private double ahp_score;
@@ -34,7 +35,15 @@ public class Koleksi {
         this.jenis = jenis;
         this.minat = minat;
     }
+
     public Koleksi(int id, String nama, String latitude, String longitude) {
+        this.id = id;
+        this.nama = nama;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Koleksi(String nama, String latitude, String longitude, String waktuKunjungan, boolean isVisited) {
         this.id = id;
         this.nama = nama;
         this.latitude = latitude;
@@ -137,5 +146,21 @@ public class Koleksi {
     public double getAhp_score() { return ahp_score; }
 
     public void setAhp_score(double ahp_score) { this.ahp_score = ahp_score; }
+
+    public boolean isVisited() {
+        return isVisited;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
+    }
+
+    public String getWaktuKunjungan() {
+        return waktuKunjungan;
+    }
+
+    public void setWaktuKunjungan(String waktuKunjungan) {
+        this.waktuKunjungan = waktuKunjungan;
+    }
 }
 

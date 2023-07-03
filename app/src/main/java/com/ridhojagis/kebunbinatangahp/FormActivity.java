@@ -246,6 +246,7 @@ public class FormActivity extends AppCompatActivity {
                     builder.setCancelable(false);
                     builder.setTitle("Alert");
                     builder.setMessage("Bobot kriteriamu tidak konsisten, silahkan atur kembali.");
+                    Log.i("CR_PAIRWISE_CUSTOM", "CR tidak konsisten = " + CR);
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override

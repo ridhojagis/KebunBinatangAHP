@@ -162,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     {1.0, 3.0, 0.2, 3.0},   // Matriks perbandingan kriteria jarak
                     {0.3333333333, 1.0, 0.1428571429, 1.0},   // Matriks perbandingan kriteria jenis
                     {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                    {0.3333333333, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                    {0.3333333333, 1.0, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
             };
             Log.d("GET_PAIRWISE_DEFAULT", "Berhasil mengatur pairwise default");
             for (int i = 0; i < pairwiseMatrix.length; i++) {
@@ -453,12 +453,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             }
                                             else if(koleksiGoals[1].equals("Fasilitas")){
                                                 pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {2.0, 2.0, 1.0, 2.0, 2.0, 2.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0}
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0}
                                                 };
                                             }
                                             priorityJenis(pairwiseMatrixJenis);
@@ -665,15 +665,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Collections.sort(koleksiAHPList, new KoleksiSortJarak());
 
         koleksiAHPFinal.clear();
+
+        // Mneambah lokasi user ke index awal
+        Koleksi user = new Koleksi();
+        user.setNama("User");
+        user.setLatitude(String.valueOf(LatLong[0]));
+        user.setLongitude(String.valueOf(LatLong[1]));
+
         double min_distance = 500;
         // Menginput koleksi yang telah di sort ke dalam list final
         for(int i=0;i<koleksiAHPList.size();i++) {
             double dLat;
             double dLon;
             double distance;
+            double distance_ab = 0;
             if(koleksiAHPList.get(i).getNama().equals(koleksiGoals)) {
                 continue;
             }
+
             // Menghitung jarak koleksi terhadap tujuan
             dLat = Math.toRadians(koleksiAHPList.get(i).getLatitude() - koleksiList.get(index_tujuan).getLatitude());
             dLon = Math.toRadians(koleksiAHPList.get(i).getLongitude() - koleksiList.get(index_tujuan).getLongitude());
@@ -681,18 +690,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Math.asin(
                             Math.sqrt(
                                     Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(koleksiList.get(index_tujuan).getLatitude())) * Math.cos(Math.toRadians(koleksiAHPList.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
-//            if(distance <= min_distance){
-//                min_distance = distance;
+            if((distance <= min_distance)){
+                min_distance = distance;
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
-//            }
+            }
 
             String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
         }
 
-    // Jarak terpendek dengan bruteforce
+    // Jarak tempuh terpendek dengan bruteforce
         List<Koleksi> tempRoute = new ArrayList<>();
-        tempRoute = findShortestRoute(koleksiList.get(index_tujuan), koleksiAHPFinal);
+        tempRoute = findShortestRoute(user, koleksiList.get(index_tujuan), koleksiAHPFinal);
 
         // Menambah koleksi tujuan ke akhir list
         shortestRoute = new ArrayList<>();
@@ -707,12 +716,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Cek isi shortestRoute
         double tempuh = 0;
         for(int i=0; i<shortestRoute.size();i++){
-            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
+            double dLat;
+            double dLon;
+            double distance;
             if(i==shortestRoute.size()-1) {
+                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
                 Log.i("GET_KOLEKSI_SHORTEST", logMessageAHP);
                 break;
             }
-            tempuh += calculateDistance(shortestRoute.get(i), shortestRoute.get(i + 1));
+            dLat = Math.toRadians(shortestRoute.get(i).getLatitude() - shortestRoute.get(i+1).getLatitude());
+            dLon = Math.toRadians(shortestRoute.get(i).getLongitude() - shortestRoute.get(i+1).getLongitude());
+            distance = RADIUS * 2 *
+                    Math.asin(
+                            Math.sqrt(
+                                    Math.pow(Math.sin(dLat/2),2) + Math.cos(Math.toRadians(shortestRoute.get(i+1).getLatitude())) * Math.cos(Math.toRadians(shortestRoute.get(i).getLatitude())) * Math.pow(Math.sin(dLon/2),2)));
+            tempuh += distance;
+            String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
             Log.i("GET_KOLEKSI_SHORTEST", logMessageAHP);
         }
     // End jarak terpendek dengan bruteforce
@@ -726,7 +745,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double dLon;
             double distance;
             if(i==koleksiAHPFinal.size()-1) {
-                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score() + ", JARAK TEMPUH: " + sum_distance;
+                String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + koleksiAHPFinal.get(i).getNama()+ ", LatLng: " +
+                        koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " +
+                        koleksiAHPFinal.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPFinal.get(i).getAhp_score() +
+                        ", JARAK TEMPUH: " + sum_distance;
                 Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
                 break;
             }
@@ -743,9 +765,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private List<Koleksi> findShortestRoute(Koleksi koleksi, ArrayList<Koleksi> koleksiAHPFinal) {
+//    private List<Koleksi> findShortestRoute(Koleksi start, Koleksi destination, ArrayList<Koleksi> koleksiAHPFinal) {
+//        List<Koleksi> shortestRoute = new ArrayList<>();
+//        shortestRoute.add(start);
+//        shortestRoute.addAll(koleksiAHPFinal);
+//        shortestRoute.add(destination);
+//
+//        double shortestDistance = calculateTotalDistance(shortestRoute);
+//
+//        // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
+//        for (int i = 1; i < koleksiAHPFinal.size() - 1; i++) {
+//            for (int j = i+1; i < koleksiAHPFinal.size() - 1; i++){
+//                Collections.swap(shortestRoute, i, j);
+//                double tempDistance = calculateTotalDistance(shortestRoute);
+//                if (tempDistance < shortestDistance) {
+//                    shortestDistance = tempDistance;
+//                } else {
+//                    Collections.swap(shortestRoute, i, j); // Kembalikan urutan jika tidak lebih pendek
+//                }
+//            }
+//        }
+//
+//        return shortestRoute;
+//    }
+
+    private List<Koleksi> findShortestRoute(Koleksi start, Koleksi destination, ArrayList<Koleksi> koleksiAHPFinal) {
         List<Koleksi> shortestRoute = new ArrayList<>(koleksiAHPFinal);
-        shortestRoute.add(koleksi);
+        shortestRoute.add(0, start);
+        shortestRoute.add(destination);
 
         double shortestDistance = calculateTotalDistance(shortestRoute);
 

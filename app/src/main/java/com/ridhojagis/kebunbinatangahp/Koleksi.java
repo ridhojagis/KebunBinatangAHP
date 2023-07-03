@@ -13,6 +13,7 @@ public class Koleksi {
     private String status_buka;
     private String jenis;
     private String minat;
+    private boolean isVisited;
     private double jarak;
     private double ahp_score;
 
@@ -32,6 +33,12 @@ public class Koleksi {
         this.status_buka = status_buka;
         this.jenis = jenis;
         this.minat = minat;
+    }
+    public Koleksi(int id, String nama, String latitude, String longitude) {
+        this.id = id;
+        this.nama = nama;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {

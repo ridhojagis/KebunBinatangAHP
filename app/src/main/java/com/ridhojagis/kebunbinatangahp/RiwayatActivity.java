@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -50,11 +51,11 @@ public class RiwayatActivity extends AppCompatActivity {
                 }
             }
         }
-//        else {
-//            riwayatKunjungan.add(new Koleksi("Kuda nil kerdil", "-7.295593", "112.734267", "2023-06-01 08:00:00", true));
-//            riwayatKunjungan.add(new Koleksi("Kuda", "-7.295795", "112.734809", "2023-06-02 08:00:00", false));
-//            riwayatKunjungan.add(new Koleksi("Orangutan", "-7.295834", "112.735039", "2023-06-03 08:00:00", false));
-//        }
+        else {
+            riwayatKunjungan.add(new Koleksi("Kuda nil kerdil", "-7.295593", "112.734267", "2023-06-01 08:00:00", true));
+            riwayatKunjungan.add(new Koleksi("Kuda", "-7.295795", "112.734809", "2023-06-02 08:00:00", false));
+            riwayatKunjungan.add(new Koleksi("Orangutan", "-7.295834", "112.735039", "2023-06-03 08:00:00", false));
+        }
 
         saveRiwayatKunjungan(riwayatKunjungan);
 
@@ -81,6 +82,7 @@ public class RiwayatActivity extends AppCompatActivity {
 
         editor.putString("riwayatKunjungan", jsonKunjungan);
         editor.apply();
+        Log.i("PREFERENCED_SAVED", "Riwayat kunjungan berhasil disimpan");
     }
 
     // Ambil daftar kunjungan dari Shared Preferences

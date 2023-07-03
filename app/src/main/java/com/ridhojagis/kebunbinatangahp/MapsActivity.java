@@ -373,163 +373,171 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (isGPSEnabled()) {
                     locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                    builder.setTitle("Atur Bobot Kriteria");
+                    builder.setMessage("Apakah Anda ingin mengatur bobot kriteria terlebih dahulu?");
+
+                    // Tombol "iya"
+                    builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Kode aksi jika pengguna memilih "iya"
+                            dialog.dismiss();
+                            isButtonPressed[0] = !isButtonPressed[0];
+                            // Lanjutkan dengan navigasi
+                            navigateToFormActivity();
+                        }
+                    });
+
+                    // Tombol "tidak"
+                    builder.setNegativeButton("Tidak, Lanjut Navigasi", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            isOnNavigation[0] = true;
+                            // Kode aksi jika pengguna memilih "tidak"
+                            if(location == null){
+                                showLocationRequestFailed();
+                            }
+                            else {
+                                LatLong[0] = location.getLatitude();
+                                LatLong[1] = location.getLongitude();
+                                Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
+                                Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
+                                setKoleksiDistance(koleksiList, LatLong);
+                            }
+
+                            // Matriks perbandingan jenis koleksi
+                            if(koleksiGoals[1].equals("Mamalia")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 2.0, 2.0, 2.0, 2.0, 2.0}, // Matriks perbandingan mamalia
+                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan aves
+                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan reptil
+                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan amfibi
+                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan pisces
+                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0} // Matriks perbandingan fasilitas
+                                };
+                            }
+                            else if(koleksiGoals[1].equals("Aves")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                        {2.0, 1.0, 2.0, 2.0, 2.0, 2.0},
+                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0}
+                                };
+                            }
+                            else if(koleksiGoals[1].equals("Reptil")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                        {2.0, 2.0, 1.0, 2.0, 2.0, 2.0},
+                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0}
+                                };
+                            }
+                            else if(koleksiGoals[1].equals("Amfibi")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                        {2.0, 2.0, 2.0, 1.0, 2.0, 2.0},
+                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0}
+                                };
+                            }
+                            else if(koleksiGoals[1].equals("Pisces")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
+                                        {2.0, 2.0, 2.0, 2.0, 1.0, 2.0},
+                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0}
+                                };
+                            }
+                            else if(koleksiGoals[1].equals("Fasilitas")){
+                                pairwiseMatrixJenis = new double[][] {
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
+                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0}
+                                };
+                            }
+                            priorityJenis(pairwiseMatrixJenis);
+
+                            Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
+                            Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
+                            Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
+                            Log.i("prioritas_minat", String.valueOf(prioritas_minat));
+                            koleksiAHPList = new ArrayList<>();
+                            koleksiAHPFinal = new ArrayList<>();
+                            setKoleksiAHPScore(location.getLatitude(), location.getLongitude(), koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
+
+                            // Set lokasi pengguna menjadi True
+                            for (int i = 0; i < shortestRoute.size(); i++) {
+                                if (shortestRoute.get(i).getNama().equals("User")) {
+                                    shortestRoute.get(i).setVisited(true);
+                                    break;
+                                }
+                            }
+
+
+                            List<LatLng> points = new ArrayList<>();
+
+                            // Periksa apakah ada polyline sebelumnya
+                            if (previousPolyline != null) {
+                                previousPolyline.remove(); // Hapus polyline sebelumnya
+                            }
+
+                            // Menambahkan polyline koordinat pengguna
+                            points.add(new LatLng(LatLong[0], LatLong[1]));
+
+                            // Menambahkan polyline koordinat list koleksi hasil AHP
+//                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
+//                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
+//                                            }
+                            for(int i=0;i<shortestRoute.size();i++) {
+                                points.add(new LatLng(shortestRoute.get(i).getLatitude(), shortestRoute.get(i).getLongitude()));
+                            }
+
+                            PolylineOptions polylineOptions = new PolylineOptions();
+                            polylineOptions.addAll(points);
+                            polylineOptions.color(Color.BLUE);
+                            polylineOptions.width(10);
+
+                            previousPolyline = mMap.addPolyline(polylineOptions);
+                            btnNavigation.setText("Stop Navigasi");
+                            dialog.dismiss();
+                        }
+                    });
+
+                    // Membuat dan menampilkan AlertDialog
+                    AlertDialog dialog = builder.create();
+                    if (isButtonPressed[0]) {
+                        dialog.show();
+                    }
+                    else {
+                        // Periksa apakah ada polyline sebelumnya
+                        if (previousPolyline != null) {
+                            previousPolyline.remove(); // Hapus polyline sebelumnya
+                        }
+                        isButtonPressed[0] = false;
+                        isOnNavigation[0] = false;
+                        btnNavigation.setText("Mulai Navigasi");
+                        btnNavigation.setVisibility(View.GONE);
+                    }
+
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
                             1000, 2, new LocationListener() {
                                 @SuppressLint("MissingPermission")
                                 @Override
                                 public void onLocationChanged(Location location) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-                                    builder.setTitle("Atur Bobot Kriteria");
-                                    builder.setMessage("Apakah Anda ingin mengatur bobot kriteria terlebih dahulu?");
-
-                                    // Tombol "iya"
-                                    builder.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // Kode aksi jika pengguna memilih "iya"
-                                            dialog.dismiss();
-                                            isButtonPressed[0] = !isButtonPressed[0];
-                                            // Lanjutkan dengan navigasi
-                                            navigateToFormActivity();
-                                        }
-                                    });
-
-                                    // Tombol "tidak"
-                                    builder.setNegativeButton("Tidak, Lanjut Navigasi", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            isOnNavigation[0] = true;
-                                            // Kode aksi jika pengguna memilih "tidak"
-                                            if(location == null){
-                                                showLocationRequestFailed();
-                                            }
-                                            else {
-                                                LatLong[0] = location.getLatitude();
-                                                LatLong[1] = location.getLongitude();
-                                                Log.i("GET_LOCATION_LAT", Double.toString(LatLong[0]));
-                                                Log.i("GET_LOCATION_LNG", Double.toString(LatLong[1]));
-                                                setKoleksiDistance(koleksiList, LatLong);
-                                            }
-
-                                            // Matriks perbandingan jenis koleksi
-                                            if(koleksiGoals[1].equals("Mamalia")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 2.0, 2.0, 2.0, 2.0, 2.0}, // Matriks perbandingan mamalia
-                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan aves
-                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan reptil
-                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan amfibi
-                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0}, // Matriks perbandingan pisces
-                                                        {0.5, 1.0, 1.0, 1.0, 1.0, 1.0} // Matriks perbandingan fasilitas
-                                                };
-                                            }
-                                            else if(koleksiGoals[1].equals("Aves")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
-                                                        {2.0, 1.0, 2.0, 2.0, 2.0, 2.0},
-                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 0.5, 1.0, 1.0, 1.0, 1.0}
-                                                };
-                                            }
-                                            else if(koleksiGoals[1].equals("Reptil")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {2.0, 2.0, 1.0, 2.0, 2.0, 2.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 0.5, 1.0, 1.0, 1.0}
-                                                };
-                                            }
-                                            else if(koleksiGoals[1].equals("Amfibi")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
-                                                        {2.0, 2.0, 2.0, 1.0, 2.0, 2.0},
-                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 0.5, 1.0, 1.0}
-                                                };
-                                            }
-                                            else if(koleksiGoals[1].equals("Pisces")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0},
-                                                        {2.0, 2.0, 2.0, 2.0, 1.0, 2.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 0.5, 1.0}
-                                                };
-                                            }
-                                            else if(koleksiGoals[1].equals("Fasilitas")){
-                                                pairwiseMatrixJenis = new double[][] {
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-                                                        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0}
-                                                };
-                                            }
-                                            priorityJenis(pairwiseMatrixJenis);
-
-                                            Log.i("prioritas_jarak", String.valueOf(prioritas_jarak));
-                                            Log.i("prioritas_jenis", String.valueOf(prioritas_jenis));
-                                            Log.i("prioritas_statusBuka", String.valueOf(prioritas_statusBuka));
-                                            Log.i("prioritas_minat", String.valueOf(prioritas_minat));
-                                            koleksiAHPList = new ArrayList<>();
-                                            koleksiAHPFinal = new ArrayList<>();
-                                            setKoleksiAHPScore(location.getLatitude(), location.getLongitude(), koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
-
-                                            // Set lokasi pengguna menjadi True
-                                            shortestRoute.get(0).setVisited(true);
-
-                                            List<LatLng> points = new ArrayList<>();
-
-                                            // Periksa apakah ada polyline sebelumnya
-                                            if (previousPolyline != null) {
-                                                previousPolyline.remove(); // Hapus polyline sebelumnya
-                                            }
-
-                                            // Menambahkan polyline koordinat pengguna
-                                            points.add(new LatLng(LatLong[0], LatLong[1]));
-
-                                            // Menambahkan polyline koordinat list koleksi hasil AHP
-//                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
-//                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
-//                                            }
-                                            for(int i=0;i<shortestRoute.size();i++) {
-                                                points.add(new LatLng(shortestRoute.get(i).getLatitude(), shortestRoute.get(i).getLongitude()));
-                                            }
-
-                                            PolylineOptions polylineOptions = new PolylineOptions();
-                                            polylineOptions.addAll(points);
-                                            polylineOptions.color(Color.BLUE);
-                                            polylineOptions.width(10);
-
-                                            previousPolyline = mMap.addPolyline(polylineOptions);
-                                            btnNavigation.setText("Stop Navigasi");
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    // Membuat dan menampilkan AlertDialog
-                                    AlertDialog dialog = builder.create();
-                                    if (isButtonPressed[0]) {
-                                        dialog.show();
-                                    }
-                                    else {
-                                        // Periksa apakah ada polyline sebelumnya
-                                        if (previousPolyline != null) {
-                                            previousPolyline.remove(); // Hapus polyline sebelumnya
-                                        }
-                                        isButtonPressed[0] = false;
-                                        isOnNavigation[0] = false;
-                                        btnNavigation.setText("Mulai Navigasi");
-                                        btnNavigation.setVisibility(View.GONE);
-                                    }
 
                                 }
 

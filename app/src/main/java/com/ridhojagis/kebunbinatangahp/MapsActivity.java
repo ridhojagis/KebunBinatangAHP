@@ -226,6 +226,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RiwayatActivity.class);
+                if(shortestRoute != null) {
+                    ArrayList<Koleksi> riwayatKunjungan = new ArrayList<>(shortestRoute);
+
+                    // Mengirim daftar kunjungan menggunakan ArrayList melalui Intent
+                    intent.putParcelableArrayListExtra("riwayatKunjungan", riwayatKunjungan);
+                }
+
                 startActivity(intent);
             }
         });
@@ -476,6 +483,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             koleksiAHPFinal = new ArrayList<>();
                                             setKoleksiAHPScore(location.getLatitude(), location.getLongitude(), koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
 
+                                            // Set lokasi pengguna menjadi True
+                                            shortestRoute.get(0).setVisited(true);
+
                                             List<LatLng> points = new ArrayList<>();
 
                                             // Periksa apakah ada polyline sebelumnya
@@ -702,7 +712,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
             }
 
-            String logMessageAHP = "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
+            String logMessageAHP = "Urutan ke-" + i + "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
         }
 

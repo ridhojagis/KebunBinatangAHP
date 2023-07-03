@@ -31,7 +31,7 @@ public class RiwayatKunjunganAdapter extends RecyclerView.Adapter<RiwayatKunjung
         holder.textViewNama.setText(koleksi.getNama());
         holder.textViewWaktu.setText("Waktu Kunjungan: " + koleksi.getWaktuKunjungan());
 
-        String statusVisited = koleksi.isVisited() ? "Dikunjungi" : "Belum Dikunjungi";
+        String statusVisited = koleksi.isVisited() ? "Sudah Dikunjungi" : "Belum Dikunjungi";
         holder.textViewVisited.setText("Status: " + statusVisited);
     }
 

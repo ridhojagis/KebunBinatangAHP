@@ -1,8 +1,11 @@
 package com.ridhojagis.kebunbinatangahp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Blob;
 
-public class Koleksi {
+public class Koleksi implements Parcelable {
     private int id;
     private String nama;
     private String latitude;
@@ -48,6 +51,64 @@ public class Koleksi {
         this.nama = nama;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.waktuKunjungan = waktuKunjungan;
+        this.isVisited = isVisited;
+    }
+
+    // ImplementasiParcelable
+    protected Koleksi(Parcel in) {
+        // Baca data dari Parcel dan inisialisasi objek Koleksi
+        // Sesuaikan dengan tipe data atribut Koleksi Anda
+        nama = in.readString();
+        deskripsi = in.readString();
+        jam_buka = in.readString();
+        jam_tutup = in.readString();
+        status_buka = in.readString();
+        jenis = in.readString();
+        minat = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
+        waktuKunjungan = in.readString();
+        isVisited = in.readByte() != 0;
+        jarak = in.readDouble();
+        ahp_score = in.readDouble();
+    }
+
+    // Implementasikan Creator untuk Parcelable
+    public static final Creator<Koleksi> CREATOR = new Creator<Koleksi>() {
+        @Override
+        public Koleksi createFromParcel(Parcel in) {
+            return new Koleksi(in);
+        }
+
+        @Override
+        public Koleksi[] newArray(int size) {
+            return new Koleksi[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        // Tulis data objek Koleksi ke dalam Parcel
+        // Sesuaikan dengan tipe data atribut Koleksi Anda
+        dest.writeString(nama);
+        dest.writeString(deskripsi);
+        dest.writeString(jam_buka);
+        dest.writeString(jam_tutup);
+        dest.writeString(status_buka);
+        dest.writeString(jenis);
+        dest.writeString(minat);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+        dest.writeString(waktuKunjungan);
+        dest.writeByte((byte) (isVisited ? 1 : 0));
+        dest.writeDouble(jarak);
+        dest.writeDouble(ahp_score);
     }
 
     public int getId() {

@@ -68,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int SIZE_MATRIX_STATUS = 3;
     int SIZE_MATRIX_MINAT = 5;
 
+    DatabaseHelper databaseHelper;
+
     String currentTime;
 
     // AHP
@@ -128,6 +130,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnChat = findViewById(R.id.btnChat);
         btnRiwayat = findViewById(R.id.btnRiwayat);
         btnNavigation = findViewById(R.id.btnNavigation);
+
+        databaseHelper = new DatabaseHelper(this);
 
         LatLong = new double[2];
 
@@ -234,8 +238,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if(shortestRoute != null) {
                     ArrayList<Koleksi> riwayatKunjungan = new ArrayList<>(shortestRoute);
 
+                    // Balik urutan elemen dalam ArrayList
+                    Collections.reverse(riwayatKunjungan);
+
                     // Mengirim daftar kunjungan menggunakan ArrayList melalui Intent
                     intent.putParcelableArrayListExtra("riwayatKunjungan", riwayatKunjungan);
+                }
+                if(shortestRoute != null) {
+                    shortestRoute.clear();
                 }
 
                 startActivity(intent);
@@ -580,12 +590,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(LatLong[0], LatLong[1])));
                                 mMap.setMinZoomPreference(ZOOM_CHAT);
                                 locationManager.removeUpdates(this);
+                                String waktuKunjungan = setCurrentTime();
+
+                                // Mendapatkan referensi ke RiwayatActivity
+                                RiwayatActivity riwayatActivity = new RiwayatActivity();
 
                                 // identifikasi apakah koleksi dalam shortestRoute telah dikunjungi
                                 if(shortestRoute != null) {
                                     int userIndex = 0;
                                     for (int i = 0; i < shortestRoute.size(); i++) {
-                                        String waktuKunjungan = setCurrentTime();
                                         double jarak;
                                         if (shortestRoute.get(i).getNama().equals("User")) {
                                             userIndex = i;
@@ -600,6 +613,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             shortestRoute.get(i).setVisited(true);
                                             shortestRoute.get(i).setWaktuKunjungan(waktuKunjungan);
                                         }
+                                    }
+                                }
+
+                                // Dapatkan lokasi pengguna
+                                double userLatitude = location.getLatitude();
+                                double userLongitude = location.getLongitude();
+
+                                // Query ke database untuk mendapatkan koleksi yang ada
+                                List<Koleksi> riwayatList = databaseHelper.getRiwayatList();
+
+                                // Loop melalui koleksi yang ada
+                                if(riwayatList != null) {
+                                    for (Koleksi koleksi : riwayatList) {
+                                            if (koleksi.isVisited() == false) {
+                                                double koleksiLatitude = koleksi.getLatitude();
+                                                double koleksiLongitude = koleksi.getLongitude();
+
+                                                // Hitung jarak antara lokasi pengguna dan koleksi menggunakan metode distanceBetween dari kelas Location
+                                                float[] distanceResult = new float[1];
+                                                Location.distanceBetween(userLatitude, userLongitude, koleksiLatitude, koleksiLongitude, distanceResult);
+                                                float distance = distanceResult[0];
+
+                                                // Jika jarak kurang dari batas tertentu, update status "visited" dan waktu kunjungan
+                                                if (distance <= 15) {
+                                                    koleksi.setVisited(true);
+                                                    koleksi.setWaktuKunjungan(waktuKunjungan);
+
+                                                    // Update data di SQLite
+                                                    riwayatActivity.updateRiwayatKunjungan(koleksi);
+//                                                    databaseHelper.updateRiwayatList(koleksi);
+                                                }
+                                            }
+                                        Log.i("KOLEKSI_NOT_VISITED", koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                     }
                                 }
                             }

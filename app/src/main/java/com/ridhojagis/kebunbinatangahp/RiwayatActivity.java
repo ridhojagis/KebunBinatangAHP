@@ -1,5 +1,6 @@
 package com.ridhojagis.kebunbinatangahp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -46,6 +49,14 @@ public class RiwayatActivity extends AppCompatActivity {
         // Set layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+
         if (getIntent().hasExtra("riwayatKunjungan")) {
             // Mengambil daftar kunjungan dari Intent
             ArrayList<Parcelable> parcelableList = getIntent().getParcelableArrayListExtra("riwayatKunjungan");
@@ -58,9 +69,6 @@ public class RiwayatActivity extends AppCompatActivity {
             }
             saveRiwayatKunjungan(riwayatKunjungan);
         }
-//        deleteAllRiwayatKunjungan();
-
-//        riwayatKunjungan = getRiwayatKunjungan();
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
@@ -73,6 +81,25 @@ public class RiwayatActivity extends AppCompatActivity {
         });
 
         loadRiwayatKunjungan();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.riwayat_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_clear_riwayat) {
+            // Panggil metode untuk mengosongkan riwayat kunjungan
+            clearRiwayatKunjungan();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadRiwayatKunjungan() {
@@ -106,6 +133,7 @@ public class RiwayatActivity extends AppCompatActivity {
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 
     private void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {
@@ -114,6 +142,8 @@ public class RiwayatActivity extends AppCompatActivity {
         for (Koleksi koleksi : riwayatKunjungan) {
             ContentValues values = new ContentValues();
             values.put("nama", koleksi.getNama());
+            values.put("lat", koleksi.getLatitude());
+            values.put("lng", koleksi.getLongitude());
             values.put("waktu", koleksi.getWaktuKunjungan());
             values.put("visited", koleksi.isVisited() ? 1 : 0);
 
@@ -125,6 +155,31 @@ public class RiwayatActivity extends AppCompatActivity {
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
+    }
+
+    public void updateRiwayatKunjungan(Koleksi koleksi) {
+        if (databaseHelper != null) {
+            SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("visited", koleksi.isVisited() ? 1 : 0);
+            values.put("waktu", koleksi.getWaktuKunjungan());
+
+            String selection = "id=?";
+            String[] selectionArgs = {String.valueOf(koleksi.getId())};
+
+            db.update("riwayat_kunjungan", values, selection, selectionArgs);
+
+            Log.d("UPDATE_SQL_SUCCESS", "Berhasil mengupdate data sql");
+            Log.d("UPDATE_SQL_SUCCESS", "Nama :" + koleksi.getNama() + " Visited: " + koleksi.isVisited());
+
+            db.close();
+        }
+
+        // Refresh adapter setelah riwayatKunjungan diperbarui
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void deleteRiwayatKunjungan(Koleksi koleksi) {
@@ -141,12 +196,14 @@ public class RiwayatActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void deleteAllRiwayatKunjungan() {
+    private void clearRiwayatKunjungan() {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         db.delete("riwayat_kunjungan", null, null);
-
         db.close();
+
+        // Bersihkan riwayat kunjungan di ArrayList
+        riwayatKunjungan.clear();
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();

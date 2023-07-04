@@ -5,7 +5,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -25,11 +28,14 @@ public class RiwayatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RiwayatKunjunganAdapter adapter;
     private ArrayList<Koleksi> riwayatKunjungan = new ArrayList<>();
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat);
+
+        databaseHelper = new DatabaseHelper(this);
 
         ImageView backButton = findViewById(R.id.backButton);
 
@@ -50,16 +56,11 @@ public class RiwayatActivity extends AppCompatActivity {
                     }
                 }
             }
+            saveRiwayatKunjungan(riwayatKunjungan);
         }
-        else {
-            riwayatKunjungan.add(new Koleksi("Kuda nil kerdil", "-7.295593", "112.734267", "2023-06-01 08:00:00", true));
-            riwayatKunjungan.add(new Koleksi("Kuda", "-7.295795", "112.734809", "2023-06-02 08:00:00", false));
-            riwayatKunjungan.add(new Koleksi("Orangutan", "-7.295834", "112.735039", "2023-06-03 08:00:00", false));
-        }
+//        deleteAllRiwayatKunjungan();
 
-        saveRiwayatKunjungan(riwayatKunjungan);
-
-        riwayatKunjungan = getRiwayatKunjungan();
+//        riwayatKunjungan = getRiwayatKunjungan();
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
@@ -70,35 +71,84 @@ public class RiwayatActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        loadRiwayatKunjungan();
     }
 
-    // Simpan daftar kunjungan ke dalam Shared Preferences
-    private void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {
-        SharedPreferences sharedPreferences = getSharedPreferences("RiwayatPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    private void loadRiwayatKunjungan() {
+        // Baca data dari database
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        String[] projection = {"id", "nama", "lat", "lng", "waktu", "visited"};
+        Cursor cursor = db.query("riwayat_kunjungan", projection, null, null, null, null, null);
 
-        Gson gson = new Gson();
-        String jsonKunjungan = gson.toJson(riwayatKunjungan);
+        // Bersihkan data riwayat kunjungan sebelum memuat data baru
+        riwayatKunjungan.clear();
 
-        editor.putString("riwayatKunjungan", jsonKunjungan);
-        editor.apply();
-        Log.i("PREFERENCED_SAVED", "Riwayat kunjungan berhasil disimpan");
-    }
+        // Iterasi cursor dan tambahkan data ke ArrayList riwayatKunjungan
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String nama = cursor.getString(cursor.getColumnIndexOrThrow("nama"));
+                String lat = cursor.getString(cursor.getColumnIndexOrThrow("lat"));
+                String lng = cursor.getString(cursor.getColumnIndexOrThrow("lng"));
+                String waktu = cursor.getString(cursor.getColumnIndexOrThrow("waktu"));
+                int visited = cursor.getInt(cursor.getColumnIndexOrThrow("visited"));
 
-    // Ambil daftar kunjungan dari Shared Preferences
-    private ArrayList<Koleksi> getRiwayatKunjungan() {
-        SharedPreferences sharedPreferences = getSharedPreferences("RiwayatPrefs", MODE_PRIVATE);
-
-        String jsonKunjungan = sharedPreferences.getString("riwayatKunjungan", "");
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Koleksi>>() {}.getType();
-        ArrayList<Koleksi> riwayatKunjungan = gson.fromJson(jsonKunjungan, type);
-
-        if (riwayatKunjungan == null) {
-            riwayatKunjungan = new ArrayList<>();
+                Koleksi koleksi = new Koleksi(nama, lat, lng, waktu, visited == 1);
+                koleksi.setId(id);
+                riwayatKunjungan.add(koleksi);
+            } while (cursor.moveToNext());
         }
 
-        return riwayatKunjungan;
+        // Tutup cursor dan database
+        cursor.close();
+        db.close();
+
+        // Refresh adapter setelah riwayatKunjungan diperbarui
+        adapter.notifyDataSetChanged();
+    }
+
+    private void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        for (Koleksi koleksi : riwayatKunjungan) {
+            ContentValues values = new ContentValues();
+            values.put("nama", koleksi.getNama());
+            values.put("waktu", koleksi.getWaktuKunjungan());
+            values.put("visited", koleksi.isVisited() ? 1 : 0);
+
+            long id = db.insert("riwayat_kunjungan", null, values);
+            koleksi.setId((int) id);
+        }
+
+        db.close();
+
+        // Refresh adapter setelah riwayatKunjungan diperbarui
+        adapter.notifyDataSetChanged();
+    }
+
+    private void deleteRiwayatKunjungan(Koleksi koleksi) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        String selection = "id=?";
+        String[] selectionArgs = {String.valueOf(koleksi.getId())};
+
+        db.delete("riwayat_kunjungan", selection, selectionArgs);
+
+        db.close();
+
+        // Refresh adapter setelah riwayatKunjungan diperbarui
+        adapter.notifyDataSetChanged();
+    }
+
+    private void deleteAllRiwayatKunjungan() {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        db.delete("riwayat_kunjungan", null, null);
+
+        db.close();
+
+        // Refresh adapter setelah riwayatKunjungan diperbarui
+        adapter.notifyDataSetChanged();
     }
 }

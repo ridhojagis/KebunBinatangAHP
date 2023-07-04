@@ -161,7 +161,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             }
-        } else {
+        }
+        else {
             pairwiseMatrix = new double[][]{
                     {1.0, 3.0, 0.2, 3.0},   // Matriks perbandingan kriteria jarak
                     {0.3333333333, 1.0, 0.1428571429, 1.0},   // Matriks perbandingan kriteria jenis
@@ -507,7 +508,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             // Set lokasi pengguna menjadi True
                             for (int i = 0; i < shortestRoute.size(); i++) {
                                 String waktuKunjungan = setCurrentTime();
-                                if (shortestRoute.get(i).getNama().equals("User")) {
+                                if (shortestRoute.get(i).getNama().equals("Lokasi Pengunjung")) {
                                     shortestRoute.get(i).setVisited(true);
                                     shortestRoute.get(i).setWaktuKunjungan(waktuKunjungan);
                                     break;
@@ -569,6 +570,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng latLngFacility = extras.getParcelable("COORDINATE_FACILITY");
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngFacility, 20.0F));
             }
+        } else if (getIntent().hasExtra("COORDINATE_RIWAYAT")){
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                LatLng latLngRiwayat = extras.getParcelable("COORDINATE_RIWAYAT");
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngRiwayat, 20.0F));
+            }
         }
         else {
 
@@ -597,7 +604,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     int userIndex = 0;
                                     for (int i = 0; i < shortestRoute.size(); i++) {
                                         double jarak;
-                                        if (shortestRoute.get(i).getNama().equals("User")) {
+                                        if (shortestRoute.get(i).getNama().equals("Lokasi Pengunjung")) {
                                             userIndex = i;
                                             shortestRoute.get(i).setLatitude(String.valueOf(location.getLatitude()));
                                             shortestRoute.get(i).setLongitude(String.valueOf(location.getLatitude()));
@@ -751,7 +758,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Mneambah lokasi user ke index awal
         Koleksi user = new Koleksi();
-        user.setNama("User");
+        user.setNama("Lokasi Pengunjung");
         user.setLatitude(String.valueOf(LatLong[0]));
         user.setLongitude(String.valueOf(LatLong[1]));
 

@@ -1,11 +1,15 @@
 package com.ridhojagis.kebunbinatangahp;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,22 @@ public class RiwayatKunjunganAdapter extends RecyclerView.Adapter<RiwayatKunjung
 
         String statusVisited = koleksi.isVisited() ? "Sudah Dikunjungi" : "Belum Dikunjungi";
         holder.textViewVisited.setText("Status: " + statusVisited);
+
+        // Respon ketike item diklik
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Ambil koordinat dari item yang diklik
+                double latitude = koleksi.getLatitude();
+                double longitude = koleksi.getLongitude();
+
+                LatLng latLng = new LatLng(latitude, longitude);
+
+                Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                intent.putExtra("COORDINATE_RIWAYAT", latLng);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

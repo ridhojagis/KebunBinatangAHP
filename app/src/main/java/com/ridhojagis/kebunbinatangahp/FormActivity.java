@@ -222,7 +222,7 @@ public class FormActivity extends AppCompatActivity {
                 double CR = consistencyRatioMatrix(pairwiseMatrix);
 
                 if(CR <= 0.1){
-                    String toastMessage = "Bobot Kriteria telah disimpan";
+                    String toastMessage = "Rasio Konsistensi: " + CR;
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
@@ -242,6 +242,9 @@ public class FormActivity extends AppCompatActivity {
                     dialog.show();
                 }
                 else{
+                    String toastMessage = "Rasio Konsistensi: " + CR;
+                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(FormActivity.this);
                     builder.setCancelable(false);
                     builder.setTitle("Alert");

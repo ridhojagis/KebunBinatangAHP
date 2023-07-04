@@ -93,6 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Koleksi> koleksiAHPList;
     ArrayList<Koleksi> koleksiAHPFinal;
     List<Koleksi> shortestRoute;
+    List<Koleksi> riwayatList;
 
     Button btnChat;
     Button btnRiwayat;
@@ -132,6 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnNavigation = findViewById(R.id.btnNavigation);
 
         databaseHelper = new DatabaseHelper(this);
+        // Query ke database untuk mendapatkan koleksi yang ada
+        riwayatList = databaseHelper.getRiwayatList();
 
         LatLong = new double[2];
 
@@ -607,7 +610,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         if (shortestRoute.get(i).getNama().equals("Lokasi Pengunjung")) {
                                             userIndex = i;
                                             shortestRoute.get(i).setLatitude(String.valueOf(location.getLatitude()));
-                                            shortestRoute.get(i).setLongitude(String.valueOf(location.getLatitude()));
+                                            shortestRoute.get(i).setLongitude(String.valueOf(location.getLongitude()));
                                             continue;
                                         }
 
@@ -624,11 +627,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 double userLatitude = location.getLatitude();
                                 double userLongitude = location.getLongitude();
 
-                                // Query ke database untuk mendapatkan koleksi yang ada
-                                List<Koleksi> riwayatList = databaseHelper.getRiwayatList();
-
                                 // Loop melalui koleksi yang ada
-                                if(riwayatList != null) {
+//                                if(riwayatList != null) {
                                     for (Koleksi koleksi : riwayatList) {
                                         if (koleksi.isVisited() == false) {
                                             double koleksiLatitude = koleksi.getLatitude();
@@ -653,7 +653,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             Log.i("KOLEKSI_NOT_VISITED", koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                         }
                                     }
-                                }
+//                                }
                             }
 
                             @Override

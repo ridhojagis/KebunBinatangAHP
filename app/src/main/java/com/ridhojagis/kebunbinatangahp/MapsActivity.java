@@ -630,26 +630,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 // Loop melalui koleksi yang ada
                                 if(riwayatList != null) {
                                     for (Koleksi koleksi : riwayatList) {
-                                            if (koleksi.isVisited() == false) {
-                                                double koleksiLatitude = koleksi.getLatitude();
-                                                double koleksiLongitude = koleksi.getLongitude();
+                                        if (koleksi.isVisited() == false) {
+                                            double koleksiLatitude = koleksi.getLatitude();
+                                            double koleksiLongitude = koleksi.getLongitude();
 
-                                                // Hitung jarak antara lokasi pengguna dan koleksi menggunakan metode distanceBetween dari kelas Location
-                                                float[] distanceResult = new float[1];
-                                                Location.distanceBetween(userLatitude, userLongitude, koleksiLatitude, koleksiLongitude, distanceResult);
-                                                float distance = distanceResult[0];
+                                            // Hitung jarak antara lokasi pengguna dan koleksi menggunakan metode distanceBetween dari kelas Location
+                                            float[] distanceResult = new float[1];
+                                            Location.distanceBetween(userLatitude, userLongitude, koleksiLatitude, koleksiLongitude, distanceResult);
+                                            float distance = distanceResult[0];
 
-                                                // Jika jarak kurang dari batas tertentu, update status "visited" dan waktu kunjungan
-                                                if (distance <= 15) {
-                                                    koleksi.setVisited(true);
-                                                    koleksi.setWaktuKunjungan(waktuKunjungan);
+                                            // Jika jarak kurang dari batas tertentu, update status "visited" dan waktu kunjungan
+                                            if (distance <= 15) {
+                                                koleksi.setVisited(true);
+                                                koleksi.setWaktuKunjungan(waktuKunjungan);
 
-                                                    // Update data di SQLite
-                                                    riwayatActivity.updateRiwayatKunjungan(koleksi);
+                                                // Update data di SQLite
+                                                riwayatActivity.updateRiwayatKunjungan(koleksi);
+                                                String toastMessage = "Anda mengunjungi " + koleksi.getNama();
+                                                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
 //                                                    databaseHelper.updateRiwayatList(koleksi);
-                                                }
                                             }
-                                        Log.i("KOLEKSI_NOT_VISITED", koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
+                                            Log.i("KOLEKSI_NOT_VISITED", koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
+                                        }
                                     }
                                 }
                             }
@@ -858,30 +860,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i("GET_KOLEKSI_FINAL", logMessageAHP);
         }
     }
-
-//    private List<Koleksi> findShortestRoute(Koleksi start, Koleksi destination, ArrayList<Koleksi> koleksiAHPFinal) {
-//        List<Koleksi> shortestRoute = new ArrayList<>();
-//        shortestRoute.add(start);
-//        shortestRoute.addAll(koleksiAHPFinal);
-//        shortestRoute.add(destination);
-//
-//        double shortestDistance = calculateTotalDistance(shortestRoute);
-//
-//        // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
-//        for (int i = 1; i < koleksiAHPFinal.size() - 1; i++) {
-//            for (int j = i+1; j < koleksiAHPFinal.size() - 1; i++){
-//                Collections.swap(shortestRoute, i, j);
-//                double tempDistance = calculateTotalDistance(shortestRoute);
-//                if (tempDistance < shortestDistance) {
-//                    shortestDistance = tempDistance;
-//                } else {
-//                    Collections.swap(shortestRoute, i, j); // Kembalikan urutan jika tidak lebih pendek
-//                }
-//            }
-//        }
-//
-//        return shortestRoute;
-//    }
 
     private List<Koleksi> findShortestRoute(Koleksi start, Koleksi destination, ArrayList<Koleksi> koleksiAHPFinal) {
         List<Koleksi> shortestRoute = new ArrayList<>(koleksiAHPFinal);
@@ -1407,8 +1385,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(25)
                 .strokeColor(Color.parseColor("#6495ED")) // Blue color
                 .fillColor(Color.parseColor("#6495ED64")) // Green color
-//                .strokeColor(Color.argb(255, 255, 0, 0)) // Red color
-//                .fillColor(Color.argb(64, 255,0,0))
                 .strokeWidth(4);
         mMap.addCircle(circleOptions);
     }

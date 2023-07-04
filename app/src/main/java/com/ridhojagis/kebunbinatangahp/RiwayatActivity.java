@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RiwayatActivity extends AppCompatActivity {
 
@@ -126,6 +127,7 @@ public class RiwayatActivity extends AppCompatActivity {
                 riwayatKunjungan.add(koleksi);
             } while (cursor.moveToNext());
         }
+        Collections.reverse(riwayatKunjungan);
 
         // Tutup cursor dan database
         cursor.close();
@@ -134,6 +136,7 @@ public class RiwayatActivity extends AppCompatActivity {
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(riwayatKunjungan.size() - 1);
     }
 
     private void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {

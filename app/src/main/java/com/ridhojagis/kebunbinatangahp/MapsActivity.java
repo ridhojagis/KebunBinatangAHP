@@ -238,9 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if(shortestRoute != null) {
                     ArrayList<Koleksi> riwayatKunjungan = new ArrayList<>(shortestRoute);
 
-                    // Balik urutan elemen dalam ArrayList
-                    Collections.reverse(riwayatKunjungan);
-
                     // Mengirim daftar kunjungan menggunakan ArrayList melalui Intent
                     intent.putParcelableArrayListExtra("riwayatKunjungan", riwayatKunjungan);
                 }

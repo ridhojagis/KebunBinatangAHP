@@ -166,10 +166,10 @@ public class FormActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         pairwiseMatrix = new double[][]{
-                                {1.0, 3.0, 0.2, 5.0},   // Matriks perbandingan kriteria jarak
-                                {0.3333333333, 1.0, 0.1428571429, 3.0},   // Matriks perbandingan kriteria jenis
-                                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
-                                {0.2, 0.3333333333, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+                                {1.0, 0.5, 7.0, 3.0},   // Matriks perbandingan kriteria jarak
+                                {2.0, 1.0, 8.0, 3.0},   // Matriks perbandingan kriteria jenis
+                                {0.1428571429, 0.125, 1.0, 0.2},  // Matriks perbandingan kriteria status buka
+                                {0.3333333333, 0.3333333333, 5.0, 1.0}  // Matriks perbandingan kriteria minat
                         };
                         navigateToMapsActivity(pairwiseMatrix);
                     }
@@ -229,6 +229,7 @@ public class FormActivity extends AppCompatActivity {
                     builder.setCancelable(false);
                     builder.setTitle("Berhasil");
                     builder.setMessage(SAVE_MESSAGE);
+                    Log.i("CR_PAIRWISE_CUSTOM", "CR konsisten = " + CR);
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override

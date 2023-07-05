@@ -1,0 +1,14 @@
+
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÇÊí•ûÿÿÿÿ
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÇÊí•ûÿÿÿÿ
+k	java:S117&"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å–ªØûÿÿÿÿ
+f	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”·Ô
+x
+java:S1488S"bImmediately return this expression instead of assigning it to the temporary variable "coordinate".(ÔŸ¯Ÿ
+h	java:S116	"SRename this field "jam_buka" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒúùŞ
+i	java:S116
+"TRename this field "jam_tutup" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘ßù
+h	java:S100""NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼Õ£”úÿÿÿÿ
+h	java:S100&"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å–ªØûÿÿÿÿ
+h	java:S100*"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öÅÅşÿÿÿÿ
+c	java:S100."NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”·Ô

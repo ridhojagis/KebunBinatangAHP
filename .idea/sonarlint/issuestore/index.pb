@@ -25,3 +25,9 @@ s
 Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
 r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
+p
+@app/src/main/java/com/ridhojagis/kebunbinatangahp/Fasilitas.java,0\b\0b469f93d7fa2113457e5d1b17291fcaba670d26
+n
+>app/src/main/java/com/ridhojagis/kebunbinatangahp/Chatbot.java,9\7\9753eeceb7cc13b97a3ab7d455158755b1998c93
+~
+Napp/src/main/java/com/ridhojagis/kebunbinatangahp/RiwayatKunjunganAdapter.java,c\9\c974fbbe14387bf5b9390823441d2ff67c30efa4

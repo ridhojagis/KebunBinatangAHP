@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "riwayat.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,6 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Jika versi database berubah, Anda dapat melakukan operasi upgrade di sini
+        db.execSQL("DROP TABLE IF EXISTS riwayat_kunjungan");
+        onCreate(db);
     }
 
     public void updateRiwayatList(Koleksi koleksi) {
@@ -64,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String lng = cursor.getString(cursor.getColumnIndexOrThrow("lng"));
                 String waktu = cursor.getString(cursor.getColumnIndexOrThrow("waktu"));
                 int visited = cursor.getInt(cursor.getColumnIndexOrThrow("visited"));
-                Koleksi koleksi = new Koleksi(nama, lat, lng, waktu, visited == 1);
+                Koleksi koleksi = new Koleksi(id, nama, lat, lng, waktu, visited == 1);
                 // Set atribut-atribut lainnya sesuai dengan kebutuhan Anda
                 riwayatList.add(koleksi);
             } while (cursor.moveToNext());

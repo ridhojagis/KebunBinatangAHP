@@ -246,7 +246,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     intent.putParcelableArrayListExtra("riwayatKunjungan", riwayatKunjungan);
                     shortestRoute.clear();
                 }
-
                 startActivity(intent);
             }
         });
@@ -631,6 +630,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                                if(riwayatList != null) {
                                     for (Koleksi koleksi : riwayatList) {
                                         if (koleksi.isVisited() == false) {
+                                            Log.i("KOLEKSI_NOT_VISITED", "ID: " + koleksi.getId() + " " + koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                             double koleksiLatitude = koleksi.getLatitude();
                                             double koleksiLongitude = koleksi.getLongitude();
 
@@ -645,12 +645,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 koleksi.setWaktuKunjungan(waktuKunjungan);
 
                                                 // Update data di SQLite
+                                                databaseHelper.updateRiwayatList(koleksi);
                                                 riwayatActivity.updateRiwayatKunjungan(koleksi);
                                                 String toastMessage = "Anda mengunjungi " + koleksi.getNama();
                                                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
 //                                                    databaseHelper.updateRiwayatList(koleksi);
                                             }
-                                            Log.i("KOLEKSI_NOT_VISITED", koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                         }
                                     }
 //                                }

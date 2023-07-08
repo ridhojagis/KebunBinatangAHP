@@ -80,7 +80,6 @@ public class RiwayatActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         loadRiwayatKunjungan();
     }
 
@@ -122,7 +121,7 @@ public class RiwayatActivity extends AppCompatActivity {
                 String waktu = cursor.getString(cursor.getColumnIndexOrThrow("waktu"));
                 int visited = cursor.getInt(cursor.getColumnIndexOrThrow("visited"));
 
-                Koleksi koleksi = new Koleksi(nama, lat, lng, waktu, visited == 1);
+                Koleksi koleksi = new Koleksi(id, nama, lat, lng, waktu, visited == 1);
                 koleksi.setId(id);
                 riwayatKunjungan.add(koleksi);
             } while (cursor.moveToNext());
@@ -139,7 +138,7 @@ public class RiwayatActivity extends AppCompatActivity {
         recyclerView.scrollToPosition(riwayatKunjungan.size() - 1);
     }
 
-    private void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {
+    public void saveRiwayatKunjungan(ArrayList<Koleksi> riwayatKunjungan) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         for (Koleksi koleksi : riwayatKunjungan) {
@@ -210,5 +209,9 @@ public class RiwayatActivity extends AppCompatActivity {
 
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
+    }
+
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
     }
 }

@@ -46,7 +46,7 @@ public class Koleksi implements Parcelable {
         this.longitude = longitude;
     }
 
-    public Koleksi(String nama, String latitude, String longitude, String waktuKunjungan, boolean isVisited) {
+    public Koleksi(int id, String nama, String latitude, String longitude, String waktuKunjungan, boolean isVisited) {
         this.id = id;
         this.nama = nama;
         this.latitude = latitude;

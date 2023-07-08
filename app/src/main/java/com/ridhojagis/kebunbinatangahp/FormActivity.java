@@ -365,8 +365,6 @@ public class FormActivity extends AppCompatActivity {
         // Menyimpan Bundle ke dalam Intent
         intent.putExtras(extras);
 
-//        intent.putExtra("pairwiseMatrix", pairwiseMatrix);
-
         // Memulai Activity Maps dengan Intent yang telah dikonfigurasi
         startActivity(intent);
     }

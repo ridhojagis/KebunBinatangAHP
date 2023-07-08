@@ -244,8 +244,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Mengirim daftar kunjungan menggunakan ArrayList melalui Intent
                     intent.putParcelableArrayListExtra("riwayatKunjungan", riwayatKunjungan);
-                }
-                if(shortestRoute != null) {
                     shortestRoute.clear();
                 }
 
@@ -509,11 +507,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             setKoleksiAHPScore(location.getLatitude(), location.getLongitude(), koleksiList, koleksiAHPList, koleksiAHPFinal, koleksiGoals[0]);
 
                             // Set lokasi pengguna menjadi True
+                            int indexUser = -1;
                             for (int i = 0; i < shortestRoute.size(); i++) {
                                 String waktuKunjungan = setCurrentTime();
                                 if (shortestRoute.get(i).getNama().equals("Lokasi Pengunjung")) {
                                     shortestRoute.get(i).setVisited(true);
                                     shortestRoute.get(i).setWaktuKunjungan(waktuKunjungan);
+                                    indexUser = i;
                                     break;
                                 }
                             }
@@ -529,11 +529,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             // Menambahkan polyline koordinat pengguna
                             points.add(new LatLng(LatLong[0], LatLong[1]));
 
-                            // Menambahkan polyline koordinat list koleksi hasil AHP
-//                                            for(int i=0;i<koleksiAHPFinal.size();i++) {
-//                                                points.add(new LatLng(koleksiAHPFinal.get(i).getLatitude(), koleksiAHPFinal.get(i).getLongitude()));
-//                                            }
                             for(int i=0;i<shortestRoute.size();i++) {
+                                double distance = calculateDistance(shortestRoute.get(i), shortestRoute.get(indexUser));
+                                Log.i("DISTANCE_TO_USER", "Urutan: " + i + ", Nama: " + shortestRoute.get(i).getNama() + " Jarak: " +
+                                        distance + " Jenis: " + shortestRoute.get(i).getJenis() + " Status Buka: " + shortestRoute.get(i).getStatus_buka() +
+                                        " Minat: " + shortestRoute.get(i).getMinat() + " AHP Score: " + shortestRoute.get(i).getAhp_score());
                                 points.add(new LatLng(shortestRoute.get(i).getLatitude(), shortestRoute.get(i).getLongitude()));
                             }
 
@@ -790,6 +790,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 min_distance = distance;
                 koleksiAHPFinal.add(koleksiAHPList.get(i));
             }
+            else if(i>0){
+                for(int j=0; j<koleksiAHPFinal.size(); j++) {
+                    if(calculateDistance(koleksiAHPFinal.get(j), koleksiAHPList.get(i)) <= 50) {
+                        koleksiAHPFinal.add(koleksiAHPList.get(i));
+                        break;
+                    }
+                }
+            }
 
             String logMessageAHP = "Urutan ke-" + i + "NAMA: " + koleksiAHPList.get(i).getNama()+ ", LatLng: " + koleksiAHPList.get(i).getLatitude() + "," + koleksiAHPList.get(i).getLongitude() + ", JARAK: " + koleksiAHPList.get(i).getJarak()+ ", AHP SKOR: " + koleksiAHPList.get(i).getAhp_score();
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
@@ -871,18 +879,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<Koleksi> tempRoute = new ArrayList<>(shortestRoute);
 
         // Menggunakan pendekatan brute force untuk mencari kombinasi urutan titik terpendek
-        for (int i = 1; i < koleksiAHPFinal.size(); i++) {
-            Collections.swap(tempRoute, i, i + 1);
+//        // fungsi bruteforce 1
+//        for (int i = 1; i < koleksiAHPFinal.size(); i++) {
+//            Collections.swap(tempRoute, i, i + 1);
+//
+//            double tempDistance = calculateTotalDistance(tempRoute);
+//            if (tempDistance < shortestDistance) {
+//                shortestDistance = tempDistance;
+//                shortestRoute = new ArrayList<>(tempRoute);
+//            }
+//
+//            Collections.swap(tempRoute, i, i + 1);
+//        }
+        // fungsi bruteforce 2
+        for (int i = 1; i < koleksiAHPFinal.size() - 1; i++) {
+            for (int j = i + 1; j < koleksiAHPFinal.size() - 1; j++) {
+                // Menukar posisi titik i dan j
+                Collections.swap(tempRoute, i, j);
 
-            double tempDistance = calculateTotalDistance(tempRoute);
-            if (tempDistance < shortestDistance) {
-                shortestDistance = tempDistance;
-                shortestRoute = new ArrayList<>(tempRoute);
+                // Hitung jarak baru
+                double tempDistance = calculateTotalDistance(tempRoute);
+
+                // Periksa apakah jarak baru lebih pendek
+                if (tempDistance < shortestDistance) {
+                    shortestDistance = tempDistance;
+                    shortestRoute = new ArrayList<>(tempRoute);
+                }
+
+                // Kembalikan posisi titik ke semula
+                Collections.swap(tempRoute, i, j);
             }
-
-            Collections.swap(tempRoute, i, i + 1);
         }
-
         return shortestRoute;
     }
 

@@ -21,8 +21,6 @@ S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-s
-Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
 r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
 p

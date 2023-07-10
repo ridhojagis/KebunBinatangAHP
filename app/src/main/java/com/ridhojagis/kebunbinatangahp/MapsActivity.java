@@ -133,8 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnNavigation = findViewById(R.id.btnNavigation);
 
         databaseHelper = new DatabaseHelper(this);
-        // Query ke database untuk mendapatkan koleksi yang ada
-        riwayatList = databaseHelper.getRiwayatList();
+//        // Query ke database untuk mendapatkan koleksi yang ada
+//        riwayatList = databaseHelper.getRiwayatList();
 
         LatLong = new double[2];
 
@@ -592,6 +592,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             @SuppressLint("MissingPermission")
                             @Override
                             public void onLocationChanged(Location location) {
+                                // Query ke database untuk mendapatkan koleksi yang ada
+                                riwayatList = databaseHelper.getRiwayatList();
+
                                 LatLong[0] = location.getLatitude();
                                 LatLong[1] = location.getLongitude();
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(LatLong[0], LatLong[1])));
@@ -628,7 +631,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 double userLongitude = location.getLongitude();
 
                                 // Loop melalui koleksi yang ada
-//                                if(riwayatList != null) {
+                                if(riwayatList != null) {
                                     for (Koleksi koleksi : riwayatList) {
                                         if (koleksi.isVisited() == false) {
                                             Log.i("KOLEKSI_NOT_VISITED", "ID: " + koleksi.getId() + " " + koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
@@ -669,7 +672,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             Log.i("KOLEKSI_VISITED", "ID: " + koleksi.getId() + " " + koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                         }
                                     }
-//                                }
+                                }
                             }
 
                             @Override

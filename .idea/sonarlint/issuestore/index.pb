@@ -29,3 +29,7 @@ n
 >app/src/main/java/com/ridhojagis/kebunbinatangahp/Chatbot.java,9\7\9753eeceb7cc13b97a3ab7d455158755b1998c93
 ~
 Napp/src/main/java/com/ridhojagis/kebunbinatangahp/RiwayatKunjunganAdapter.java,c\9\c974fbbe14387bf5b9390823441d2ff67c30efa4
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+u
+Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceHelper.java,d\7\d7912294206be85d7889a3cb2bac7b52f2077040

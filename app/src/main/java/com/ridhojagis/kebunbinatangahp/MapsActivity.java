@@ -565,6 +565,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+        Boolean isIntent = false;
 
         if (getIntent().hasExtra("COORDINATE_FACILITY")) {
             Bundle extras = getIntent().getExtras();
@@ -595,7 +596,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 LatLong[1] = location.getLongitude();
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(LatLong[0], LatLong[1])));
                                 mMap.setMinZoomPreference(ZOOM_CHAT);
-                                locationManager.removeUpdates(this);
+//                                locationManager.removeUpdates(this);
                                 String waktuKunjungan = setCurrentTime();
 
                                 // Mendapatkan referensi ke RiwayatActivity
@@ -634,13 +635,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             double koleksiLatitude = koleksi.getLatitude();
                                             double koleksiLongitude = koleksi.getLongitude();
 
+                                            // Set nilai yang sama ketika ada nama yang sama pada database
+//                                            for(int i=0; i<riwayatList.size(); i++){
+//                                                if (koleksi.getNama().equals("Lokasi Pengunjung")) {
+//                                                    continue;
+//                                                }
+//                                                if (koleksi.getNama().equals(riwayatList.get(i).getNama()) && riwayatList.get(i).isVisited() == true) {
+//                                                    koleksi.setVisited(riwayatList.get(i).isVisited());
+//                                                    koleksi.setWaktuKunjungan(riwayatList.get(i).getWaktuKunjungan());
+//                                                    break;
+//                                                }
+//                                            }
+
                                             // Hitung jarak antara lokasi pengguna dan koleksi menggunakan metode distanceBetween dari kelas Location
                                             float[] distanceResult = new float[1];
                                             Location.distanceBetween(userLatitude, userLongitude, koleksiLatitude, koleksiLongitude, distanceResult);
                                             float distance = distanceResult[0];
 
                                             // Jika jarak kurang dari batas tertentu, update status "visited" dan waktu kunjungan
-                                            if (distance <= 15) {
+                                            if (distance <= 25) {
                                                 koleksi.setVisited(true);
                                                 koleksi.setWaktuKunjungan(waktuKunjungan);
 
@@ -651,6 +664,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
 //                                                    databaseHelper.updateRiwayatList(koleksi);
                                             }
+                                        }
+                                        else {
+                                            Log.i("KOLEKSI_VISITED", "ID: " + koleksi.getId() + " " + koleksi.getNama() + " Visited: " + koleksi.isVisited() + " " + koleksi.getWaktuKunjungan());
                                         }
                                     }
 //                                }

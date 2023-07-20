@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class GeofenceHelper extends ContextWrapper {
 
-    private float GEOFENCE_RADIUS = 25;
+    private float GEOFENCE_RADIUS = 20;
     PendingIntent pendingIntent;
     public GeofenceHelper(Context base) {
         super(base);

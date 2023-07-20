@@ -1,0 +1,38 @@
+
+E
+java:S1066>"/Merge this if statement with the enclosing one.(„‘Õ
+>
+java:S1604%"(Make this anonymous inner class a lambda(†£°î
+>
+java:S1604U"(Make this anonymous inner class a lambda(Õä
+J
+java:S1874$"/Remove this use of "Handler"; it is deprecated.(§çµüÿÿÿÿ
+V	java:S125("<This block of commented-out lines of code should be removed.(ëà½øÿÿÿÿ
+N
+java:S18743"3Remove this use of "NetworkInfo"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+Q
+java:S18743"6Remove this use of "getNetworkInfo"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+P
+java:S22093"5Change this instance-reference to a static reference.(øÜÈ÷øÿÿÿÿ
+L
+java:S18743"1Remove this use of "TYPE_WIFI"; it is deprecated.(øÜÈ÷øÿÿÿÿ
+N
+java:S18744"3Remove this use of "NetworkInfo"; it is deprecated.(¢ô Ãùÿÿÿÿ
+Q
+java:S18744"6Remove this use of "getNetworkInfo"; it is deprecated.(¢ô Ãùÿÿÿÿ
+P
+java:S22094"5Change this instance-reference to a static reference.(¢ô Ãùÿÿÿÿ
+N
+java:S18744"3Remove this use of "TYPE_MOBILE"; it is deprecated.(¢ô Ãùÿÿÿÿ
+W
+java:S11266"AReplace this if-then-else statement by a single return statement.(™ù„à
+I
+java:S18746"3Remove this use of "isConnected"; it is deprecated.(™ù„à
+I
+java:S18746"3Remove this use of "isConnected"; it is deprecated.(™ù„à
+m
+java:S3252>"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(„‘Õ
+r
+java:S3252E"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ª­•úüÿÿÿÿ
+m
+java:S3252H"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(²ÉÀ×

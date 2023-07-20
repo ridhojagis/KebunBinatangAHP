@@ -22,15 +22,8 @@ public class FormActivity extends AppCompatActivity {
             "Aves, Reptil, dan Fasilitas \n 3) Status Buka, ketersediaan jam buka fasilitas kebun binatang.\n 4)Minat, tingkat kepeminatan fasilitas atau hewan." +
             "\n\nAnda dapat menggunakan pengaturan bobot default atau mengaturnya sesuai dengan preferensi anda." +
             "\n\nKeterangan Nilai Bobot:\n1 -Kedua elemen sama penting\n3 -Sedikit lebih penting dari elemen lainnya\n5 -Lebih penting dari elemen lainnya" +
-            "\n7 -Sangat penting dari elemen lainnya\n9 -Ekstrim penting dari elemen lainnya\n2,4,6,8 -Merupakan nilai tengah di antara dua tingkat kepentingan yang berdekatan";
+            "\n7 -Sangat penting dari elemen lainnya\n9 -Ekstrim lebih penting dari elemen lainnya\nAnda juga dapat memilih nilai tengah di antara dua tingkat kepentingan yang berdekatan";
     private String SAVE_MESSAGE="Bobot kriteria telah berhasil diatur. Kembali ke Map dan mulai navigasi";
-
-    RadioGroup importanceRadioGroup1;
-    RadioGroup importanceRadioGroup2;
-    RadioGroup importanceRadioGroup3;
-    RadioGroup importanceRadioGroup4;
-    RadioGroup importanceRadioGroup5;
-    RadioGroup importanceRadioGroup6;
 
     SeekBar ratingSeekBar1;
     SeekBar ratingSeekBar2;
@@ -44,13 +37,6 @@ public class FormActivity extends AppCompatActivity {
     Button backButton;
     Button defaultButton;
     ImageButton helpButton;
-
-    private int radioButton1Id;
-    private int radioButton2Id;
-    private int radioButton3Id;
-    private int radioButton4Id;
-    private int radioButton5Id;
-    private int radioButton6Id;
 
     private int seekBarValue1;
     private int seekBarValue2;
@@ -72,13 +58,6 @@ public class FormActivity extends AppCompatActivity {
                 {0.0, 0.0, 0.0, 1.0}  // Matriks perbandingan kriteria minat
         };
 
-        importanceRadioGroup1 = findViewById(R.id.importanceRadioGroup1);
-        importanceRadioGroup2 = findViewById(R.id.importanceRadioGroup2);
-        importanceRadioGroup3 = findViewById(R.id.importanceRadioGroup3);
-        importanceRadioGroup4 = findViewById(R.id.importanceRadioGroup4);
-        importanceRadioGroup5 = findViewById(R.id.importanceRadioGroup5);
-        importanceRadioGroup6 = findViewById(R.id.importanceRadioGroup6);
-
         ratingSeekBar1 = findViewById(R.id.ratingSeekBar1);
         ratingSeekBar2 = findViewById(R.id.ratingSeekBar2);
         ratingSeekBar3 = findViewById(R.id.ratingSeekBar3);
@@ -93,50 +72,7 @@ public class FormActivity extends AppCompatActivity {
 
 
         // Set save button disabled
-        saveButton.setEnabled(false);
-
-        importanceRadioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton1Id = importanceRadioGroup1.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
-        importanceRadioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton2Id = importanceRadioGroup2.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
-        importanceRadioGroup3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton3Id = importanceRadioGroup3.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
-        importanceRadioGroup4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton4Id = importanceRadioGroup4.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
-        importanceRadioGroup5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton5Id = importanceRadioGroup5.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
-        importanceRadioGroup6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButton6Id = importanceRadioGroup6.getCheckedRadioButtonId();
-                checkSaveButtonEnabled();
-            }
-        });
+//        saveButton.setEnabled(false);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +107,12 @@ public class FormActivity extends AppCompatActivity {
                                 {0.1428571429, 0.125, 1.0, 0.2},  // Matriks perbandingan kriteria status buka
                                 {0.3333333333, 0.3333333333, 5.0, 1.0}  // Matriks perbandingan kriteria minat
                         };
+//                        pairwiseMatrix = new double[][]{
+//                                {1.0, 3.0, 0.2, 3.0},   // Matriks perbandingan kriteria jarak
+//                                {0.3333333333, 1.0, 0.1428571429, 1.0},   // Matriks perbandingan kriteria jenis
+//                                {5.0, 7.0, 1.0, 7.0},  // Matriks perbandingan kriteria status buka
+//                                {0.3333333333, 1.0, 0.1428571429, 1.0}  // Matriks perbandingan kriteria minat
+//                        };
                         navigateToMapsActivity(pairwiseMatrix);
                     }
                 });
@@ -182,22 +124,6 @@ public class FormActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mendapatkan teks RadioButton yang dipilih
-                RadioButton selectedRadioButton1 = findViewById(radioButton1Id);
-                RadioButton selectedRadioButton2 = findViewById(radioButton2Id);
-                RadioButton selectedRadioButton3 = findViewById(radioButton3Id);
-                RadioButton selectedRadioButton4 = findViewById(radioButton4Id);
-                RadioButton selectedRadioButton5 = findViewById(radioButton5Id);
-                RadioButton selectedRadioButton6 = findViewById(radioButton6Id);
-
-                // Mengambil value dalam bentuk string
-                String radioButton1Text = selectedRadioButton1.getText().toString();
-                String radioButton2Text = selectedRadioButton2.getText().toString();
-                String radioButton3Text = selectedRadioButton3.getText().toString();
-                String radioButton4Text = selectedRadioButton4.getText().toString();
-                String radioButton5Text = selectedRadioButton5.getText().toString();
-                String radioButton6Text = selectedRadioButton6.getText().toString();
-
                 seekBarValue1 = ratingSeekBar1.getProgress() + 1;
                 seekBarValue2 = ratingSeekBar2.getProgress() + 1;
                 seekBarValue3 = ratingSeekBar3.getProgress() + 1;
@@ -213,11 +139,9 @@ public class FormActivity extends AppCompatActivity {
                 double weightStatus_Minat = seekBarValue6;
 
                 // Menampilkan nilai-nilai pada logcat
-                Log.d("FormActivity", "RadioButton 1: " + radioButton1Text);
                 Log.d("FormActivity", "SeekBar 1: " + weightJarak_Jenis);
 
-                setPairWiseMatrix(radioButton1Text,radioButton2Text,radioButton3Text,radioButton4Text,radioButton5Text,radioButton6Text,
-                        weightJarak_Jenis,weightJarak_Status,weightJarak_Minat,weightJenis_Status,weightJenis_Minat,weightStatus_Minat);
+                setPairWiseMatrix(weightJarak_Jenis,weightJarak_Status,weightJarak_Minat,weightJenis_Status,weightJenis_Minat,weightStatus_Minat);
 
                 double CR = consistencyRatioMatrix(pairwiseMatrix);
 
@@ -369,90 +293,68 @@ public class FormActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setPairWiseMatrix(String radioButton1Text, String radioButton2Text, String radioButton3Text, String radioButton4Text, String radioButton5Text, String radioButton6Text,
-                                   double weightJarak_jenis, double weightJarak_status, double weightJarak_minat, double weightJenis_status, double weightJenis_minat, double weightStatus_minat) {
+    private void setPairWiseMatrix(double weightJarak_jenis, double weightJarak_status, double weightJarak_minat, double weightJenis_status, double weightJenis_minat, double weightStatus_minat) {
 
         // Set bobot perbandingan jarak dan jenis koleksi
-        if(radioButton1Text.equals("Jarak")){
-            pairwiseMatrix[0][1] = weightJarak_jenis;
-            pairwiseMatrix[1][0] = 1/weightJarak_jenis;
-        }
-        else{
-            pairwiseMatrix[0][1] = 1/weightJarak_jenis;
-            pairwiseMatrix[1][0] = weightJarak_jenis;
+        if (weightJarak_jenis >= 1 && weightJarak_jenis <= 9) {
+            pairwiseMatrix[0][1] = 10 - weightJarak_jenis;
+            pairwiseMatrix[1][0] = 1.0 / pairwiseMatrix[0][1];
+        } else if (weightJarak_jenis >= 10 && weightJarak_jenis <= 17) {
+            pairwiseMatrix[0][1] = 1.0 / (weightJarak_jenis - 8);
+            pairwiseMatrix[1][0] = 1.0 / pairwiseMatrix[0][1];
         }
 
         // Set bobot perbandingan jarak dan status buka
-        if(radioButton2Text.equals("Jarak")){
-            pairwiseMatrix[0][2] = weightJarak_status;
-            pairwiseMatrix[2][0] = 1/weightJarak_status;
-        }
-        else{
-            pairwiseMatrix[0][2] = 1/weightJarak_status;
-            pairwiseMatrix[2][0] = weightJarak_status;
+        if (weightJarak_status >= 1 && weightJarak_status <= 9) {
+            pairwiseMatrix[0][2] = 10 - weightJarak_status;
+            pairwiseMatrix[2][0] = 1.0 / pairwiseMatrix[0][2];
+        } else if (weightJarak_status >= 10 && weightJarak_status <= 17) {
+            pairwiseMatrix[0][2] = 1.0 / (weightJarak_status - 8);
+            pairwiseMatrix[2][0] = 1.0 / pairwiseMatrix[0][2];
         }
 
         // Set bobot perbandingan jarak dan minat
-        if(radioButton3Text.equals("Jarak")){
-            pairwiseMatrix[0][3] = weightJarak_minat;
-            pairwiseMatrix[3][0] = 1/weightJarak_minat;
-        }
-        else{
-            pairwiseMatrix[0][3] = 1/weightJarak_minat;
-            pairwiseMatrix[3][0] = weightJarak_minat;
+        if (weightJarak_minat >= 1 && weightJarak_minat <= 9) {
+            pairwiseMatrix[0][3] = 10 - weightJarak_minat;
+            pairwiseMatrix[3][0] = 1.0 / pairwiseMatrix[0][3];
+        } else if (weightJarak_minat >= 10 && weightJarak_minat <= 17) {
+            pairwiseMatrix[0][3] = 1.0 / (weightJarak_minat - 8);
+            pairwiseMatrix[3][0] = 1.0 / pairwiseMatrix[0][3];
         }
 
         // Set bobot perbandingan jenis koleksi dan status buka
-        if(radioButton4Text.equals("Jenis Koleksi")){
-            pairwiseMatrix[1][2] = weightJenis_status;
-            pairwiseMatrix[2][1] = 1/weightJenis_status;
-        }
-        else{
-            pairwiseMatrix[1][2] = 1/weightJenis_status;
-            pairwiseMatrix[2][1] = weightJenis_status;
+        if (weightJenis_status >= 1 && weightJenis_status <= 9) {
+            pairwiseMatrix[1][2] = 10 - weightJenis_status;
+            pairwiseMatrix[2][1] = 1.0 / pairwiseMatrix[1][2];
+        } else if (weightJenis_status >= 10 && weightJenis_status <= 17) {
+            pairwiseMatrix[1][2] = 1.0 / (weightJenis_status - 8);
+            pairwiseMatrix[2][1] = 1.0 / pairwiseMatrix[1][2];
         }
 
         // Set bobot perbandingan jenis koleksi dan minat
-        if(radioButton5Text.equals("Jenis Koleksi")){
-            pairwiseMatrix[1][3] = weightJenis_minat;
-            pairwiseMatrix[3][1] = 1/weightJenis_minat;
-        }
-        else{
-            pairwiseMatrix[1][3] = 1/weightJenis_minat;
-            pairwiseMatrix[3][1] = weightJenis_minat;
+        if (weightJenis_minat >= 1 && weightJenis_minat <= 9) {
+            pairwiseMatrix[1][3] = 10 - weightJenis_minat;
+            pairwiseMatrix[3][1] = 1.0 / pairwiseMatrix[1][3];
+        } else if (weightJenis_minat >= 10 && weightJenis_minat <= 17) {
+            pairwiseMatrix[1][3] = 1.0 / (weightJenis_minat - 8);
+            pairwiseMatrix[3][1] = 1.0 / pairwiseMatrix[1][3];
         }
 
         // Set bobot perbandingan status buka dan minat
-        if(radioButton6Text.equals("Status Buka")){
-            pairwiseMatrix[2][3] = weightStatus_minat;
-            pairwiseMatrix[3][2] = 1/weightStatus_minat;
+        if (weightStatus_minat >= 1 && weightStatus_minat <= 9) {
+            pairwiseMatrix[2][3] = 10 - weightStatus_minat;
+            pairwiseMatrix[3][2] = 1.0 / pairwiseMatrix[2][3];
+        } else if (weightStatus_minat >= 10 && weightStatus_minat <= 17) {
+            pairwiseMatrix[2][3] = 1.0 / (weightStatus_minat - 8);
+            pairwiseMatrix[3][2] = 1.0 / pairwiseMatrix[2][3];
         }
-        else{
-            pairwiseMatrix[2][3] = 1/weightStatus_minat;
-            pairwiseMatrix[3][2] = weightStatus_minat;
-        }
+
         int matrix_size = pairwiseMatrix.length;
         for(int i=0;i<matrix_size;i++) {
             for(int j=0;j<matrix_size;j++) {
                 Log.i("INITIAL_MATRIX", "index " + i + "," +j + " " + pairwiseMatrix[i][j]);
             }
         }
-    }
-
-    private void checkSaveButtonEnabled() {
-        boolean isRadioGroup1Selected = importanceRadioGroup1.getCheckedRadioButtonId() != -1;
-        boolean isRadioGroup2Selected = importanceRadioGroup2.getCheckedRadioButtonId() != -1;
-        boolean isRadioGroup3Selected = importanceRadioGroup3.getCheckedRadioButtonId() != -1;
-        boolean isRadioGroup4Selected = importanceRadioGroup4.getCheckedRadioButtonId() != -1;
-        boolean isRadioGroup5Selected = importanceRadioGroup5.getCheckedRadioButtonId() != -1;
-        boolean isRadioGroup6Selected = importanceRadioGroup6.getCheckedRadioButtonId() != -1;
-
-        saveButton.setEnabled(isRadioGroup1Selected &&
-                isRadioGroup2Selected &&
-                isRadioGroup3Selected &&
-                isRadioGroup4Selected &&
-                isRadioGroup5Selected &&
-                isRadioGroup6Selected);
     }
 
     private void showThis(String title, String help_message) {

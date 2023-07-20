@@ -210,8 +210,4 @@ public class RiwayatActivity extends AppCompatActivity {
         // Refresh adapter setelah riwayatKunjungan diperbarui
         adapter.notifyDataSetChanged();
     }
-
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
-    }
 }

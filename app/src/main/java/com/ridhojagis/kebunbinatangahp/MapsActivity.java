@@ -842,7 +842,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i("GET_KOLEKSI_RANGE_SORT", logMessageAHP);
         }
 
-    // Jarak tempuh terpendek dengan bruteforce
+    // Optimasi jarak tempuh terpendek
         List<Koleksi> tempRoute = new ArrayList<>();
         tempRoute = findShortestRoute(user, koleksiList.get(index_tujuan), koleksiAHPFinal);
 
@@ -877,7 +877,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String logMessageAHP = "Urutan ke-" + i + "= NAMA: " + shortestRoute.get(i).getNama()+ ", LatLng: " + shortestRoute.get(i).getLatitude() + "," + shortestRoute.get(i).getLongitude() + ", JARAK: " + shortestRoute.get(i).getJarak()+ ", AHP SKOR: " + shortestRoute.get(i).getAhp_score() + ", JARAK TEMPUH: " + tempuh;
             Log.i("GET_KOLEKSI_SHORTEST", logMessageAHP);
         }
-    // End jarak terpendek dengan bruteforce
+    // End Optimasi jarak tempuh terpendek
 
         // Meletakkan koleksi tujuan pada index terakhir dalam list
         koleksiAHPFinal.add(koleksiList.get(index_tujuan));

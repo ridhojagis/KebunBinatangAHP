@@ -1,0 +1,15 @@
+
+m
+java:S1192m"RDefine a constant instead of duplicating this literal "riwayat_kunjungan" 5 times.(¼ñ°­üÿÿÿÿ
+c
+java:S1192l"HDefine a constant instead of duplicating this literal "visited" 4 times.(ä  íÿÿÿÿÿ
+a
+java:S1192l"FDefine a constant instead of duplicating this literal "waktu" 4 times.(ä  íÿÿÿÿÿ
+‡
+java:S1319"pThe type of "riwayatKunjungan" should be an interface such as "List" rather than the implementation "ArrayList".(¸ìõ 
+>
+java:S1604M"(Make this anonymous inner class a lambda(¾‡µà
+^
+java:S1874?"CRemove this use of "getParcelableArrayListExtra"; it is deprecated.(òÅÃÃÿÿÿÿÿ
+W
+java:S1144»";Remove this unused private "deleteRiwayatKunjungan" method.(ØûØ¢ÿÿÿÿÿ

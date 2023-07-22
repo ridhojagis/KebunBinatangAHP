@@ -35,3 +35,7 @@ u
 Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceHelper.java,d\7\d7912294206be85d7889a3cb2bac7b52f2077040
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+v
+Fapp/src/main/java/com/ridhojagis/kebunbinatangahp/RiwayatActivity.java,6\c\6c1f36d06c4b073e7d5e644f4d47e0aa602610fe

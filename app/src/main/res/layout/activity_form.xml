@@ -50,11 +50,11 @@
                 android:id="@+id/defaultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="35sp"
-                android:text="Set Bobot Default"
-                android:textSize="9sp"
                 android:layout_gravity="end"
                 android:backgroundTint="@color/teal_700"
-                android:textColor="@color/white" />
+                android:text="Set Bobot Default"
+                android:textColor="@color/white"
+                android:textSize="9sp" />
 
             <TextView
                 android:id="@+id/questionTextView1"
@@ -65,45 +65,47 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Jarak"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Jenis Koleksi"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="end"/>
-        </LinearLayout>
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jarak"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Jenis Koleksi"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <SeekBar
                 android:id="@+id/ratingSeekBar1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -254,10 +256,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -265,14 +268,15 @@
                     android:text="Jarak"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Status Buka"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="end"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <SeekBar
@@ -280,16 +284,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -440,10 +444,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -451,14 +456,15 @@
                     android:text="Jarak"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Minat"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="end"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <SeekBar
@@ -466,16 +472,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -626,10 +632,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -637,14 +644,15 @@
                     android:text="Jenis Koleksi"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Status Buka"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="end"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <SeekBar
@@ -652,16 +660,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -812,10 +820,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -823,14 +832,15 @@
                     android:text="Jenis Koleksi"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Minat"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="end"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <SeekBar
@@ -838,16 +848,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -998,10 +1008,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -1009,14 +1020,15 @@
                     android:text="Status Buka"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Minat"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="end"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <SeekBar
@@ -1024,16 +1036,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
-                android:progress="0"
-                android:progressTint="@color/blue_carouseldark"
-                android:thumbTint="@color/teal_200"/>
+                android:progress="8"
+                android:progressTint="@android:color/transparent"
+                android:thumbTint="@color/teal_200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="0dp"

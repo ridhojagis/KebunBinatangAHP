@@ -1,6 +1,7 @@
 package com.ridhojagis.kebunbinatangahp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -843,18 +844,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     // Optimasi jarak tempuh terpendek
-        List<Koleksi> tempRoute = new ArrayList<>();
-        tempRoute = findShortestRoute(user, koleksiList.get(index_tujuan), koleksiAHPFinal);
+        List<Koleksi> kNearestNeighbors = findKNearestNeighbors(user, 3, koleksiAHPFinal);
 
-        // Menambah koleksi tujuan ke akhir list
         shortestRoute = new ArrayList<>();
-        for(int i=0; i<tempRoute.size();i++){
-            if(tempRoute.get(i).getNama().equals(koleksiGoals)) {
-                continue;
+        double shortestDistance = Double.MAX_VALUE;
+
+        for (Koleksi nearestNeighbor : kNearestNeighbors) {
+            List<Koleksi> tempRoute = findShortestRoute(nearestNeighbor, koleksiList.get(index_tujuan), koleksiAHPFinal);
+            double tempDistance = calculateTotalDistance(tempRoute);
+            if (tempDistance < shortestDistance) {
+                shortestDistance = tempDistance;
+                shortestRoute = tempRoute;
             }
-            shortestRoute.add(tempRoute.get(i));
         }
-        shortestRoute.add(koleksiList.get(index_tujuan));
+        shortestRoute.add(0, user);
 
         // Cek isi shortestRoute
         double tempuh = 0;
@@ -938,6 +941,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        }
 //        return shortestRoute;
 //    }
+
+    private List<Koleksi> findKNearestNeighbors(Koleksi start, int k, ArrayList<Koleksi> koleksiAHPFinal) {
+        List<Koleksi> nearestNeighbors = new ArrayList<>();
+        Set<Koleksi> unvisited = new HashSet<>(koleksiAHPFinal);
+        Koleksi current = start;
+        nearestNeighbors.add(current);
+        unvisited.remove(current);
+
+        while (nearestNeighbors.size() < k) {
+            Koleksi nearestNeighbor = null;
+            double minDistance = Double.MAX_VALUE;
+
+            for (Koleksi neighbor : unvisited) {
+                double distance = calculateDistance(current, neighbor);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestNeighbor = neighbor;
+                }
+            }
+
+            nearestNeighbors.add(nearestNeighbor);
+            unvisited.remove(nearestNeighbor);
+            current = nearestNeighbor;
+        }
+
+        return nearestNeighbors;
+    }
+
     private List<Koleksi> findShortestRoute(Koleksi start, Koleksi destination, ArrayList<Koleksi> koleksiAHPFinal) {
         List<Koleksi> shortestRoute = new ArrayList<>();
         Set<Koleksi> unvisited = new HashSet<>(koleksiAHPFinal);

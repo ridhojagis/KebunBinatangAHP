@@ -23,8 +23,6 @@ r
 Bapp/src/main/java/com/ridhojagis/kebunbinatangahp/ChatAdapter.java,7\5\75c14e4051c350542ca8d73365c253e13e276ef5
 p
 @app/src/main/java/com/ridhojagis/kebunbinatangahp/Fasilitas.java,0\b\0b469f93d7fa2113457e5d1b17291fcaba670d26
-n
->app/src/main/java/com/ridhojagis/kebunbinatangahp/Koleksi.java,9\7\97ee5b9c42efd6999f9af24cf7cb19f7b7caea1e
 s
 Capp/src/main/java/com/ridhojagis/kebunbinatangahp/MainActivity.java,6\b\6b319c2d0d1f144cc403e0d26a52ef7905bdcec7
 u
@@ -39,3 +37,7 @@ Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/GeofenceHelper.java,d\7\d791
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 v
 Fapp/src/main/java/com/ridhojagis/kebunbinatangahp/RiwayatActivity.java,6\c\6c1f36d06c4b073e7d5e644f4d47e0aa602610fe
+u
+Eapp/src/main/java/com/ridhojagis/kebunbinatangahp/DatabaseHelper.java,e\8\e85bee844e13d13e82799bb2673626e5158443d2
+n
+>app/src/main/java/com/ridhojagis/kebunbinatangahp/Koleksi.java,9\7\97ee5b9c42efd6999f9af24cf7cb19f7b7caea1e
